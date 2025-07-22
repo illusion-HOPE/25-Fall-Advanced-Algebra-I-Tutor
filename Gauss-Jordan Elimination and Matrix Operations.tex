@@ -40,7 +40,8 @@
 \definecolor{main}{HTML}{3D445F}
 \definecolor{second}{HTML}{627581}
 \definecolor{third}{HTML}{9D8798}
-
+\definecolor{deepgreen}{HTML}{2F5E4E}  
+\definecolor{purple}{HTML}{6C3483}     
 
 \usepackage{hyperref}
 \hypersetup{colorlinks = true, linktoc=all, linkcolor=black, urlcolor=winered}
@@ -60,8 +61,16 @@
 {0.3cm}{0.3cm}{\kaishu}{-1cm}{\bfseries\color{second}}{}{0.5em}
 {\indent 【\thmname{#1} \thmnumber{#2}】\ifthenelse{\equal{#3}{}}{}{~\thmnote{(#3)}}}
 
-\newtheoremstyle{prostyle}
+\newtheoremstyle{remstyle}
 {0.3cm}{0.3cm}{\kaishu}{-1cm}{\bfseries\color{third}}{}{0.5em}
+{\indent 【\thmname{#1} \thmnumber{#2}】\ifthenelse{\equal{#3}{}}{}{~\thmnote{(#3)}}}
+
+\newtheoremstyle{exastyle}
+{0.3cm}{0.3cm}{\kaishu}{-1cm}{\bfseries\color{deepgreen}}{}{0.5em}
+{\indent 【\thmname{#1} \thmnumber{#2}】\ifthenelse{\equal{#3}{}}{}{~\thmnote{(#3)}}}
+
+\newtheoremstyle{prostyle}
+{0.3cm}{0.3cm}{\kaishu}{-1cm}{\bfseries\color{purple}}{}{0.5em}
 {\indent 【\thmname{#1} \thmnumber{#2}】\ifthenelse{\equal{#3}{}}{}{~\thmnote{(#3)}}}
 
 \theoremstyle{thmstyle} %theorem style
@@ -72,7 +81,10 @@
 \newtheorem{corollary}[theorem]{推论}
 \theoremstyle{prostyle} % proposition style
 \newtheorem{proposition}[theorem]{命题}
+\newtheorem{property}[theorem]{性质}
+\theoremstyle{exastyle} 
 \newtheorem{example}[theorem]{例}
+\theoremstyle{remstyle} 
 \newtheorem{remark}[theorem]{注}
 
 \renewenvironment{proof}[1][证明]{\par\underline{\textbf{#1.}} \;\fangsong}{\qed\par}
@@ -134,7 +146,12 @@
 	\restoregeometry
 	\thispagestyle{empty}
 }
+\newcommand{\T}{^{\text{T}}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\fn}{\F^{n \times n}}
+\newcommand{\tz}{\mathrm{char} \;}
 
+\newcommand{\diag}{\mathrm{diag}}
 \newcommand{\oneb}{\underline{\hspace{1em}}\hspace{0.001em}}
 \newcommand{\twob}{\oneb\oneb}
 \newcommand{\fourb}{\twob\twob}
@@ -213,7 +230,7 @@
 \begin{example}
 	求解线性方程组
 	\[
-	(I) \left\{
+	(\text{I}) \left\{
 	\begin{array}{l}
 		x_1 + 3x_2 + x_3 = 2, \\
 		3x_1 + 4x_2 + 2x_3 = 9, \\
@@ -678,27 +695,27 @@
 在前面的讨论中，我们一直默认在实数域上进行，然而定理 \ref{1.1.8}, 定理 \ref{1.1.12} 以及定理 \ref{1.1.13} 告诉我们只需要系数可以自由进行四则运算，就能够求解线性方程组. 于是我们引入数域的概念.
 
 \begin{definition}[数域]
-	设 \( \{0,1\} \subseteq \mathbb{F} \subseteq \mathbb{C} \). 且任意 \( a,b \in \mathbb{F} \) 都有 \( a \pm b, a \cdot b \in \mathbb{F} \). 进一步，要求 \( b \neq 0 \)，则有 \( a/b \in \mathbb{F} \). 那么称 \( \mathbb{F} \) 为一个数域.
+	设 \( \{0,1\} \subseteq \F \subseteq \mathbb{C} \). 且任意 \( a,b \in \F \) 都有 \( a \pm b, a \cdot b \in \F \). 进一步，要求 \( b \neq 0 \)，则有 \( a/b \in \F \). 那么称 \( \F \) 为一个数域.
 	\label{1.2.1}
 \end{definition}
 
 在代数学中，我们非常关心运算满足的特性. 这里的定义看似只包含了封闭性，事实上还掩盖了一些额外的运算律. 我们在下面将它们列举出来.
 
 \begin{definition}[域]
-	设 \( \{0,1\} \subseteq \mathbb{F} \) 为一个集合，其上有两种二元运算 \( +:\mathbb{F} \times \mathbb{F} \to \mathbb{F}, \; \cdot :\mathbb{F} \times \mathbb{F} \to \mathbb{F} \)，分别称为加法和乘法.
+	设 \( \{0,1\} \subseteq \F \) 为一个集合，其上有两种二元运算 \( +:\F \times \F \to \F, \; \cdot :\F \times \F \to \F \)，分别称为加法和乘法.
 	\begin{enumerate}[(A)]
 		\item 加法运算满足，
 		\begin{enumerate}[(1)]
 			\item \textbf{结合律} \( (x+y)+z=x+(y+z) \);
-			\item \textbf{零元性质} 存在 \( 0 \in \mathbb{F} \) 使得 \( x+0=0+x=x \);
-			\item \textbf{存在逆元} 存在 \( -x \in \mathbb{F} \) 使得 \( x+(-x)=(-x)+x=0 \);
+			\item \textbf{零元性质} 存在 \( 0 \in \F \) 使得 \( x+0=0+x=x \);
+			\item \textbf{存在逆元} 存在 \( -x \in \F \) 使得 \( x+(-x)=(-x)+x=0 \);
 			\item \textbf{交换律} \( x+y=y+x \).
 		\end{enumerate}
 		\item 乘法运算 \( x \cdot y \) 简写为 \( xy \)，
 		\begin{enumerate}[(1)]
 			\item \textbf{结合律} \( (xy)z=x(yz) \);
-			\item \textbf{幺元性质} 存在 \( 1 \in \mathbb{F} \) 使得 \( x \cdot 1=1 \cdot x=x \);
-			\item \textbf{非零元存在逆元} 对 \( 0 \neq x \in \mathbb{F} \)，存在 \( x^{-1} \in \mathbb{F} \) 使得 \( x(x^{-1})=(x^{-1})x=1 \);
+			\item \textbf{幺元性质} 存在 \( 1 \in \F \) 使得 \( x \cdot 1=1 \cdot x=x \);
+			\item \textbf{非零元存在逆元} 对 \( 0 \neq x \in \F \)，存在 \( x^{-1} \in \F \) 使得 \( x(x^{-1})=(x^{-1})x=1 \);
 			\item \textbf{交换律} \( xy=yx \).
 		\end{enumerate}
 		\item 乘法和加法运算的协调性，
@@ -707,23 +724,23 @@
 		\end{enumerate}
 	\end{enumerate}
 	
-	其中 \( x,y,z \) 指 \( \mathbb{F} \) 中的任意元素，那么称满足上述所有条件的 \( (\mathbb{F},+, \cdot) \) 为一个域.
+	其中 \( x,y,z \) 指 \( \F \) 中的任意元素，那么称满足上述所有条件的 \( (\F,+, \cdot) \) 为一个域.
 	\label{1.2.2}
 \end{definition}
 
 \begin{proposition}
-	设 \( \mathbb{F} \subseteq \mathbb{C} \)，且加法和数乘定义为 \( \mathbb{C} \) 中通常意义下数的加法和数乘，那么定义 \ref{1.2.1} 和定义 \ref{1.2.2} 等价. 这说明数域也可以定义为
+	设 \( \F \subseteq \mathbb{C} \)，且加法和数乘定义为 \( \mathbb{C} \) 中通常意义下数的加法和数乘，那么定义 \ref{1.2.1} 和定义 \ref{1.2.2} 等价. 这说明数域也可以定义为
 	\begin{center}
-		\fbox{若 \( \mathbb{F} \subseteq \mathbb{C} \) 为域，那么称 \( \mathbb{F} \) 为 \( \mathbb{C} \) 的子域，此时也称 \( \mathbb{F} \) 为数域. }
+		\fbox{若 \( \F \subseteq \mathbb{C} \) 为域，那么称 \( \F \) 为 \( \mathbb{C} \) 的子域，此时也称 \( \F \) 为数域. }
 	\end{center}
 \end{proposition}
 
 \begin{proof}
-	(定义 \ref{1.2.1}  \( \Rightarrow \) 定义 \ref{1.2.2}) \ 二元运算由运算的封闭性得到. 定义 \ref{1.2.2} 的 (A)(1)(4)+(B)(1)(4)+(C) 是显然成立的，因为这就是普通数的乘法具有的运算律; (A)(2)+(B)(2) 由 \( 0,1 \in \mathbb{F} \) 也成立; (A)(3) 考虑减法的封闭性，任取 \( x \in \mathbb{F} \)，就有 \( 0-x=-x \in \mathbb{F} \); (B)(3) 考虑除法的封闭性，任取 \( 0 \neq x \in \mathbb{F} \)，就有 \( 1/x \in \mathbb{F} \).
+	(定义 \ref{1.2.1}  \( \Rightarrow \) 定义 \ref{1.2.2}) \ 二元运算由运算的封闭性得到. 定义 \ref{1.2.2} 的 (A)(1)(4)+(B)(1)(4)+(C) 是显然成立的，因为这就是普通数的乘法具有的运算律; (A)(2)+(B)(2) 由 \( 0,1 \in \F \) 也成立; (A)(3) 考虑减法的封闭性，任取 \( x \in \F \)，就有 \( 0-x=-x \in \F \); (B)(3) 考虑除法的封闭性，任取 \( 0 \neq x \in \F \)，就有 \( 1/x \in \F \).
 	
 	\vspace{1ex}
 	
-	(定义 \ref{1.2.2}  \( \Rightarrow \) 定义 \ref{1.2.1}) \ 由定义 \ref{1.2.2} 的二元运算前提，\( \mathbb{F} \) 对加法和乘法已经封闭. 注意到任取 \( a,b \in \mathbb{F} \)，\( a-b=a+(-b) \) 以及 \( a, 0 \neq b \in \mathbb{F} \)，\( a/b=ab^{-1} \). 减法和除法的封闭性就划归到了加法和乘法的封闭性. 所以在域中，真正关心的只有加法和乘法两种运算，减法和除法不过是在逆元存在时导出的两种运算.
+	(定义 \ref{1.2.2}  \( \Rightarrow \) 定义 \ref{1.2.1}) \ 由定义 \ref{1.2.2} 的二元运算前提，\( \F \) 对加法和乘法已经封闭. 注意到任取 \( a,b \in \F \)，\( a-b=a+(-b) \) 以及 \( a, 0 \neq b \in \F \)，\( a/b=ab^{-1} \). 减法和除法的封闭性就划归到了加法和乘法的封闭性. 所以在域中，真正关心的只有加法和乘法两种运算，减法和除法不过是在逆元存在时导出的两种运算.
 \end{proof}
 
 \begin{example}
@@ -731,28 +748,28 @@
 \end{example}
 
 \begin{example}
-	\ref{1.1} 节中的讨论所涉及的 \( \mathbb{R} \) 都可以换成一般的域 \( \mathbb{F} \). 本节之后所有的讨论如没有特别说明，都基于一般的域进行. 当然，教材内都基于一般的数域，很多时候没有什么区别.
+	\ref{1.1} 节中的讨论所涉及的 \( \mathbb{R} \) 都可以换成一般的域 \( \F \). 本节之后所有的讨论如没有特别说明，都基于一般的域进行. 当然，教材内都基于一般的数域，很多时候没有什么区别.
 \end{example}
 
 \begin{proposition}
-	设 \( \mathbb{F} \) 为 \( \mathbb{C} \) 的子域，那么 \( \mathbb{Q} \subseteq \mathbb{F} \).
+	设 \( \F \) 为 \( \mathbb{C} \) 的子域，那么 \( \mathbb{Q} \subseteq \F \).
 	\label{1.2.6}
 \end{proposition}
 
 \begin{proof}
-	(用定义 \ref{1.2.2}) \ 首先 \( 0,1 \in \mathbb{F} \). 由于 \( \mathbb{F} \) 对加法封闭，那么 \( \mathbb{Z} \subseteq \mathbb{F} \). 又由于 \( \mathbb{F} \) 中非零元均有逆元，那么对 \( q \in \mathbb{Z} \subseteq \mathbb{F} \) 都有 \( 1/q \in \mathbb{F} \). 再由乘法的封闭性，任意有理数 \( p/q \in \mathbb{F}, \; p,q \in \mathbb{Z} \). 故 \( \mathbb{Q} \subseteq \mathbb{F} \). 如果读者知道分式域，这里可以直接从 \( \mathbb{Z} \subseteq \mathbb{F} \) 得到结论，因为整数环的分式域为 \( \mathbb{Q} \).
+	(用定义 \ref{1.2.2}) \ 首先 \( 0,1 \in \F \). 由于 \( \F \) 对加法封闭，那么 \( \mathbb{Z} \subseteq \F \). 又由于 \( \F \) 中非零元均有逆元，那么对 \( q \in \mathbb{Z} \subseteq \F \) 都有 \( 1/q \in \F \). 再由乘法的封闭性，任意有理数 \( p/q \in \F, \; p,q \in \mathbb{Z} \). 故 \( \mathbb{Q} \subseteq \F \). 如果读者知道分式域，这里可以直接从 \( \mathbb{Z} \subseteq \F \) 得到结论，因为整数环的分式域为 \( \mathbb{Q} \).
 	
 	\vspace{1ex}
 	
-	(用定义 \ref{1.2.1}) \ 和上述证明完全相同，无非是得到 \( \mathbb{Z} \subseteq \mathbb{F} \) 后，直接由除法的封闭性得到结论.
+	(用定义 \ref{1.2.1}) \ 和上述证明完全相同，无非是得到 \( \mathbb{Z} \subseteq \F \) 后，直接由除法的封闭性得到结论.
 \end{proof}
 
 \begin{proposition}
-	设数集 \( \mathbb{F} \) 至少包含两个不同数，若 \( \mathbb{F} \) 中任意两个数的差，以及任意一个数与非零数的商仍在 \( \mathbb{F} \) 中，则 \( \mathbb{F} \) 为数域.
+	设数集 \( \F \) 至少包含两个不同数，若 \( \F \) 中任意两个数的差，以及任意一个数与非零数的商仍在 \( \F \) 中，则 \( \F \) 为数域.
 \end{proposition}
 
 \begin{proof}
-	(用定义 \ref{1.2.1}) \ 不妨设 \( \{a,b\} \subseteq \mathbb{F} \) 且 \( a \neq b \). 则 \( a,b \) 不同时为 \( 0 \)，不妨 \( a \neq 0 \). 那么 \( a-a=0 \in \mathbb{F} \) 以及 \( a/a=1 \in \mathbb{F} \). 任意 \( 0 \neq r \in \mathbb{F} \) 都有 \( r^{-1}=1/r \in \mathbb{F} \). 这说明任意两个数的乘法是封闭的，因为任取 \( p,q \in \mathbb{F} \)，若 \( q=0 \)，那么 \( pq=0 \in \mathbb{F} \)，否则 \( pq=p/q^{-1} \in \mathbb{F} \). 同理，对任意 \( r \in \mathbb{F} \) 有 \( -r=0-r \in \mathbb{F} \). 说明 \( \mathbb{F} \) 对加法是封闭的，因为任取 \( p,q \in \mathbb{F} \) 有 \( p+q=p-(-q) \in \mathbb{F} \).
+	(用定义 \ref{1.2.1}) \ 不妨设 \( \{a,b\} \subseteq \F \) 且 \( a \neq b \). 则 \( a,b \) 不同时为 \( 0 \)，不妨 \( a \neq 0 \). 那么 \( a-a=0 \in \F \) 以及 \( a/a=1 \in \F \). 任意 \( 0 \neq r \in \F \) 都有 \( r^{-1}=1/r \in \F \). 这说明任意两个数的乘法是封闭的，因为任取 \( p,q \in \F \)，若 \( q=0 \)，那么 \( pq=0 \in \F \)，否则 \( pq=p/q^{-1} \in \F \). 同理，对任意 \( r \in \F \) 有 \( -r=0-r \in \F \). 说明 \( \F \) 对加法是封闭的，因为任取 \( p,q \in \F \) 有 \( p+q=p-(-q) \in \F \).
 \end{proof}
 
 \vspace{2ex}
@@ -790,17 +807,17 @@
 \end{remark}
 
 \begin{example}[域]
-	设 \( \mathbb{F} \) 为如同定义 \ref{1.2.2} 所定义的域. 那么 \( \mathbb{F} \) 为含幺交换环. 
+	设 \( \F \) 为如同定义 \ref{1.2.2} 所定义的域. 那么 \( \F \) 为含幺交换环. 
 \end{example}
 
 \begin{example}[一元多项式环]
-	设 \( x \) 为未定元，\( \mathbb{F} \) 为一个域， 称
-	\[ \mathbb{F}[x]:=\{ a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0 : n \in \mathbb{N}^*, a_i \in \mathbb{F}, \; 1 \leq i \leq n \}. \]
+	设 \( x \) 为未定元，\( \F \) 为一个域， 称
+	\[ \F[x]:=\{ a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0 : n \in \mathbb{N}^*, a_i \in \F, \; 1 \leq i \leq n \}. \]
 	
 	在如下定义的加法和乘法 (若 \( a_i, b_i \) 无定义，直接取为 0 )
 	\[ \sum_{i=1}^{n} a_ix^i + \sum_{i=1}^{m} b_ix^i:= \sum_{i=1}^{\max\{n,m\}} (a_i+b_i)x^i, \; \left( \sum_{i=1}^{n} a_ix^i \right)\left( \sum_{i=1}^{m} b_ix^i \right)= \sum_{i=1}^{n+m} \left( \sum_{p+q=i}^{} a_pb_q \right) x^i \]
 	
-	下构成一个含幺交换环. 其中幺元为 \( 1 \in \mathbb{F} \)，交换律来自 \( \mathbb{F} \) 的交换律. 
+	下构成一个含幺交换环. 其中幺元为 \( 1 \in \F \)，交换律来自 \( \F \) 的交换律. 
 \end{example}
 
 \begin{proposition}
@@ -912,28 +929,30 @@
 \end{definition}
 
 \begin{example}
-	域上的一元多项式环 \( \mathbb{F}[x] \)，整数环都为整环. 所有的域也为整环，这是因为域中非零元都存在逆元，可以左乘或者右乘逆.
+	域上的一元多项式环 \( \F[x] \)，整数环都为整环. 所有的域也为整环，这是因为域中非零元都存在逆元，可以左乘或者右乘逆.
 \end{example}
 
+\begin{definition}[周期元]
+	设 \( R \) 为环，若 \( 0 \neq a \in R \) 满足存在整数 \( m \in \mathbb{N}^* \) 使得 \( ma=0 \). 称 \( a \) 为周期元，并称满足上式最小的 \( m \) 为 \( a \) 的周期. 
+\end{definition}
+
 \begin{proposition}[整环的特征]
-	设 \( R \) 为整环，若 \( 0 \neq a \in R \) 满足存在整数 \( m \in \mathbb{N}^* \) 使得 \( ma=0 \). 称 \( a \) 为周期元，并称满足上式最小的 \( m \) 为 \( a \) 的周期. 若 \( R \) 中有周期元，那么必定存在素数 \( p \) 使得 \( pr=0 \) 对任意 \( r \in R \) 都成立. 称 \( p \) 为整环 \( R \) 的特征，并记为 \( \mathrm{char} R=p \). 若 \( R \) 中没有周期元，那么记 \( \mathrm{char} R=0 \).
-	\label{1.2.23}
+	设 \( R \) 为整环，若 \( R \) 中有周期元，那么必定存在素数 \( p \) 使得 \( pr=0 \) 对任意 \( r \in R \) 都成立. 此时 \( R \) 中所有非零元素均有相同周期 \( p \). 称 \( p \) 为整环 \( R \) 的特征，并记为 \( \tz  R=p \). 若 \( R \) 中没有周期元，那么记 \( \tz  R=0 \).
+	\label{1.2.24}
 \end{proposition}
 
 \begin{proof}
-	不妨设周期元为 \( a \neq 0 \)，且周期为 \( m \in \mathbb{N}^* \). 那么对任意 \( b \in R \) 有 \( (ma)b=0 \cdot b=0=a(mb) \). 由于 \( R \) 为整环，那么只好 \( mb=0 \). 下面说明 \( m \) 必定为素数. 否则，存在 \( 2 \leq m_1<m_2<m \) 使得 \( m=m_1m_2 \). 那么 \( m_2a \) 的周期为 \( m_1 \). 由前述，任给 \( b \in R \) 都有 \( m_1b=0 \). 取 \( b=a \) 知 \( m_1a=0 \). 这与 \( a \) 的周期为 \( m \) 矛盾. 
+	不妨设存在周期元 \( a \neq 0 \)，且周期为 \( m \in \mathbb{N}^* \). 那么对任意 \( 0 \neq b \in R \) 有 \( (ma)b=0 \cdot b=0=a(mb) \). 由于 \( R \) 为整环，那么只好 \( mb=0 \). 这说明环中任意非零元素的周期不超过 \( m \)，若存在相应周期小于 \( m \) 的元素，那么由上述可知 \( a \) 的周期也小于 \( m \) 矛盾. 故环中任意非零元素有相同周期 \( m \).
+	
+	下面说明 \( m \) 必定为素数. 否则，存在 \( 2 \leq m_1<m_2<m \) 使得 \( m=m_1m_2 \). 那么 \( m_2a \) 的周期不超过 \( m_1<m \). 由前述导出矛盾. 
 \end{proof}
 
 \begin{proposition}
-	设 \( R \) 为含幺整环，那么 \( \mathrm{char} R=p \) 等价于 \( 1_R \) 的周期是 \( p \). 
+	设 \( R \) 为含幺整环，\( p \) 为素数. 那么 \( \tz    R=p \) 等价于 \( 1_R \) 的周期是 \( p \). 
 \end{proposition}
 
 \begin{proof}
-	(\(\Rightarrow\)) \ 若 \( \mathrm{char} R=p \)，那么显然 \( p  1_R= 0 \). 若存在 \( 1 \leq m < p \) 使得 \( m 1_R=0 \)，那么必定有 \( (p,m)=1 \). 故存在 \( u,v \in \mathbb{Z} \) 使得 \( up+mv=1 \). 这意味着 \( (up+mv) 1_R= 1_R= 0 \)，说明 \( R \) 为零环，与整环的定义矛盾. 或者直接由
-	命题 \ref{1.2.23} 的证明可知非零特征的整环中，所有非零元都是周期元，且周期为环的特征.
-	\vspace{1ex}
-	
-	(\(\Leftarrow\)) \ 若 \( p 1_R=0 \)，那么对任意 \( r \in R \)，都有 \( pr=(p1_R)r=0r=0 \). 
+	由命题 \ref{1.2.24}  知 \( \tz    R=p \) \( \Leftrightarrow \) \( R \) 中所有非零元素的周期为 \( p \) \( \Leftrightarrow \) \( 1_R \) 的周期是 \( p \).
 \end{proof}
 
 \begin{remark}
@@ -943,27 +962,29 @@
 显然数域的特征都是 0. 对特征为 0 的域，由于 \( n 1 \neq 0 \) 对任意 \( n \in \mathbb{N}^* \) 都成立，这意味着特征为 0 的域必定为无限域. 换言之，有限域特征必定非零，又有限域为整环，那么必定以某个素数 \( p \) 为特征. 下面我们给出命题 \ref{1.2.6} 的推广.
 
 \begin{theorem}
-	设 \( \mathbb{F} \) 为域，且 \( \text{char} \mathbb{F}=0 \). 则必定存在 \( \mathbb{F}_0 \subseteq \mathbb{F} \) 作为最小子域，使得 \( \mathbb{F}_0 \cong \mathbb{Q} \)，这是指存在双射 \( \varphi: \mathbb{Q} \to \mathbb{F}_0 \)，且保持域系统的运算
+	设 \( \F \) 为域，且 \( \tz    \F=0 \). 则必定存在 \( \F_0 \subseteq \F \) 作为最小子域，使得 \( \F_0 \cong \mathbb{Q} \)，这是指存在双射 \( \varphi: \mathbb{Q} \to \F_0 \)，且保持域系统的运算
 	\[ \varphi(a+b)=\varphi(a)+\varphi(b), \; \varphi(ab)=\varphi(a)\varphi(b). \]
 \end{theorem}
 
 \begin{proof}
-	类似命题 \ref{1.2.6} 可以证明，若 \( e \) 为 \( \mathbb{F} \) 的单位元，那么 \( \mathbb{F}_0:=\{me(ne)^{-1} \mid m,n \in \mathbb{Z} \} \) 为 \( \mathbb{F} \) 的子域. 构造 \( \varphi: \mathbb{Q} \to \mathbb{F}_0, m/n \mapsto me(ne)^{-1} \) 即可. 或者事实上，由于 \( \varphi \) 保持运算且双射，\( \mathbb{Q} \) 为域，那么 \( \mathbb{F}_0 \) 自然也为域. 且任取 \( \mathbb{K} \subseteq \mathbb{F} \)，显然有 \( \mathbb{F}_0 \subseteq \mathbb{K} \).
+	类似命题 \ref{1.2.6} 可以证明，若 \( e \) 为 \( \F \) 的单位元，那么 \( \F_0:=\{me(ne)^{-1} \mid m,n \in \mathbb{Z} \} \) 为 \( \F \) 的子域. 构造 \( \varphi: \mathbb{Q} \to \F_0, m/n \mapsto me(ne)^{-1} \) 即可. 或者事实上，由于 \( \varphi \) 保持运算且双射，\( \mathbb{Q} \) 为域，那么 \( \F_0 \) 自然也为域. 且任取 \( \mathbb{K} \subseteq \F \)，显然有 \( \F_0 \subseteq \mathbb{K} \).
 \end{proof}
 
 \begin{theorem}
-	设 \( \mathbb{F} \) 为域，且 \( \text{char} \mathbb{F}=p \) 为素数. 则必定存在 \( \mathbb{F}_p \subseteq \mathbb{F} \) 作为最小子域，使得 \( \mathbb{F}_p \cong \mathbb{Z}_p \). 通常仍然把这个最小子域记作 \( \mathbb{Z}_p \)，并称为 \( \mathbb{F} \) 的素子域.
+	设 \( \F \) 为域，且 \( \tz  \F=p \) 为素数. 则必定存在 \( \F_p \subseteq \F \) 作为最小子域，使得 \( \F_p \cong \mathbb{Z}_p \). 通常仍然把这个最小子域记作 \( \mathbb{Z}_p \)，并称为 \( \F \) 的素子域.
 \end{theorem}
 
 \begin{proof}
-	设 \( e \) 为 \( \mathbb{F} \) 的单位元，记 \( \mathbb{F}_p:=\{0,e,2e,\cdots,(p-1)e\} \). 定义 \( \varphi:\mathbb{Z}_p \to \mathbb{F}_p, \; [k] \mapsto ke \). 由于 \( \varphi \) 保持运算且双射，\( \mathbb{Z}_p \) 为域，那么 \( \mathbb{F}_p \) 自然也为域. 且任取 \( \mathbb{K} \subseteq \mathbb{F} \)，显然有 \( \mathbb{F}_p \subseteq \mathbb{K} \).
+	设 \( e \) 为 \( \F \) 的单位元，记 \( \F_p:=\{0,e,2e,\cdots,(p-1)e\} \). 定义 \( \varphi:\mathbb{Z}_p \to \F_p, \; [k] \mapsto ke \). 由于 \( \varphi \) 保持运算且双射，\( \mathbb{Z}_p \) 为域，那么 \( \F_p \) 自然也为域. 且任取 \( \mathbb{K} \subseteq \F \)，显然有 \( \F_p \subseteq \mathbb{K} \).
 \end{proof}
 
 \subsection{数域上的矩阵环}
 
+\subsubsection{矩阵乘法的定义}
+
 在 \S \ref{1.1} 节线性方程组的有关讨论中，我们引入了矩阵这个工具. 现在我们希望完善矩阵相关的理论，又希望其来源于一定的动机. 
 
-对于两个同型的方程组，即 \( m \) 和 \( n \) 均相同，那么可以直接将两个方程组的系数叠加得到新的方程. 反映在矩阵上，设 \( A=(a_{ij}), \; B=(b_{ij}) \) 均为 \( n \times m \) 阶矩阵，那么 \( A \pm B=(a_{ij} \pm b_{ij}) \) 是自然的. 但矩阵的乘法显得有些棘手. 一个合理的动机来自线性方程组的嵌套，例如现在有两个线性方程组
+对于两个同型的方程组，即 \( m \) 和 \( n \) 均相同，那么可以直接将两个方程组的系数叠加得到新的方程. 反映在矩阵上，设 \( A=(a_{ij}), \; B=(b_{ij}) \) 均为数域 \( \F \) 上的 \( n \times m \) 阶矩阵，那么 \( A \pm B=(a_{ij} \pm b_{ij}) \) 是自然的. 但矩阵的乘法显得有些棘手. 一个合理的动机来自线性方程组的嵌套，例如现在有两个线性方程组
 \[ \left\{ \begin{array}{l}
 	y_1= a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n, \\
 	y_2= a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n, \\
@@ -980,14 +1001,15 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 \[ z_i=\sum_{k=1}^{m} b_{ik}y_k= \sum_{k=1}^{m} b_{ik} \left( \sum_{j=1}^{n} a_{kj} x_j \right)= \sum_{j=1}^{n} \sum_{k=1}^{m} b_{ik}a_{kj} x_j = \sum_{j=1}^{n} \left( \sum_{k=1}^{m} b_{ik}a_{kj}\right) x_j. \]
 
 \begin{definition}[矩阵的乘法]
-	设 矩阵 \( A=(a_{ij}) \) 为 \( m \times n \) 矩阵且 \( B=(b_{ij}) \) 为 \( t\times m \) 矩阵. 定义矩阵 \( B \) 和矩阵 \( A \) 的乘积为矩阵 \( BA=:C=(c_{ij}) \)，其中 \( C \) 为 \( t \times m \) 阶矩阵，且
+	设 矩阵 \( A=(a_{ij}) \) 为数域 \( \F \) 上的 \( m \times n \) 矩阵且 \( B=(b_{ij}) \) 为数域 \( \F \) 上的 \( t\times m \) 矩阵. 定义矩阵 \( B \) 和矩阵 \( A \) 的乘积为矩阵 \( BA=:C=(c_{ij}) \)，其中 \( C \) 为数域 \( \F \) 上的 \( t \times m \) 阶矩阵，且
 	\[ c_{ij}=\sum_{k=1}^{m} b_{ik}a_{kj}. \] 
+	\label{1.3.1}
 \end{definition}
 
 为了熟练上述运算，给出几个例子.
 
 \begin{example}[线性方程组的矩阵表示]
-	设 \( \beta=(b_1,\cdots,b_n)^T \in \mathbb{F}^n \)，以及 \( m \times n \) 矩阵 \( A=(a_{ij}) \). 同时记 \( X=(x_1,\cdots,x_n)^T  \). 那么线性方程组
+	设 \( \beta=(b_1,\cdots,b_n)\T \in \F^n \)，以及数域 \( \F \) 上的 \( m \times n \) 矩阵 \( A=(a_{ij}) \). 同时记 \( X=(x_1,\cdots,x_n)\T  \). 那么线性方程组
 	\[ \left\{\begin{array}{l}
 		a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=b_1, \\
 		a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=b_1, \\
@@ -1046,7 +1068,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 \begin{example}[初等变换的矩阵表示]
 	给定线性方程组 (\ref{linequ.})，设其系数矩阵为 \( A \)，那么
 	\begin{enumerate}[(1)]
-		\item 消法变换：对 \( 1 \leq i \neq j \leq m \)，\( c \in \mathbb{F} \). 将第 \( i \) 行的 \( c \) 倍加到第 \( j \) 行对应
+		\item 消法变换：对 \( 1 \leq i \neq j \leq m \)，\( c \in \F \). 将第 \( i \) 行的 \( c \) 倍加到第 \( j \) 行对应
 		\[ E(j,i(c))A=\bordermatrix{
 			&&&&& \cr
 			&a_{11} & a_{12} & a_{13} & \cdots & a_{1n} \cr
@@ -1055,7 +1077,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 			&\vdots & \vdots & \ddots & \ddots & \vdots \cr
 			&a_{m1} & a_{m2} & a_{m3} & \cdots & a_{mn}
 		}. \]
-		\item 倍法变换：设 \( 1 \leq i \leq m \)，且 \( 0 \neq c \in \mathbb{F} \)，将第 \( i \) 行的每个元素都乘 \( c \) 对应
+		\item 倍法变换：设 \( 1 \leq i \leq m \)，且 \( 0 \neq c \in \F \)，将第 \( i \) 行的每个元素都乘 \( c \) 对应
 		\[ E(i(c))A=\bordermatrix{
 			&&&&& \cr
 			&a_{11} & a_{12} & a_{13} & \cdots & a_{1n} \cr
@@ -1086,10 +1108,10 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 
 
 \begin{example}[矩阵乘法的映射观点]
-	设 \( A \) 为 \( m \times n \) 矩阵，\( B \) 为 \( n \times t \) 矩阵，定义 \( \varphi: \mathbb{F}^n \to \mathbb{F}^m, \; X \mapsto AX, \; \psi: \mathbb{F}^t \to \mathbb{F}^n, \; Y \mapsto BY \). 那么存在唯一的映射 \( \tau: \mathbb{F}^t \to \mathbb{F}^m \) 使得下图交换
+	设 \( A \) 为 \( m \times n \) 矩阵，\( B \) 为 \( n \times t \) 矩阵，定义 \( \varphi: \F^n \to \F^m, \; X \mapsto AX, \; \psi: \F\T \to \F^n, \; Y \mapsto BY \). 那么存在唯一的映射 \( \T Au: \F\T \to \F^m \) 使得下图交换
 	\[ \xymatrix@R=7ex@C=6ex{
-		 & \mathbb{F}^n\ar"2,3"_{\varphi} & \\
-		\mathbb{F}^t\ar"1,2"_{\psi}\ar"2,3"_{\exists ! \tau} &  & \mathbb{F}^m\\
+		 & \F^n\ar"2,3"_{\varphi} & \\
+		\F^t\ar"1,2"_{\psi}\ar"2,3"_{\exists ! \T Au} &  & \F^m\\
 	} \]
 	事实上，这些映射都是线性映射，即保持加法和数乘运算.
 	\label{1.3.6}
@@ -1110,7 +1132,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 		-\sin n\theta & \cos n\theta
 	\end{bmatrix}. \]
 	
-	现在利用例 \ref{1.3.6}，考虑 \( \varphi: \mathbb{F}^2 \to \mathbb{F}^2, \; X \mapsto AX \). 仅考虑 \(X \neq O \). 用极坐标系，那么
+	现在利用例 \ref{1.3.6}，考虑 \( \varphi: \F^2 \to \F^2, \; X \mapsto AX \). 仅考虑 \(X \neq O \). 用极坐标系，那么
 	\[ \varphi(\rho \cos \alpha, \rho \sin \alpha)=(\rho\cos \theta\cos \alpha+ \rho \sin \theta \sin \alpha, -\rho \sin \theta \cos \alpha+ \rho \cos \theta \sin \alpha)= \rho(\cos(\alpha-\theta), \sin(\alpha-\theta)). \]
 	
 	那么
@@ -1124,6 +1146,366 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	
 	由 \( X \) 的任意性得到结果.
 \end{solution}
+
+\begin{example}[矩阵乘法非交换]
+	由定义 \ref{1.3.1} 定义的矩阵乘法通常是非交换的，即往往不满足 \( AB=BA \). 例如取
+	\[ A=\begin{bmatrix}
+		1 & 2 \\ 3 & 4
+	\end{bmatrix}, \; B=\begin{bmatrix}
+	    4 & 3 \\ 2 & 1
+	\end{bmatrix}. \]
+	
+	那么
+	\[ AB=\begin{bmatrix}
+		8 & 5 \\20 & 13
+	\end{bmatrix} \neq \begin{bmatrix}
+	   13 & 20 \\ 5 & 8
+	\end{bmatrix}=BA. \]
+	
+	由于交换性不成立，那么完全平方公式也不成立 \( (A+B)^2= A^2+AB+BA+B^2\neq A^2+2AB+B^2 \). 进而二项式定理也不适用，除非有 \( AB=BA \).
+\end{example}
+
+
+\subsubsection{特殊矩阵}
+
+下面介绍几种特殊矩阵，在未来的学习中会经常使用到.
+
+\begin{example}[零矩阵和单位矩阵]
+	记
+	\[ O=O_n:=\begin{bmatrix}
+		0 & 0 & \cdots & 0 \\
+		0 & 0 & \cdots & 0 \\
+		\vdots & \vdots & \ddots & \vdots \\
+		0 & 0 & \cdots & 0
+	\end{bmatrix}, \; E_n=I_n:=\begin{bmatrix}
+	1 & 0 & \cdots & 0 \\
+	0 & 1 & \cdots & 0 \\
+	\vdots & \vdots & \ddots & \vdots \\
+	0 & 0 & \cdots & 1
+	\end{bmatrix} \]
+	
+	分别为 \( n \) 阶零矩阵和单位矩阵，它们分别是矩阵加法和乘法的单位元.
+\end{example}
+
+\begin{example}
+	单位矩阵和任意矩阵可交换，所以它可以充当矩阵乘法的单位元，即对任意 \( n \) 阶矩阵 \( A \) 有 \( E_nA=AE_n=A \).
+\end{example}
+
+有了上面两种矩阵的铺垫，我们可以给出一类典型的非交换环: 数域 \( F \) 上的 \( n \) 阶全矩阵环 \( \F^{n \times n} \). 事实上，如果只需要得到环这一结构，不需要将矩阵的严肃定义在域上，只需要定义在环上即可. 但是这不作为高等代数课程的要求，我们在高等代数 II 会接触到一类多项式环 \( \F[x] \) 上的全矩阵环，即 \( \lambda \) 矩阵.
+
+\begin{proposition}[矩阵环]
+	数域 \( \F \) 上的 \( n \) 阶矩阵组成的集合 \( \F^{n \times n} \) 在通常意义的矩阵加法和乘法下构成一个含幺环，是非交换的，该环称为数域 \( \F \) 上的全矩阵环，即
+	\begin{enumerate}[(A)]
+		\item 矩阵的加法运算满足，
+		\begin{enumerate}[(1)]
+			\item \textbf{结合律} \( (A+B)+C=A+(B+C) \);
+			\item \textbf{零元性质} 存在 \( O \in \F^{n \times n} \) 使得 \( A+O=O+A=A \);
+			\item \textbf{存在逆元} 存在 \( -A \in \F^{n \times n} \) 使得 \( A+(-A)=(-A)+A=O \);
+			\item \textbf{交换律} \( A+B=B+A \).
+		\end{enumerate}
+		\item 矩阵的乘法运算满足，
+		\begin{enumerate}[(1)]
+			\item \textbf{结合律} \( (AB)C=A(BC) \);
+			\item \textcolor{blue}{\textbf{幺元性质} 存在 \( E_n \in \F^{n \times n} \) 使得 \( AE_n=E_nA=A \)}.
+		\end{enumerate}
+		\item 乘法和加法运算的协调性，
+		\begin{enumerate}[(1)]
+			\item \textbf{分配律} \( A(B+C)=AB+AC, \; (B+C)A=BA+CA \).
+		\end{enumerate}
+	\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    (A) 其实完全由 \( \F \) 作为数域的运算律保证成立. 我们只验证 (B)(1). 设 \( A=(a_{ij}), \; B=(b_{ij}), \; C=(c_{ij})\). 设 \( (AB)C \) 的 \( (i,j) \) 元为 \( p_{ij} \), \ \( A(BC) \) 的 \( (i,j) \) 元为 \( q_{ij} \)，那么
+    \[ p_{ij}=\sum_{t=1}^{n}\left(\sum_{k=1}^{n}a_{ik}b_{kt} \right) c_{tj}, \; q_{ij}= \sum_{t=1}^{n} a_{it} \left( \sum_{k=1}^{n} b_{tk}c_{kj} \right). \]
+    
+    显然求和的结果与连加号所选择的角标符号以及求和顺序是无关的，那么
+    \[ p_{ij}=q_{ij}=\sum_{t=1}^{n}\sum_{k=1}^{n}a_{ik}b_{kt}c_{tj}=\sum_{k=1}^{n}\sum_{t=1}^{n}a_{ik}b_{kt}c_{tj}. \]
+    
+    全矩阵环结合律的成立保证了对多项式 \( f,g \in \F[x] \)，有 \( f(A) \) 和 \( g(A) \) 是可以随意交换的.
+\end{proof}
+
+\begin{example}
+	数域 \( \F \) 上全矩阵环具有零因子. 即存在 \( A, B \neq O \) 使得 \( AB=O \). 例如取
+	\[ A=\begin{bmatrix}
+		1 & 0 \\ 0 & 0
+	\end{bmatrix}, \; B=\begin{bmatrix}
+	0 & 1 \\ 0 & 0
+	\end{bmatrix}. \]
+	
+	自然，矩阵的乘法也不满足消去律，例如取
+	\[ C=\begin{bmatrix}
+		1 & 1 \\ 0 & 0
+	\end{bmatrix}, \; D=A=\begin{bmatrix}
+	1 & 0 \\ 0 & 0
+	\end{bmatrix}. \]
+	
+	那么 \( C-D=B \leadsto A(C-D)=AB=O \leadsto AC=AD \). 但没有 \( C=D \).
+\end{example}
+\begin{example}[\( n \) 维标准列向量]
+	记
+	\[ \varepsilon_1:=\begin{bmatrix}
+		1 \\ 0 \\ 0 \\ \vdots \\ 0
+	\end{bmatrix}, \; \varepsilon_2:=\begin{bmatrix}
+	0 \\ 1 \\ 0 \\ \vdots \\ 0
+	\end{bmatrix}, \cdots, \; \varepsilon_2:=\begin{bmatrix}
+	0 \\ 0 \\ 0 \\ \vdots \\ 1
+	\end{bmatrix} \]
+	
+	为 \( \F^n \) 中的 \( n \) 维标准列向量. 对行向量，也有类似的定义. 不过在后续学习中，我们更多使用列向量，对行向量往往采用列向量的转置的写法.
+\end{example}
+
+\begin{property}[标准列向量]
+	给定矩阵 \( A,B \) 为数域 \( \F \) 上的 \( m \times n \) 矩阵，那么
+	\begin{enumerate}[(1)]
+		\item(标准正交基) \( \varepsilon_i\T\varepsilon_j = \delta_{ij} \) ，其中 \( \delta_{ij} \) 仅当 \( i=j \) 时取值为 1，否则取值为 0;
+		\item \( A\varepsilon_j \) 为矩阵 \( A \) 的第 \( j \) 列，\( \varepsilon_i\T A \) 为矩阵 \( A \) 的第 \( i \) 行;
+		\item 设 \( A \) 的 \( (i,j) \) 元为 \( a_{ij} \)，那么 \( \varepsilon_i\T A\varepsilon_j =a_{ij} \);
+		\item \( A=B \Leftrightarrow A\varepsilon_j = B\varepsilon_j \Leftrightarrow \varepsilon_i\T A = \varepsilon_i\T B \Leftrightarrow \varepsilon_i\T A\varepsilon_j = \varepsilon_i\T B\varepsilon_j  \) 对任意 \( 1 \leq i \leq m \) 以及 \( 1 \leq j \leq n \) 成立.
+	\end{enumerate} 
+	\label{1.3.14}
+\end{property}
+
+\begin{proof}
+	只需要简单的计算. 这个结论应当背诵.
+\end{proof}
+
+\begin{example}[基础矩阵]
+	\( n \) 阶基础矩阵指的是 \( n^2 \) 个 \( n \) 阶矩阵 \( \{E_{ij}:1 \leq i,j \leq n\} \). 这里 \( E_{ij} \) 为一个 \( n \) 阶矩阵，它的 \( (i,j) \) 元为 \( 1 \)，其余元素均为 \( 0 \)，即
+	\[ E_{ij}=\bordermatrix{
+		& & & & \textbf{\(j\)} & & &  \cr
+		&  & & & &  & &  \cr
+		& &  & & &  & &  \cr
+		& & &  & &  & &  \cr
+		\textbf{\(i\)}	& & & & 1 & & &   \cr
+		& &  & & &   & &  \cr
+		& & & &  & & &  \cr
+		& & & & & & &   
+	}. \]
+\end{example}
+
+\begin{property}[基础矩阵]
+	基础矩阵可以看成标准列向量和标准行向量的乘积，即 \( E_{ij}=\varepsilon_i\varepsilon_j^{T} \)，那么可以得到
+	\begin{enumerate}[(1)]
+		\item \( E_{ij}E_{kl}=\delta_{ij}E_{il} \)，其中 \( \delta_{ij} \) 仅当 \( i=j \) 时取值为 1，否则取值为 0;
+		\item 给定 \( m \times n \) 矩阵 \( A \)，那么 \( AE_{ij} \) 的第 \( j \) 列为矩阵 \( A \) 的第 \( i \) 列， \( AE_{ij} \) 的其余列均为 0;
+		\item 给定 \( m \times n \) 矩阵 \( A \)，那么 \( E_{ij}A \) 的第 \( i \) 行为矩阵 \( A \) 的第 \( j \) 行， \( E_{ij}A \) 的其余行均为 0;
+		\item 给定 \( m \times n \) 矩阵 \( A \)，并设 \( A \) 的 \( (i,j) \) 元为 \( a_{ij} \)，那么 \( E_{ij}AE_{kl} =a_{jk}E_{il} \).
+	\end{enumerate}
+	\label{1.3.16}
+\end{property}
+
+\begin{proof}
+	(1) \( E_{ij}E_{kl}= \varepsilon_i\varepsilon_j\T\varepsilon_k\varepsilon_l\T= (\varepsilon_j\T\varepsilon_k)\varepsilon_i\varepsilon_l\T =(\varepsilon_j\T\varepsilon_k)E_{il} \). 利用性质 \ref{1.3.14} (1) 即得; (2) \( AE_{ij}=A\varepsilon_i\varepsilon_j\T \).  设 \( A=(a_{ij}) \)，利用性质 \ref{1.3.14} (2) 得到 \( A\varepsilon_i=(a_{1i},\cdots,a_{mi})\T \)，那么
+	\[ AE_{ij}=A\varepsilon_i\varepsilon_j\T= \begin{pmatrix}
+		a_{1i} \\ \vdots \\ a_{mi}
+	\end{pmatrix}\bordermatrix{
+	& & & j & & \cr
+	& 0 & \cdots & 1 & \cdots & 0 
+	}= \bordermatrix{
+	& & & j & & \cr
+	& 0 & \cdots & a_{1i} & \cdots & 0 \cr
+	& 0 & \cdots & a_{2i} & \cdots & 0 \cr
+	& 0 & \cdots & \vdots & \cdots & 0 \cr
+	& 0 & \cdots & a_{mi} & \cdots & 0 \cr
+	}. \]
+	
+	(3) \( E_{ij}A=\varepsilon_i\varepsilon_j\T A \). 设 \( A=(a_{ij}) \)，利用性质 \ref{1.3.14} (2) 得到 \( \varepsilon_j\T A=(a_{j1},a_{j2},\cdots,a_{jn}) \). 那么
+	\[ AE_{ij}=\varepsilon_i\varepsilon_j\T A= \bordermatrix{
+		&  \cr
+		& 0  \cr
+		& \vdots \cr
+		i & 1 \cr
+		& \vdots \cr
+		& 0 
+	} \begin{pmatrix}
+	a_{j1} & a_{j2} & a_{j3} & \cdots & a_{jn}
+	\end{pmatrix}
+	= \bordermatrix{
+		& & &  &  \cr
+		& 0 & 0 & 0 & 0   \cr
+		& \vdots & \vdots & \ddots & \vdots \cr
+	  i	& a_{j1} & a_{j2} & \cdots  & a_{jn}  \cr
+		& \vdots & \vdots & \ddots & \vdots  \cr
+		& 0& 0& 0 &0  \cr
+	}. \]
+	(4) \( E_{ij}AE_{kl} =\varepsilon_i\varepsilon_j\T A\varepsilon_k\varepsilon_l\T=\varepsilon_i(\varepsilon_j\T A\varepsilon_k)\varepsilon_l\T=(\varepsilon_j\T A\varepsilon_k)(\varepsilon_i\varepsilon_l\T) \). 利用性质 \ref{1.3.14} (1) 和 (3) 得到 \( E_{ij}AE_{kl} =a_{jk}E_{il} \).
+\end{proof}
+
+\vspace{1ex}
+
+用上述工具，我们可以很轻松地证明全矩阵环 \( \F^{n \times n} \) 的一个小结论: 全矩阵环为单环，即全矩阵环只有平凡理想. 不过我们不想在此处介绍太多理想的概念，你只需要接受下面命题的表述即可，在高等代数 II 我们会正式定义理想. 
+
+\begin{proposition}
+	考虑数域 \( \F \) 上的全矩阵环 \( \F^{n \times n} \). 记 \( I \subseteq \F^{n \times n} \). 若 \( I \) 满足
+	\begin{enumerate}[(1)]
+		\item (加法为子群) \ 对任意 \( A,B \in I \) 都有 \( A-B \in I \);
+		\item (乘法双边封闭性) \ 对任意 \( A  \in I \) 以及任意的方阵 \( X \in \F^{n \times n} \) 都有 \( AX, \; XA \in I \).
+	\end{enumerate}
+	
+	那么 \( I= \emptyset \) 或者 \( \F^{n \times n} \).
+\end{proposition}
+
+\begin{proof}
+	不妨设 \( I \) 非空，只需证明此时有 \( I=\F^{n \times n} \). 那么至少存在 \( O \neq A \in I \)，不妨设 \( A \) 的 \( (i,j)\) 元素 \( a_{ij} \neq 0 \). 那么利用上述条件 (2) 得到 \( E_{ki}AE_{jl}=a_{ij}E_{kl} \in I \). 这里 \( k,l \) 为任意取的. 那么不妨 \( k=l \)，得到 \( a_{ij}E_{kk} \ (1 \leq k \leq n) \in I \). 而这时候 \( A-A=O \in I \) 说明任意 \( A \in I  \) 都有 \( -A \in I \). 即 (1) 可推出 \( I \) 对加法封闭. 那么
+	\[ a_{ij}E_n=\sum_{k=1}^{n} (a_{ij}E_{kk}) \in I. \]
+	
+	那么任取 \( P \in \F^{n \times n} \)，再次利用 (2) 有 
+	\[ P= (a_{ij}^{-1}P)(a_{ij}E_n) \in I. \]
+	
+	说明 \( I=\F^{n \times n} \).
+\end{proof}
+
+\begin{example}
+	设 \( A \in \F^{n \times n} \).
+	\begin{enumerate}[(1)]
+		\item 若 \( A \) 只有对角线上的元素非零，即只有 \( (i,i) \) 元素非零，那么称 \( A \) 为对角矩阵，一般记为 \( A=\mathrm{diag}\{a_{11},a_{22},\cdots \\ ,a_{nn} \} \);
+		\item 单位矩阵 \( E_n \) 为特殊的对角矩阵，若 \( c \in \F \)，一般称 \( cE_n \) 为数量矩阵或者纯量矩阵;
+		\item 若 \( A \) 只有 \( (i,j) \) 元素非零，其余元素全为 0，其中 \( 1 \leq i \leq j \leq n \)，那么称 \( A \) 为上三角矩阵;
+		\item 相应的，若将 (2) 的条件改为 \( 1 \leq j \leq i \leq n \)，那么称 \( A \) 为下三角矩阵.
+	\end{enumerate}
+\end{example}
+
+\begin{proposition}
+	设 \( A \in \F^{n \times n} \) 为上三角矩阵且对角线上的元素全为零，证明 \( A^n=O \).
+\end{proposition}
+
+\begin{proof}
+	(\textbf{法一}) \ 根据上三角矩阵的定义，设 \( A\varepsilon_i=a_{1i}\varepsilon_1+a_{2i}\varepsilon_2+\cdots+a_{i-1,i}\varepsilon_{i-1} \ (2 \leq i \leq n)\). 注意到 \( A \) 的第 \( 1 \) 列全为零，那么 \( A\varepsilon_1=\bm{0} \). 下面用归纳法证明 \( A^k\varepsilon_k=\bm{0} \) 对 \( 1 \leq k \leq n \) 成立，就有 \( A^n\varepsilon_k =\bm{0} \) 恒成立，进而由性质 \ref{1.3.14} (4) 得到 \( A^n=O \). 当 \( k=1 \) 时结论已经成立，设 \( k<l \) 时结论成立，对 \( k=l \) 时
+	\[ A^l\varepsilon_l= A^{l-1}(A\varepsilon_l)=A^{l-1}(a_{1l}\varepsilon_1+\cdots+a_{l-1,l}\varepsilon_{l-1})=\bm{0}. \]
+	
+	(\textbf{法二}) \ 考虑 \( A \) 的基础矩阵分解
+	\[ A=\sum_{i < j}^{} a_{ij}E_{ij}. \]
+	
+	那么用性质 \ref{1.3.16} (1) 可以发现 \( A^2 \) 中只能留下 \( E_{ij} \ (j \geq i+2) \) 之类的项. 因为对 \( i<j \) 有 \( E_{ij}^2=O=E_{ji}E_{ij} \). 进而 \( A^{n-1} \) 只能留下 \( E_{ij} \ (j \geq i+n-1) \) 之类的项，也即只留下了 \( E_{1n} \) 这一类项，那么 \( E_{1n}^2=O \) 蕴含 \( A^n=O \).
+\end{proof}
+
+\begin{proposition}
+	和任意矩阵乘法可交换的必定为数量矩阵 \( cE_n \ (c \in \F)\).
+	\label{1.3.20}
+\end{proposition}
+
+\begin{proof}
+	任意矩阵这个前提太一般了，我们不妨先从对角矩阵 \( \Lambda:=\mathrm{diag}\{1,2,\cdots,n\} \) 开始，考虑 \( A\Lambda=\Lambda A \) 并记 \( A=(a_{ij}) \)，那么
+	\[ \begin{bmatrix}
+		a_{11} & 2a_{12} & \cdots & na_{1n} \\
+		a_{21} & 2a_{22} & \cdots & na_{2n} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		a_{n1} & 2a_{n2} & \cdots & na_{nn}
+	\end{bmatrix}=\begin{bmatrix}
+		a_{11} & a_{12} & \cdots & a_{1n} \\
+		2a_{21} & 2a_{22} & \cdots & 2a_{2n} \\
+	    \vdots & \vdots & \ddots & \vdots \\
+	    na_{n1} & na_{n2} & \cdots & na_{nn}
+	\end{bmatrix}. \]
+	
+	由于 \( i \neq j \) 时有 \( ia_{ij}=ja_{ij} \leadsto a_{ij}=0 \). 说明此时 \( A \) 只能为对角矩阵. (你也可以使用倍法矩阵 \( E(i(2)) \) 得到这一点.) 再考察消法矩阵 \( E(i,j(2)) \)，根据“左行右列，由近及远”原则，有
+	\[ E(i,j(2))A= \bordermatrix{
+		& & & \textbf{\(i\)} & & \textbf{\(j\)} & & \cr
+		& a_{11} & & & & & &  \cr
+		& & \ddots & & & & &  \cr
+		\textbf{\(i\)}	& & & a_{ii} & \cdots & a_{ii}+2a_{jj} & &  \cr
+		& & & & \ddots & \vdots & &  \cr
+		\textbf{\(j\)}	& & & & & a_{jj} & &  \cr
+		& & & & & & \ddots  &  \cr
+		& & & & & & & a_{nn} \cr
+	}= \bordermatrix{
+	& & & \textbf{\(i\)} & & \textbf{\(j\)} & & \cr
+	& a_{11} & & & & & &  \cr
+	& & \ddots & & & & &  \cr
+	\textbf{\(i\)}	& & & a_{ii} & \cdots & 2a_{ii}+a_{jj} & &  \cr
+	& & & & \ddots & \vdots & &  \cr
+	\textbf{\(j\)}	& & & & & a_{jj} & &  \cr
+	& & & & & & \ddots  &  \cr
+	& & & & & & & a_{nn} \cr
+	}=AE(i,j(2)). \]
+	
+	容易得到 \( a_{ii}=a_{jj} \)，由 \( i,j \) 的任意性，即证.
+\end{proof}
+
+\begin{corollary}
+	和任意上三角矩阵或者初等矩阵乘法可交换的必定为数量矩阵 \( cE_n  \ (c \in \F) \).
+\end{corollary}
+
+\begin{proof}
+	注意到在命题 \ref{1.3.20} 中所用矩阵可以都选取为上三角矩阵或者初等矩阵即可.
+\end{proof}
+
+
+\subsubsection{矩阵的转置和迹}
+
+下面介绍一种特殊的矩阵运算，转置. 相比于矩阵乘法可以看成线性替换的复合，线性映射的合成，转置的几何意义需要从对偶空间和对偶映射来解释，我们需要在本学期的中后段来探究. 不过还好，转置的定义是很简单的，十分容易接受，我们在前面的行文中也已经多次使用这一记号了.
+
+\begin{definition}[转置]
+    定义数域 \( \F \) 上 \( m \times n \) 矩阵 \( A=(a_{ij}) \) 的转置为 \( n \times m \) 矩阵 \( A\T:=(a_{ji}) \). 即矩阵 \( A\T \) 的 \( (i,j) \) 元为矩阵 \( A \) 的 \( (j,i) \) 元.
+\end{definition}
+
+\begin{property}[转置的运算律]
+	给定数域 \( \F \) 上 \( m \times n \) 矩阵 \( A=(a_{ij}) \) 以及 \( n \times t \) 矩阵 \( B=(b_{ij}) \)，那么
+	\begin{enumerate}[(1)]
+		\item (对合) \( (A\T)\T=A \);
+		\item (和加法运算相容) \( (aA+bB)\T=aA\T+bB\T \);
+		\item \( (AB)\T=B\T A\T \);
+		\item 给定一列矩阵 \( \{A_k\}_{1 \leq k \leq n} \)，并保证矩阵乘法 \( A_1A_2\cdots A_n \) 有意义，那么 \( (A_1A_2\cdots A_n)\T=A_n\T A_{n-1}\T\cdots A_1\T \).
+	\end{enumerate} 
+\end{property}
+
+\begin{proof}
+	(1)(2) 显而易见. 对合性质指的是对某种映射 \( \varphi \)，有 \( \varphi^2=\mathrm{id} \) 恒等映射. 注意到 (4) 可以直接由 (3) 证得，即
+	\[ (A_1A_2\cdots A_n)\T=[(A_1A_2\cdots A_{n-1})A_n]\T=A_n\T(A_1A_2\cdots A_{n-1})\T=\cdots=A_n\T A_{n-1}\T\cdots A_1\T. \]
+	下面证明 (3). 设 \( (AB)\T \) 的 \( (i,j) \) 元为 \( p_{ij} \); \( B\T A\T \) 的 \( (i,j) \) 元为 \( q_{ij} \)，那么
+	\[ p_{ij}=\sum_{k=1}^{n} a_{jk}b_{ki}. \]
+	
+	注意到 \( B\T \) 和 \( A\T\) 的 \( (i,j) \) 元分别为 \( b_{ji}, \; a_{ji} \)，那么矩阵乘法的定义为
+	\[ q_{ij}=\sum_{k=1}^{n} (A\T \text{的 \( (i,k) \) 元}) \times (B\T \text{的 \( (k,j) \) 元})=\sum_{k=1}^{n} a_{ki}b_{jk}=p_{ij}.  \]
+\end{proof}
+
+\begin{definition}[对称和反对称]
+	若 \( A \in \F^{n \times n} \) 满足 \( A\T=A \)，那么称 \( A \) 为 \( \F \) 上的对称矩阵; 若 \( A\T=-A \)，则称 \( A \) 为 \( \F \) 上的反对称矩阵.
+\end{definition}
+
+\begin{remark}
+	反对称矩阵的对角线元全为 0. 既是对称矩阵又是反对称矩阵的矩阵必定为零矩阵.
+\end{remark}
+
+\begin{proposition}
+	设 \( A \in \F^{n \times n} \)，那么 \( A \) 可以\textbf{唯一}表示为一个对称矩阵和一个反对称矩阵的和.
+\end{proposition}
+
+\begin{proof}
+	注意到
+	\[ A=\frac{A+A\T}{2}+\frac{A-A\T}{2}:=A_1+A_2. \]
+	
+	其中 \( A_1 \) 为对称矩阵，\( A_2 \) 为反称矩阵，这就完成了构造. 另一方面，若还有 \( B_1 \) 为对称矩阵，\( B_2 \) 为反称矩阵满足 \( A=A_1+A_2=B_1+B_2 \). 那么 \( A_1-A_2=B_2-B_1 \). 等式左端为对称矩阵，右端为反对称矩阵，那么只能为零矩阵. 唯一性得证.
+\end{proof}
+
+\vspace{1ex}
+
+下面这个命题我们会在高等代数 II 课程的尾声再次使用到，用来刻画双线性函数由其在取定一组基下的度量矩阵唯一确定. 到时候我们会引用本命题. 不过现在谈起这一点似乎有点为时过早，笔者希望在前面多铺垫一些内容. 本段可以忽略.
+
+\begin{proposition}
+	设 \( A \in \fn \)，证明 \( A=O \) 的充分必要条件为对任意的列向量 \( X \in \F^n\) 都有 \( X\T AX=0 \).
+	\label{1.3.27}
+\end{proposition} 
+
+\begin{proof}
+	必要性是显然的. 下证充分性. 首先，如果你选取 \( X=\varepsilon_i \)，利用性质 \ref{1.3.14} (3) 轻而易举得到 \( A \) 的对角元已然全为零. 这时候考察 \( X=\varepsilon_i+\varepsilon_j \ (i \neq j) \) 带入只剩下 
+	\[ \varepsilon_i\T A \varepsilon_j+\varepsilon_j\T A \varepsilon_i= a_{ij}+a_{ji}=2a_{ij}=0. \]
+	
+	因为我们这里选取的是数域 \( \mathbb{F} \)，那么 \( 2 \neq 0 \) ! 于是得到 \( a_{ij}=0 \leadsto A=O \).
+\end{proof}
+
+\begin{corollary}
+	在命题 \ref{1.3.27} 中，若 \( A \in \mathbb{Z}_2^{n \times n} \)，那么对任意的列向量 \( X \in \mathbb{Z}_2^n\) 都有 \( X\T AX=0 \) 未必能推出 \( A=O \). 例如选取 \( n=2 \),
+	\[ A=\begin{bmatrix}
+		[0] & [1] \\ [1] & [0]
+	\end{bmatrix}. \]
+	
+	那么任取 \( X=([a],[b])\T \in \mathbb{Z}_2^n \) 有
+	\[ X\T AX=[ab](\varepsilon_i\T A \varepsilon_j+\varepsilon_j\T A \varepsilon_i)=[ab](\varepsilon_i\T A \varepsilon_j+(\varepsilon_i\T A \varepsilon_j)\T)=[2][ab]\varepsilon_i\T A \varepsilon_j=[0]. \]
+\end{corollary}
+
+事实上，在后续双线性函数的讨论中，我们也仅考虑 \( \tz \F \neq 2 \). 下面将命题 \ref{1.3.27} 推广到反对称矩阵上.
 
 
 \subsection{高阶矩阵运算: 分块矩阵}
