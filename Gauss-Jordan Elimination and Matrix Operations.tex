@@ -39,9 +39,9 @@
 \definecolor{structurecolor}{RGB}{122,122,142}
 \definecolor{main}{HTML}{3D445F}
 \definecolor{second}{HTML}{627581}
-\definecolor{third}{HTML}{9D8798}
+\definecolor{third}{HTML}{333333}
 \definecolor{deepgreen}{HTML}{2F5E4E}  
-\definecolor{purple}{HTML}{6C3483}     
+\definecolor{purple}{HTML}{512E5F}     
 
 \usepackage{hyperref}
 \hypersetup{colorlinks = true, linktoc=all, linkcolor=black, urlcolor=winered}
@@ -147,10 +147,16 @@
 	\thispagestyle{empty}
 }
 \newcommand{\T}{^{\text{T}}}
+\newcommand{\Her}{^{\text{H}}}
 \newcommand{\F}{\mathbb{F}}
-\newcommand{\fn}{\F^{n \times n}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\n}{^{n \times n}}
+\newcommand{\mn}{^{m \times n}}
+\newcommand{\nm}{^{n \times m}}
 \newcommand{\tz}{\mathrm{char} \;}
-
+\newcommand{\tr}{\mathrm{tr}}
 \newcommand{\diag}{\mathrm{diag}}
 \newcommand{\oneb}{\underline{\hspace{1em}}\hspace{0.001em}}
 \newcommand{\twob}{\oneb\oneb}
@@ -690,6 +696,17 @@
 
 定理 \ref{1.1.8}, 定理 \ref{1.1.12} 以及定理 \ref{1.1.13} 共同构成了线性方程组的理论基石，其中定理 \ref{1.1.13} 只能算是基础解系的初步刻画，我们在未来学习向量组理论之后将会完善这个命题. 在本节，秩只先定义为矩阵的行阶梯形矩阵的非零行数目，我们未来会给出更一般的定义. 秩作为相抵关系下的全系不变量，将会在后续的讨论中占据极其重要的地位.
  
+最后作为补充，我们提出 Guass-Jordan 作为算法的复杂度. 以期在后续发现初等变换求解行列式相较于直接展开的优势.
+
+\begin{proposition}
+	设 \( A \) 为 \( m \times n \) 阶矩阵，记 \( N=\max\{n,m\} \). 那么随着 \( N \) 的增大，如定理 \ref{1.1.8} 所叙述的 Gauss-Jordan 算法所需要的操作次数大约被 \( N^3 \) 的某个常数倍所控制. 
+\end{proposition}
+
+\begin{proof}
+	对每一个存在主元的列，需要 \( m \) 行对比找到某个非零元 \( (\mathcal{O}(m)) \)，然后对该行进行倍法变换，使得主元变为 1，其余元素进行相应运算 \( (\mathcal{O}(n)) \). 进行消法变换，将该列其余行元素全变为零，涉及 \( m-1 \) 行的至多 \( (m-1)n \) 次运算，也就是计算复杂度为 \( \mathcal{O}(mn) \). 最后这样存在主元的列至多有 \( \min\{n,m\} \) 列. 于是算法复杂度为
+	\[ \mathcal{O}[(m+n+mn)\min\{n,m\}] \leq \mathcal{O}(N^3). \] 
+\end{proof}
+
 \subsection{环和域：从具体到抽象}
 
 在前面的讨论中，我们一直默认在实数域上进行，然而定理 \ref{1.1.8}, 定理 \ref{1.1.12} 以及定理 \ref{1.1.13} 告诉我们只需要系数可以自由进行四则运算，就能够求解线性方程组. 于是我们引入数域的概念.
@@ -1034,7 +1051,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 			& & & & & & \ddots  &  \cr
 			& & & & & & & 1 \cr
 		}. \]
-		\item 倍法矩阵
+		\item 倍法矩阵，其中 \( c \neq 0 \)
 		\[ E(i,j(c))=\bordermatrix{
 			& & & & & & &  \cr
 			& 1 & & & &  & &  \cr
@@ -1064,6 +1081,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 		\]
 		
 	\end{enumerate}
+	\label{1.3.3}
 \end{definition}
 \begin{example}[初等变换的矩阵表示]
 	给定线性方程组 (\ref{linequ.})，设其系数矩阵为 \( A \)，那么
@@ -1368,6 +1386,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 
 \begin{proposition}
 	设 \( A \in \F^{n \times n} \) 为上三角矩阵且对角线上的元素全为零，证明 \( A^n=O \).
+	\label{1.3.19}
 \end{proposition}
 
 \begin{proof}
@@ -1434,7 +1453,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 
 \subsubsection{矩阵的转置和迹}
 
-下面介绍一种特殊的矩阵运算，转置. 相比于矩阵乘法可以看成线性替换的复合，线性映射的合成，转置的几何意义需要从对偶空间和对偶映射来解释，我们需要在本学期的中后段来探究. 不过还好，转置的定义是很简单的，十分容易接受，我们在前面的行文中也已经多次使用这一记号了.
+下面介绍一种特殊的矩阵运算，转置. 相比于矩阵乘法可以看成线性替换的复合或者线性映射的合成，转置的几何意义需要从对偶空间和对偶映射来解释. 这一点，我们需要在本学期的中后段来探究. 不过还好，转置的定义是很简单的，十分容易接受，我们在前面的行文中也已经多次使用这一记号了.
 
 \begin{definition}[转置]
     定义数域 \( \F \) 上 \( m \times n \) 矩阵 \( A=(a_{ij}) \) 的转置为 \( n \times m \) 矩阵 \( A\T:=(a_{ji}) \). 即矩阵 \( A\T \) 的 \( (i,j) \) 元为矩阵 \( A \) 的 \( (j,i) \) 元.
@@ -1451,12 +1470,12 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 \end{property}
 
 \begin{proof}
-	(1)(2) 显而易见. 对合性质指的是对某种映射 \( \varphi \)，有 \( \varphi^2=\mathrm{id} \) 恒等映射. 注意到 (4) 可以直接由 (3) 证得，即
+	(1)(2) 显而易见. 对合性质指的是对某种映射 \( \varphi \)，有 \( \varphi^2=\mathrm{id} \) 恒等映射. 注意到 (4) 可以直接反复利用性质 (3) 和矩阵乘法的结合律证得，即
 	\[ (A_1A_2\cdots A_n)\T=[(A_1A_2\cdots A_{n-1})A_n]\T=A_n\T(A_1A_2\cdots A_{n-1})\T=\cdots=A_n\T A_{n-1}\T\cdots A_1\T. \]
 	下面证明 (3). 设 \( (AB)\T \) 的 \( (i,j) \) 元为 \( p_{ij} \); \( B\T A\T \) 的 \( (i,j) \) 元为 \( q_{ij} \)，那么
 	\[ p_{ij}=\sum_{k=1}^{n} a_{jk}b_{ki}. \]
 	
-	注意到 \( B\T \) 和 \( A\T\) 的 \( (i,j) \) 元分别为 \( b_{ji}, \; a_{ji} \)，那么矩阵乘法的定义为
+	注意到 \( B\T \) 和 \( A\T\) 的 \( (i,j) \) 元分别为 \( b_{ji}, \; a_{ji} \)，由矩阵乘法的定义
 	\[ q_{ij}=\sum_{k=1}^{n} (A\T \text{的 \( (i,k) \) 元}) \times (B\T \text{的 \( (k,j) \) 元})=\sum_{k=1}^{n} a_{ki}b_{jk}=p_{ij}.  \]
 \end{proof}
 
@@ -1470,6 +1489,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 
 \begin{proposition}
 	设 \( A \in \F^{n \times n} \)，那么 \( A \) 可以\textbf{唯一}表示为一个对称矩阵和一个反对称矩阵的和.
+	\label{1.3.26}
 \end{proposition}
 
 \begin{proof}
@@ -1484,12 +1504,12 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 下面这个命题我们会在高等代数 II 课程的尾声再次使用到，用来刻画双线性函数由其在取定一组基下的度量矩阵唯一确定. 到时候我们会引用本命题. 不过现在谈起这一点似乎有点为时过早，笔者希望在前面多铺垫一些内容. 本段可以忽略.
 
 \begin{proposition}
-	设 \( A \in \fn \)，证明 \( A=O \) 的充分必要条件为对任意的列向量 \( X \in \F^n\) 都有 \( X\T AX=0 \).
+	设 \( A \in \F\n \)，证明 \( A=O \) 的充要条件为对任意的列向量 \( X \in \F^n\) 都有 \( X\T AX=0 \).
 	\label{1.3.27}
 \end{proposition} 
 
 \begin{proof}
-	必要性是显然的. 下证充分性. 首先，如果你选取 \( X=\varepsilon_i \)，利用性质 \ref{1.3.14} (3) 轻而易举得到 \( A \) 的对角元已然全为零. 这时候考察 \( X=\varepsilon_i+\varepsilon_j \ (i \neq j) \) 带入只剩下 
+	必要性是显然的. 下证充分性. 首先，如果你选取 \( X=\varepsilon_i \)，利用性质 \ref{1.3.14} (3) 轻而易举得到 \( A \) 的对角元已然全为零. 这时候令 \( X=\varepsilon_i+\varepsilon_j \ (i \neq j) \) 带入只剩下 
 	\[ \varepsilon_i\T A \varepsilon_j+\varepsilon_j\T A \varepsilon_i= a_{ij}+a_{ji}=2a_{ij}=0. \]
 	
 	因为我们这里选取的是数域 \( \mathbb{F} \)，那么 \( 2 \neq 0 \) ! 于是得到 \( a_{ij}=0 \leadsto A=O \).
@@ -1507,8 +1527,494 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 
 事实上，在后续双线性函数的讨论中，我们也仅考虑 \( \tz \F \neq 2 \). 下面将命题 \ref{1.3.27} 推广到反对称矩阵上.
 
+\begin{proposition}
+	设 \( A \in \F\n \)，证明 \( A \) 是反对称矩阵的充要条件为对任意 \( X \in \F^n \) 都有 \( X\T A X= 0 \).
+\end{proposition}
+
+\begin{proof}
+	必要性，由 \( (X\T AX)\T= -X\T AX \) 推知 \( 2(X\T AX)=0 \). 又 \( \F \) 为数域，那么 \( 2 \neq 0 \). 故 \( X\T AX=0 \).
+	
+	充分性，用命题 \ref{1.3.26}，采用相同的记号 \( A_1,A_2 \)，其中 \( A_1 \) 为对称矩阵，\( A_2 \) 为反称矩阵且 \( A=A_1+A_2\). 那么由命题 \ref{1.3.27} 和本命题的必要性可知 \( X\T A X=X\T A_1 X+X\T A_2 X= X\T A_1 X=0 \Rightarrow A_1=O \). 故 \( A=A_2 \) 为反对称矩阵.
+\end{proof}
+
+\vspace{1ex}
+
+我们知道，矩阵乘法通常不具备交换性. 但是有某些量在交换中保持一致，下面的迹算子就是一种. 这在某种程度上是很有用的，例如处理 \( \alpha\beta\T \) 这是一个列向量和行向量的乘积，为一个矩阵，但是交换后 \( \alpha\T\beta \) 就变成一个数了. 我们未来要学习的降阶公式就是一个类似的例子.
+
+\begin{definition}[矩阵的迹]
+	设 \( A=(a_{ij}) \in \F\n \)，称矩阵 \( A \) 主对角线上元素之和为矩阵 \( A \) 的迹，并记为 \( \tr(A) \). 换言之，
+	\[ \tr(A)=\sum_{i=1}^{n} a_{ii}. \]
+\end{definition}
+
+\begin{property}[迹的性质]
+	设 \( A=(a_{ij}) \in \F^{m \times n}, \; B=(b_{ij}) \in \F^{n \times m} \)，那么
+	\begin{enumerate}[(1)]
+		\item 若 \( m=n \)，那么 \( \tr(A+B)=\tr(A)+\tr(B), \; \tr(A\T)=\tr(A), \; \tr(kA)=k\tr(A) \ (k \in \F) \);
+		\item (乘积交换不变性) \( \tr(AB)=\tr(BA) \);
+		\item (正定性 I) 取 \( \F=\mathbb{R} \)，那么 \( \tr(AA\T) \geq 0 \) 且 \( \tr(AA\T)=0 \Leftrightarrow \tr(A\T A)=0 \Leftrightarrow A=O \);
+		\item (正定性 II) 取 \( \F=\mathbb{C} \)，那么  \( \tr(AA\Her) \geq 0 \) 且  \( \tr(AA\Her)=0 \Leftrightarrow \tr(A\Her A)=0 \Leftrightarrow A=O \)，其中 \( A\Her= \overline{A}\T \).
+	\end{enumerate}
+\end{property}
+
+\begin{proof}
+	(1) 用定义直接得到. 对 (2). 注意到下式可以交换求和次序即可
+	\[ \tr(AB)=\sum_{i=1}^{m} \left( \sum_{k=1}^{n} a_{ik}b_{ki} \right)= \sum_{i=1}^{n} \left( \sum_{k=1}^{m} b_{ik}a_{ki} \right). \]
+	
+	(3) \( \tr(AA\T)=0 \Leftrightarrow \tr(A\T A)=0 \) 用 (2) 即可. 也就是
+	\[ \tr(AA\T)=\tr(A\T A)= \sum_{i=1}^{m} \left( \sum_{k=1}^{n} a_{ik}a_{ik} \right)= \sum_{i=1}^{m}\sum_{k=1}^{n} a_{ik}^2 \geq 0. \]
+	
+	由于 \( a_{ik} \in \mathbb{R} \)，那么上式取等当且仅当 \( A=O \).
+	
+	(4) \( \tr(AA\Her)=0 \Leftrightarrow \tr(A\Her A)=0 \) 用 (2) 即可. 也就是
+	\[ \tr(AA\Her)=\tr(A\Her A)= \sum_{i=1}^{m} \left( \sum_{k=1}^{n} a_{ik}\overline{a_{ik}} \right)= \sum_{i=1}^{m}\sum_{k=1}^{n} |a_{ik}|^2 \geq 0. \]
+	
+	由于复数 \( a_{ik} \) 满足 \( |a_{ik}| \in \mathbb{R} \) 且 \( |a_{ik}|^2=0 \Leftrightarrow a_{ik}=0 \). 即证. 
+\end{proof}
+
+
+\begin{remark}
+	对 \( \F=\mathbb{C} \)，注意 (3) 一般不成立，由于 \( i^2+1=0 \). 这可以构造很多反例. 所以对于复矩阵而言，我们往往采用 Hermitian 转置，也就是 \( A^H \).
+\end{remark}
+
+\begin{proposition}
+	证明：不存在非零矩阵 \( C \in \C\nm \) 以及 \( A,B \in \C\n \) 使得 \( AB-BA=CC\Her \). 
+\end{proposition}
+
+\begin{proof}
+	注意到 \( \tr(UU\Her)=\tr(AB)-\tr(BA)=0 \Leftrightarrow U=O \). 推出矛盾.
+\end{proof}
+
+\begin{corollary}
+   不存在非零常数 \( c \in \F \) 使得存在矩阵  \( A,B \in \F\n \) 满足 \( AB-BA=cE_n \).
+\end{corollary}
+
+\begin{proof}
+	注意到 \( \tr(cE_n)=\tr(AB)-\tr(BA)=0 \neq cn \). 推出矛盾.
+\end{proof}
+
+
+\begin{proposition}
+	设 \( A \in \R\n \) 为实反对称矩阵，若存在 \( B \in \R\n \) 使得 \( AB=B \)，那么必定有 \( B=O \). 类似地，若 \( A \in \C\n \) 为 Anti-Hermitian 矩阵，即 \( A\Her=-A \)，若存在 \( B \in \C\n \) 使得 \( AB=B \)，那么必定有 \( B=O \) 
+\end{proposition}
+
+\begin{proof}
+	原式两边同乘 \( B\T \) 或者 \( B\Her \). 注意到 \( (B\T AB)\T=-(B\T AB) \) 以及 \( (B\Her AB)\Her=-(B\Her AB) \). 利用迹的正定性得到结论，具体细节留给读者. 
+\end{proof}
+
+\vspace{1ex}
+
+最后我们给出迹的公理化刻画. 
+
+\begin{theorem}
+	设 \( f: \F\n \to \F \) 满足对任意的 \( A,B \in \F\n \) 有
+	\begin{enumerate}[(1)]
+		\item \( f(AB)=f(BA) \);
+		\item (线性性) \( f(k_1A+k_2B)=k_1f(A)+k_2f(B) \ (k_1,k_2 \in \F) \);
+		\item \( f(E_n)=n \).
+	\end{enumerate}
+	
+	那么 \( f(\cdot)=\tr(\cdot) \).
+\end{theorem}
+
+\begin{proof}
+	注意到任意矩阵可以分解为
+	\[ A=\sum_{i=1}^{n}\sum_{j=1}^{n} a_{ij}E_{ij}, \]
+	
+	那么我们只需要验证 \( f(E_{ij})=\delta_{ij} \)，然后利用 \( f \) 的线性性质即可. 用性质 \ref{1.3.16} (1)，有 \( E_{ij}E_{ji}=E_{ii}, \; E_{ji}E_{ij}=E_{jj} \). 带入条件 (1) 说明 \( f(E_{ii})=f(E_{jj}) \). 利用线性性拆开条件 (3) 
+	\[ f(E_n)=f(E_{11})+f(E_{22})+\cdots+f(E_{nn})= nf(E_{ii})=n \leadsto f(E_{ii})=\delta_{ii}. \; \checkmark \]
+	再看 \( f(E_{ij}) \ (i \neq j) \). 还是用性质 \ref{1.3.16} (1)，\( E_{ik}E_{kj}=E_{ij}, \; E_{kj}E_{ik}=O \). 然而 \( f(O)=f(O+O)=f(O)+f(O) \) 蕴含 \( f(O)=0 \). 这说明 \( f(E_{ij})=0=\delta_{ij} \). 证毕.
+\end{proof}
 
 \subsection{高阶矩阵运算: 分块矩阵}
 
+本节的最后一个主题是分块矩阵的运算. 对于高阶矩阵来说，直接按定义进行矩阵乘积每个元素的计算工作量是很庞大的，对于一些零元素比较多的矩阵，完全没必要这么复杂的计算，可以进行适当分块. 另一方面，性质 \ref{1.3.14} 也提醒我们如果能将矩阵分块为列向量或者行向量，那么有时候分块运算会比较轻松，能直接得到一整行或者一整列的元素.
 
+从几何上来说，分块矩阵和后续线性空间的直和分解是密不可分的，都体现了一种化大为小的思想. 而在本书的最后，你会看到分块对角阵这一形式让线性空间的直和分解带上了一些线性变换的结构. 
+
+分块矩阵的加法是平凡的，无非就是需要两种分块完全一致. 分块矩阵的转置运算需要小心，以二阶矩阵为例，
+\[ \begin{bmatrix}
+	A_{11} & A_{12} \\
+	A_{21} & A_{22}
+\end{bmatrix}\T=\begin{bmatrix}
+A_{11}\T & A_{21}\T \\
+A_{12}\T & A_{22}\T
+\end{bmatrix}. \]
+
+不仅 \( A_{12} \) 和 \( A_{21} \) 需要交换位置，而且每个矩阵元素都要转置. 下面着重讨论分块矩阵的乘法. 这一点从直观上来看，有点难以验证. 给定 \( m \times n \) 矩阵 \( A \) 和 \( n \times l \) 矩阵 \( B \) 矩阵的一种分块形式，并保证小矩阵之间的乘法是有意义的.
+
+\[ A=\bordermatrix{
+	& n_1 & n_2 & \cdots  & n_s \cr
+	m_1 & A_{11} & A_{12}& \cdots  & A_{1s} \cr
+	m_2 & A_{21} & A_{22} & \cdots & A_{2s} \cr
+	\vdots & \vdots & \vdots & \ddots  & \vdots  \cr
+	m_r & A_{r1} & A_{r2} & \cdots  & A_{rs}  \cr
+}, \; B=\bordermatrix{
+& l_1 & l_2 & \cdots  & l_t \cr
+n_1 & B_{11} & B_{12}& \cdots  & B_{1t} \cr
+n_2 & B_{21} & B_{22} & \cdots & B_{2t} \cr
+\vdots & \vdots & \vdots & \ddots  & \vdots  \cr
+n_s & B_{r1} & B_{r2} & \cdots  & B_{st}  \cr
+}. \]
+
+其中 \( m_1+\cdots+m_r=m, \; n_1+\cdots+n_s=n, \; l_1+\cdots+l_t=l \).
+
+\begin{theorem}
+	如上两个分块矩阵的乘积可以表示为
+	\[ C=\bordermatrix{
+		& l_1 & l_2 & \cdots  & l_t \cr
+		m_1 & C_{11} & C_{12}& \cdots  & C_{1t} \cr
+		m_2 & C_{21} & C_{22} & \cdots & C_{2t} \cr
+		\vdots & \vdots & \vdots & \ddots  & \vdots  \cr
+		m_r & C_{r1} & C_{r2} & \cdots  & C_{rt}  \cr
+	}, \]
+	
+	其中 \( C_{ij}=A_{i1}B_{1j}+\cdots+A_{is}B_{sj} \). 那么 \( AB=C \). 也就是按元素定义的乘积完全等价于分块矩阵定义的乘积.
+\end{theorem}
+
+\begin{proof}
+	设 \( A=(a_{ij}), \; B=(b_{ij}) \). 按定义 \ref{1.3.1} 所定义的矩阵乘法，给出 \( AB \) 的 \( (p,q) \) 元为
+	\[ (AB)_{pq}= \sum_{k=1}^{n} a_{pk}b_{kq}= (a_{p1}b_{1q}+\cdots+a_{p,n_1}b_{n_1,q})+(a_{p,n_1+1}b_{n_1+1,q}+\cdots)+\cdots+(\cdots+a_{pn}b_{nq}):=I_1+\cdots+I_s. \]
+	
+	为了研究分块矩阵，我们首先要研究在 \( C \) 中 \( (p,q) \) 元究竟落在哪个分块中，显然可以设
+	\[ p=m_1+\cdots+m_{h-1}+u, q=l_1+\cdots+l_{k-1}+v. \]
+	
+	其中 \( 1 \leq u \leq m_h, \; 1 \leq v \leq l_k \). 那么 \( C \) 的 \( (p,q) \) 元就是 \( C_{hk} \) 的 \( (u,v) \) 元. 那么就是 \( A_{h1}B_{1k}+\cdots+A_{hs}B_{sk} \) 的 \( (u,v) \) 元. 我们只研究 \( A_{h1}B_{1k} \) 的 \( (u,v) \) 元. 用矩阵乘法的定义
+	\[ A_{h1}B_{1k}= \sum_{x=1}^{n_1} \text{\( A_{h1}\) 的 \( (u,x) \) 元} \times \text{\( B_{1k}\) 的 \( (x,v) \) 元}=\sum_{x=1}^{n_1} \text{\( A\) 的 \( (p,x) \) 元} \times \text{\( B\) 的 \( (x,q) \) 元}=a_{p1}b_{1q}+\cdots+a_{p,n_1}b_{n_1,q}! \]
+	
+	那么同上可以证 \( A_{hx}B_{xk} \) 的 \( (u,v) \) 元就是 \( I_x \ (1 \leq x \leq s) \). 于是得到 \( (AB)_{pq}=C_{pq} \). 这就证明了结论.
+\end{proof}
+
+我们下面推广定义 \ref{1.3.3}，以二阶矩阵为例，讨论分块初等矩阵和分块初等变换. 我们暂时忽略倍法矩阵，因为我们暂时还不知道数域中的一个数 \( c \neq 0 \) 如何推广到矩阵上. 换言之，轻易地将 \( c \) 推广为一个任意的矩阵 \( C \in \F\n \) 会导致这种分块初等变换失去保持线性方程组同解性的特点，我们留到 \S 4 中讨论.
+
+\begin{definition}[二阶分块初等变换]
+	\begin{enumerate}[(A)]
+		\item 消法变换，其中 \( C \) 为任意矩阵，
+		\[ \bordermatrix{
+			& m_1 & m_2 \cr
+			m_1 & E_{m_1} & C \cr
+			m_2 & O & E_{m_2}
+		}\bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11} & A_{12} \cr
+			m_2 & A_{21} & A_{22}
+		}= \bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11}+CA_{21} & A_{12}+CA_{22} \cr
+			m_2 & A_{21} & A_{22}
+		}, \]
+		\[ \bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11} & A_{12} \cr
+			m_2 & A_{21} & A_{22}
+		}\bordermatrix{
+			& n_1 & n_2 \cr
+			n_1 & E_{n_1} & C \cr
+			n_2 & O & E_{n_2}
+		}= \bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11} & A_{12}+CA_{11} \cr
+			m_2 & A_{21} & A_{22}+CA_{21}
+		}, \]
+		
+		\item 倍法变换，对矩阵 \( C \) 的额外要求，类比 \( c \in \F \) 非零，猜测 \( C \) 为全矩阵环中的可逆元? 类比定义存在矩阵 \( C^{-1} \) 使得 \( C^{-1}C=CC^{-1}=E\).
+		\[ \bordermatrix{
+			& m_1 & m_2 \cr
+			m_1 & E_{m_1} & O  \cr
+			m_2 & O & C
+		}\bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11} & A_{12} \cr
+			m_2 & A_{21} & A_{22}
+		}= \bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11}+CA_{21} & A_{12}+CA_{22} \cr
+			m_2 & A_{21} & A_{22}
+		}, \]
+		\[ \bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11} & A_{12} \cr
+			m_2 & A_{21} & A_{22}
+		}\bordermatrix{
+		& n_1 & n_2 \cr
+		n_1 & E_{n_1} & O  \cr
+		n_2 & O & C
+		}= \bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11} & CA_{12} \cr
+			m_2 & A_{21} & CA_{22}
+		}, \]
+		
+		\item 互换变换，
+		\[ \bordermatrix{
+			& m_1 & m_2 \cr
+			{\color{red} m_2} & O & E_{m_2} \cr
+			{\color{red} m_1} & E_{m_1} & O
+		}\bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11} & A_{12} \cr
+			m_2 & A_{21} & A_{22}
+		}= \bordermatrix{
+			& n_1 & n_2 \cr
+			{\color{red} m_2} & A_{21} & A_{22} \cr
+			{\color{red} m_1} & A_{11} & A_{12}
+		}, \]
+		\[ \bordermatrix{
+			& n_1 & n_2 \cr
+			m_1 & A_{11} & A_{12} \cr
+			m_2 & A_{21} & A_{22}
+		} \bordermatrix{
+		& {\color{red} n_2} & {\color{red} n_1} \cr
+		n_1 & O & E_{n_1} \cr
+		n_2 & E_{n_2} & O
+		}= \bordermatrix{
+			& {\color{red} n_2} & {\color{red} n_1} \cr
+			m_1 & A_{12} & A_{11} \cr
+			m_2 & A_{22} & A_{21}
+		}. \]
+	\end{enumerate}
+
+\end{definition}
+
+
+\begin{remark}
+	如果想说明上述定义的分块\textcolor{red}{行}初等变换应用在线性方程组的增广矩阵上依然有保持同解的效果，只需要说明存在对应的逆操作即可. 
+	\[ \bordermatrix{
+		& m_1 & m_2 \cr
+		m_1 & E_{m_1} & -C \cr
+		m_2 & O & E_{m_2}
+	}\bordermatrix{
+		& m_1 & m_2 \cr
+		m_1 & E_{m_1} & C \cr
+		m_2 & O & E_{m_2}
+	}=\bordermatrix{
+	& m_1 & m_2 \cr
+	m_1 & E_{m_1} & O \cr
+	m_2 & O & E_{m_2}
+	}, \]
+	\[ \bordermatrix{
+		& m_1 & m_2 \cr
+		m_1 & E_{m_1} & O  \cr
+		m_2 & O & C^{-1}
+	}\bordermatrix{
+		& m_1 & m_2 \cr
+		m_1 & E_{m_1} & O  \cr
+		m_2 & O & C
+	}=\bordermatrix{
+	& m_1 & m_2 \cr
+	m_1 & E_{m_1} & O  \cr
+	m_2 & O & E_{m_2}
+	},\]
+	\[ \bordermatrix{
+		& m_2 & m_1 \cr
+		m_1 & O & E_{m_1} \cr
+		m_2 & E_{m_2} & O
+	}\bordermatrix{
+		& m_1 & m_2 \cr
+		m_2 & O & E_{m_2} \cr
+		m_1 & E_{m_1} & O
+	}=\bordermatrix{
+	& m_1 & m_2 \cr
+	m_1 & E_{m_1} & O \cr
+	m_2 & O & E_{m_2}
+	}. \]
+	
+	我们知道左乘初等矩阵就对应一种初等变换，也就是对应一种逆操作，得到的结果是单位阵，相当于恒等变换. 完美符合预期.
+\end{remark}
+
+\begin{example}
+	求
+	\[ A^n=\begin{bmatrix}
+		\bm{0} & E_4 \\ 1 & \bm{0}
+	\end{bmatrix}^n. \]
+\end{example}
+
+\begin{solution}
+	(\textbf{法一}) \ 这是互换变换对应的二阶分块初等矩阵. 求 \( n \) 次幂相当于对下列矩阵
+	\[ \begin{bmatrix}
+		\bm{0} & E_4 \\ 1 & \bm{0}
+	\end{bmatrix}=\begin{bmatrix}
+		 & 1  & & & \\
+		 &  & 1 & & \\
+		 &  & & 1 & \\
+		 &  & & & 1 \\
+		 1 & & & & 
+	\end{bmatrix} \]
+	
+	左乘初等矩阵，进行行初等变换，也即进行 \( n-1 \) 次后四行作为整体和第一行的互换变换. 那么
+	\[ \begin{bmatrix}
+		\bm{0} & E_4 \\ 1 & \bm{0}
+	\end{bmatrix}^2=\begin{bmatrix}
+     &  & 1 & & \\
+     &  & & 1 & \\
+     &  & & & 1 \\
+     1 & & & & \\
+     & 1  & & & 
+	\end{bmatrix}, \; \begin{bmatrix}
+	\bm{0} & E_4 \\ 1 & \bm{0}
+	\end{bmatrix}^3=\begin{bmatrix}
+	&  & & 1 & \\
+	&  & & & 1 \\
+	1 & & & & \\
+	& 1  & & & \\
+	&  & 1 & & 
+	\end{bmatrix}, \; \begin{bmatrix}
+	\bm{0} & E_4 \\ 1 & \bm{0}
+	\end{bmatrix}^4=\begin{bmatrix}
+	&  & & & 1 \\
+	1 & & & & \\
+	& 1  & & & \\
+	&  & 1 & & \\
+	&  & & 1 & 
+	\end{bmatrix}. \]
+	
+	那么
+	\[ \begin{bmatrix}
+		\bm{0} & E_4 \\ 1 & \bm{0}
+	\end{bmatrix}^5=\begin{bmatrix}
+
+	1 & & & & \\
+	& 1  & & & \\
+	&  & 1 & & \\
+	&  & & 1 & \\
+	&  & & & 1 
+	\end{bmatrix}=E_5! \]
+	
+	接下来进入循环，于是乎，
+	\[ \begin{bmatrix}
+		\bm{0} & E_4 \\ 1 & \bm{0}
+	\end{bmatrix}^{5k+p}= \begin{bmatrix}
+	O & E_{5-p} \\ E_p & O
+	\end{bmatrix}, \; k,p \in \mathbb{N}, \; 0 \leq p \leq 4. \]
+	
+	这种方法等价于将原矩阵按行分块处理，设 \( A=(\varepsilon_2\T,\varepsilon_3\T,\varepsilon_4\T,\varepsilon_5\T,\varepsilon_1\T)\T \). 那么
+	\[ A^2=AA= \begin{bmatrix}
+		\varepsilon_2\T \\[1ex] \varepsilon_3\T \\[1ex] \varepsilon_4\T \\[1ex] \varepsilon_5\T \\[1ex] \varepsilon_1\T
+	\end{bmatrix}A=\begin{bmatrix}
+	\varepsilon_2\T A \\[1ex] \varepsilon_3\T A \\[1ex] \varepsilon_4\T A \\[1ex] \varepsilon_5\T A \\[1ex] \varepsilon_1\T A
+	\end{bmatrix}=\begin{bmatrix}
+	A \text{第 2 行} \\ A \text{第 3 行} \\ A \text{第 4 行} \\ A \text{第 5 行} \\ A \text{第 1 行}
+	\end{bmatrix}.  \] 
+	
+	这和将后四行作为整体和第一行的互换变换没有任何区别.
+	
+	\vspace{2ex}
+	
+	(\textbf{法二}) \ 求 \( n \) 次幂相当于对下列矩阵
+	\[ \begin{bmatrix}
+		\bm{0} & E_4 \\ 1 & \bm{0}
+	\end{bmatrix}=\begin{bmatrix}
+		& 1  & & & \\
+		&  & 1 & & \\
+		&  & & 1 & \\
+		&  & & & 1 \\
+		1 & & & & 
+	\end{bmatrix} \]
+	
+	右乘初等矩阵，进行列初等变换，也即进行 \( n-1 \) 次前四列作为整体和最后一列的互换变换. 那么完全同上计算. 这种方法等价于按列分块处理，记原矩阵为 \( A=(\varepsilon_5,\varepsilon_1,\varepsilon_2,\varepsilon_3,\varepsilon_4) \). 那么 \( A^2 \) 从左到右分别是 \( A \) 的第 5 列，第 1 列，第 2 列，第 3 列，第 4 列. 也即 \( A^2=(\varepsilon_4,\varepsilon_5,\varepsilon_1,\varepsilon_2,\varepsilon_3) \). 以此类推. 
+	
+	\vspace{2ex}
+	
+	\fbox{\parbox{9cm}{\textbf{警惕!} \ 这个矩阵不可以直接作分块矩阵的乘法，因为
+	\[ \bordermatrix{
+		& {\color{blue}1} & {\color{red}4} \cr
+		4 & \bm{0} & E_4    \cr
+		1 & 1 & \bm{0}
+	} \bordermatrix{
+	& 1 & 4 \cr
+	{\color{blue} 4} & \bm{0} & E_4  \cr
+	{\color{red} 1} & 1 & \bm{0}
+	}
+	\]
+	
+	这样的矩阵乘法没有意义!  注意 \( {\color{blue}1} \neq {\color{blue} 4} \) 以及 \( {\color{red}4} \neq {\color{red} 1} \).}}
+\end{solution}
+
+
+\begin{example}
+	求 Jordan 块 \( J(\lambda,n) \) 的 \( n \) 次幂，即
+	\[ J^n(\lambda,n)=\begin{bmatrix}
+		\lambda & 1 &  & & \\
+		& \lambda & 1 & & \\
+		& & \ddots & \ddots & \\
+		& & & \lambda &1 \\
+		& & & & \lambda
+	\end{bmatrix}^n. \]
+\end{example}
+
+\begin{solution}
+	先考虑 \( \lambda=0 \)，这时候称 \( J(0,n) \) 为幂零 Jordan 块. 它可以写成分块矩阵的形式
+	\[ J(0,n)= \begin{bmatrix}
+		\bm{0} & E_{n-1} \\ 0 & \bm{0}
+	\end{bmatrix}=(0,\varepsilon_1,\varepsilon_2,\cdots,\varepsilon_{n-1}). \]
+	
+	那么 \( J^2(0,n)=(0,0,\varepsilon_1,\varepsilon_2,\cdots,\varepsilon_{n-2}),\cdots, J^k(0,n)=(0,0,\varepsilon_1,\varepsilon_2,\cdots,\varepsilon_{n-k}) \ (k \leq n-1) \). 于是 \( J^{n-1}(0,n)=(O,\varepsilon_1) \leadsto J^{n}(0,n)=O \). 写成分块矩阵，即
+	\[ J^k(0,n)= \begin{bmatrix}
+		 & E_{n-k} \\ O_k & 
+	\end{bmatrix}=(0,\varepsilon_1,\varepsilon_2,\cdots,\varepsilon_{n-k}). \ (1 \leq k \leq n-1)\]
+	
+	那么 \( J^n(\lambda,n)=[\lambda E+J(0,n)]^n \). 由于单位矩阵和任意矩阵可交换，那么应用二项式定理有
+	\begin{align*}
+		J^k(\lambda,n) &=\lambda^k E_n+ C_k^1\lambda^{k-1}J(0,n)+C_k^2\lambda^{k-2}J^2(0,n)+\cdots+C_k^k\lambda^0J^k(0,n), \\
+		&=\lambda^k E_n+ k\lambda^{k-1}J(0,n)+\frac{1}{2!} k(k-1)\lambda^{k-2}J^2(0,n)+\cdots+\frac{1}{k!}k!\lambda^0J^k(0,n), \\
+		&=\lambda^k E_n+ \frac{1}{1!}(\lambda^k)^{(1)}J(0,n)+\frac{1}{2!} (\lambda^k)^{(2)}J^2(0,n)+\cdots+\frac{1}{k!}(\lambda^k)^{(k)}J^k(0,n) \\[2ex]
+		&= \begin{bmatrix}
+			\lambda^k & (1/1!)(\lambda^k)^{(1)} & (1/2!)(\lambda^k)^{(2)} & \cdots & (1/n!)(\lambda^k)^{(n)} \\
+			0 & \lambda^k & (1/1!)(\lambda^k)^{(1)} & \cdots &  (1/(n-1)!)(\lambda^k)^{(n-1)} \\
+			0 & 0 & \ddots & \ddots &  \vdots \\
+			0 & 0 & 0 & \cdots &  \lambda^k 
+		\end{bmatrix}.
+	\end{align*}
+   
+   这里对 \( k<n \) 是无伤大雅的，因为此时肯定有 \( (\lambda^k)^{(\ell)}=0 \ ( \ell>k) \).
+\end{solution}
+
+\begin{corollary}
+	设 \( f(\lambda) \in \F[\lambda] \)，由于导数和加法与数乘相容，即 \( [cf(x)+g(x)]'=cf'(x)+g'(x) \)，于是
+	\[ f[J(\lambda,n)]= \begin{bmatrix}
+		f(\lambda) & (1/1!)f^{(1)}(\lambda) & (1/2!)f^{(2)}(\lambda) & \cdots & (1/n!)f^{(n)}(\lambda) \\
+		0 & f(\lambda) & (1/1!)f^{(1)}(\lambda) & \cdots &  (1/(n-1)!)f^{(n-1)}(\lambda) \\
+		0 & 0 & \ddots & \ddots &  \vdots \\
+		0 & 0 & 0 & \cdots &  f(\lambda)
+	\end{bmatrix}. \] 
+\end{corollary}
+
+\begin{corollary}
+	存在 \( k \in \mathbb{N}^* \)，使得 \( J^k(0,n)=O \)，且满足该式的最小整数 \( k=n \). 一般我们称满足 \( A^n=O \) 且 \( A^{n-1} \neq O \) 的 \( n \) 阶矩阵称为 \( n \) 阶幂零矩阵. 命题 \ref{1.3.19} 描述的主对角线全为零的上三角矩阵就是一种 \( n \) 阶幂零矩阵. 这种矩阵将会是我们高等代数 I 研究的典型矩阵.
+\end{corollary}
+
+\S 1 节的最后一个命题可以看成命题 \ref{1.3.20} 的推广，从命题 \ref{1.3.20} 的证明中我们知道和任意主对角元全不相同的对角矩阵可交换的必定为对角矩阵. 那么什么时候和分块对角矩阵可交换的也必定为同型分块对角矩阵呢? 下面的命题给出了一种初步刻画.
+
+\begin{proposition}
+	设 \( A=\diag\{ a_1E_{r_1},a_2E_{r_2},\cdots,a_mE_{r_m}\} \)，其中 \( a_1,\cdots,a_m \) 两两不同. 证明：与 \( A \) 可交换的必定为同型分块对角矩阵 \( B=\diag\{B_{r_1},B_{r_2},\cdots,B_{r_m}\} \).
+\end{proposition}
+
+\begin{proof}
+	将 \( B \) 按照 \( A \) 的分块模式分块为 \( B=(B_{ij})_{m \times m} \). 那么 \( AB=BA \Leftrightarrow a_iE_{r_i}B_{ij}=B_{ij}(a_jE_{r_j}) \) 成立. 又 \( a_i \neq a_j \ (i \neq j) \). 故只能 \( B_{ij}=O \ (i \neq j) \).
+\end{proof}
+
+\begin{corollary}
+	设 \( A=\diag\{ A_1,A_2,\cdots,A_m\} \)，若对任意 \( i \neq j \) 都有矩阵方程 \( A_iX-XA_j=O \) 仅有零解，证明：与 \( A \) 可交换的必定为同型分块对角矩阵 \( B=\diag\{B_1,B_2,\cdots,B_m\} \).
+	\label{1.4.9}
+\end{corollary}
+
+\begin{proof}
+	将 \( B \) 按照 \( A \) 的分块模式分块为 \( B=(B_{ij})_{m \times m} \). 那么 \( AB=BA \Leftrightarrow A_iB_{ij}=B_{ij}A_j  \) 成立. 又对任意 \( i \neq j \) 都有矩阵方程 \( A_iX-XA_j=O \) 仅有零解，故只能 \( B_{ij}=O \ (i \neq j) \).
+\end{proof}
+
+\vspace{1ex}
+
+推论 \ref{1.4.9} 要求矩阵方程 \( A_iX-XA_j=O \) 仅有零解这个条件是很难验证的，我们要等到高等代数 II 才能给出一个它比较好验证的等价条件.
+
+在 \S 1 我们主要研究了线性方程组有解的判定，解的算法以及初步刻画了解的结构. 在研究这一点的过程中，我们一方面引出了域的概念，并进而讨论了一种要求更低的代数结构 -- 环，认识了整环的特征；另一方面，从初等变换和线性替换出发，给出了矩阵乘法的概念，并研究了高阶矩阵的一种简便乘法运算方式: 分块矩阵运算. 如果说分块矩阵中每个矩阵都是 \( n \) 阶的，其实也可以将其看成矩阵环上的矩阵环，不过这一点，其实对理解知识没有很大帮助.
+
+在分块初等变换的刻画中，我们遇到了一个问题，我们目前不知道在全矩阵环中非零元是否存在逆元，如果存在，那么该如何判定和刻画呢? 另一方面，我们虽然已经可以判定线性方程组是否有解，但是是否能进一步给出一个简洁的公式解呢? 有解的判定是否能够简化? 这些问题都能在 \textit{\S 2 可逆矩阵和行列式} 中得到一个比较圆满的回答. 
+
+另外，我们通过简化行阶梯矩阵的非零行数目给出了矩阵的秩的概念，或许你会发现有所不足. 因为如下的两个矩阵
+\[ \begin{bmatrix}
+	1 & 0 \\ 0 & 0
+\end{bmatrix}, \; \begin{bmatrix}
+0 & 1 \\ 0 & 0
+\end{bmatrix} \]
+
+明显有相同的非零行数目，但是却并不能通过初等行变换互相得到. 这说明如果两个矩阵有相同的秩，那么不一定能通过初等行变换互相得到. 也就是秩相同是比能通过初等行变换互相得到更强的条件，为了探寻秩相同的充分必要条件，我们将会从行列式出发，在 \textit{\S 4 矩阵的秩和相抵标准型} 中给出另一种秩的刻画，最后会发现它和我们今天的定义是完全等价的. 
 \end{document}
