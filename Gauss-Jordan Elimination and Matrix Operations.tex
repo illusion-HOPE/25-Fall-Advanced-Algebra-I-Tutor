@@ -50,7 +50,7 @@
 \usepackage{amsthm}
 % 设定颜色（假设你在别处定义了 \color{main} 等）
 \usepackage{xcolor}
-
+\usepackage{etoolbox}
 % 定义定理风格
 \usepackage{amsthm}
 \newtheoremstyle{defstyle}
@@ -84,6 +84,7 @@
 \newtheorem{property}[theorem]{性质}
 \theoremstyle{exastyle} 
 \newtheorem{example}[theorem]{例}
+\AtEndEnvironment{example}{\hfill \( \diamondsuit \)}
 \theoremstyle{remstyle} 
 \newtheorem{remark}[theorem]{注}
 
@@ -91,6 +92,8 @@
 \newenvironment{solution}{\par\underline{\textbf{解.}} \;\fangsong}{\qed\par}
 \newcommand{\intro}[1]{\rightline{\parbox[t]{5cm}{\footnotesize \fangsong\quad\quad #1 }}}
 
+\AtEndEnvironment{proof}{\vspace{1.5ex}}
+\AtEndEnvironment{solution}{\vspace{1.5ex}}
 
 \usepackage{titlesec, titletoc}
 \linespread{1.2} 				
@@ -437,7 +440,7 @@
 	只需要注意到三种初等行变换都有对应的逆操作即可. 
 \end{proof}
 
-\vspace{2ex}
+
 
 定理 \ref{1.1.3} 和初等行变换就是 Guass-Jordan 消元法的核心. 在介绍 Guass-Jordan 消元法之前，不妨再看一个例子. 在例 \ref{1.1.1} 中，我们发现方程的解不仅是存在的，还是唯一的. 但这并不普遍成立.
 
@@ -590,7 +593,7 @@
 	从而得到简化行阶梯形矩阵.
 \end{proof}
 
-\vspace{2ex}
+
 
 在例 \ref{1.1.1} 我们在解方程的过程中，既可以先得到行阶梯形矩阵，进而得到简化行阶梯形矩阵，也可以一步到位直接得到简化行阶梯形矩阵. 并且两者的结果是相同的. 自然疑惑，如果给定矩阵 \( A \in \mathbb{R}^{m \times n} \)，对 \( A \) 经过两种不同的初等行变换得到 \( K_1, K_2 \) 均为简化行阶梯形矩阵，那么是否有 \( K_1 = K_2 \)? 如果此处只要求 \( K_1, K_2 \) 为行阶梯形矩阵，那么答案自然是否定的，因为可以进行任意次数的倍法变换，不会改变行阶梯形矩阵的形状. 
 
@@ -789,7 +792,7 @@
 	(用定义 \ref{1.2.1}) \ 不妨设 \( \{a,b\} \subseteq \F \) 且 \( a \neq b \). 则 \( a,b \) 不同时为 \( 0 \)，不妨 \( a \neq 0 \). 那么 \( a-a=0 \in \F \) 以及 \( a/a=1 \in \F \). 任意 \( 0 \neq r \in \F \) 都有 \( r^{-1}=1/r \in \F \). 这说明任意两个数的乘法是封闭的，因为任取 \( p,q \in \F \)，若 \( q=0 \)，那么 \( pq=0 \in \F \)，否则 \( pq=p/q^{-1} \in \F \). 同理，对任意 \( r \in \F \) 有 \( -r=0-r \in \F \). 说明 \( \F \) 对加法是封闭的，因为任取 \( p,q \in \F \) 有 \( p+q=p-(-q) \in \F \).
 \end{proof}
 
-\vspace{2ex}
+
 
 下面介绍的环是以整数 \( \mathbb{Z} \) 为模板的，它相比上述定义 \ref{1.2.2}，仅仅只缺少了 (B)(3) 这一条件. 
 
@@ -1166,7 +1169,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 \end{solution}
 
 \begin{example}[矩阵乘法非交换]
-	由定义 \ref{1.3.1} 定义的矩阵乘法通常是非交换的，即往往不满足 \( AB=BA \). 例如取
+	由定义 \ref{1.3.1} 定义的矩阵乘法对阶数大于等于 \( 2 \) 的矩阵通常是非交换的，即往往不满足 \( AB=BA \). 例如取
 	\[ A=\begin{bmatrix}
 		1 & 2 \\ 3 & 4
 	\end{bmatrix}, \; B=\begin{bmatrix}
@@ -1212,7 +1215,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 有了上面两种矩阵的铺垫，我们可以给出一类典型的非交换环: 数域 \( F \) 上的 \( n \) 阶全矩阵环 \( \F^{n \times n} \). 事实上，如果只需要得到环这一结构，不需要将矩阵的严肃定义在域上，只需要定义在环上即可. 但是这不作为高等代数课程的要求，我们在高等代数 II 会接触到一类多项式环 \( \F[x] \) 上的全矩阵环，即 \( \lambda \) 矩阵.
 
 \begin{proposition}[矩阵环]
-	数域 \( \F \) 上的 \( n \) 阶矩阵组成的集合 \( \F^{n \times n} \) 在通常意义的矩阵加法和乘法下构成一个含幺环，是非交换的，该环称为数域 \( \F \) 上的全矩阵环，即
+	数域 \( \F \) 上的 \( n \ (n  \geq 2) \) 阶矩阵组成的集合 \( \F^{n \times n} \) 在通常意义的矩阵加法和乘法下构成一个含幺环，是非交换的，该环称为数域 \( \F \) 上的全矩阵环，即
 	\begin{enumerate}[(A)]
 		\item 矩阵的加法运算满足，
 		\begin{enumerate}[(1)]
@@ -1231,6 +1234,8 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 			\item \textbf{分配律} \( A(B+C)=AB+AC, \; (B+C)A=BA+CA \).
 		\end{enumerate}
 	\end{enumerate}
+	
+	另外，如果在全矩阵环中再额外考虑数量乘法 \( cA \ (c \in \F) \)，那么搭配数乘，加法和乘法的结构构成一个 \( \F-\)代数. 这一点会在我们本学期学习线性映射后给出正式定义.
 \end{proposition}
 
 \begin{proof}
@@ -1350,7 +1355,6 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	(4) \( E_{ij}AE_{kl} =\varepsilon_i\varepsilon_j\T A\varepsilon_k\varepsilon_l\T=\varepsilon_i(\varepsilon_j\T A\varepsilon_k)\varepsilon_l\T=(\varepsilon_j\T A\varepsilon_k)(\varepsilon_i\varepsilon_l\T) \). 利用性质 \ref{1.3.14} (1) 和 (3) 得到 \( E_{ij}AE_{kl} =a_{jk}E_{il} \).
 \end{proof}
 
-\vspace{1ex}
 
 用上述工具，我们可以很轻松地证明全矩阵环 \( \F^{n \times n} \) 的一个小结论: 全矩阵环为单环，即全矩阵环只有平凡理想. 不过我们不想在此处介绍太多理想的概念，你只需要接受下面命题的表述即可，在高等代数 II 我们会正式定义理想. 
 
@@ -1499,7 +1503,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	其中 \( A_1 \) 为对称矩阵，\( A_2 \) 为反称矩阵，这就完成了构造. 另一方面，若还有 \( B_1 \) 为对称矩阵，\( B_2 \) 为反称矩阵满足 \( A=A_1+A_2=B_1+B_2 \). 那么 \( A_1-A_2=B_2-B_1 \). 等式左端为对称矩阵，右端为反对称矩阵，那么只能为零矩阵. 唯一性得证.
 \end{proof}
 
-\vspace{1ex}
+
 
 下面这个命题我们会在高等代数 II 课程的尾声再次使用到，用来刻画双线性函数由其在取定一组基下的度量矩阵唯一确定. 到时候我们会引用本命题. 不过现在谈起这一点似乎有点为时过早，笔者希望在前面多铺垫一些内容. 本段可以忽略.
 
@@ -1537,7 +1541,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	充分性，用命题 \ref{1.3.26}，采用相同的记号 \( A_1,A_2 \)，其中 \( A_1 \) 为对称矩阵，\( A_2 \) 为反称矩阵且 \( A=A_1+A_2\). 那么由命题 \ref{1.3.27} 和本命题的必要性可知 \( X\T A X=X\T A_1 X+X\T A_2 X= X\T A_1 X=0 \Rightarrow A_1=O \). 故 \( A=A_2 \) 为反对称矩阵.
 \end{proof}
 
-\vspace{1ex}
+
 
 我们知道，矩阵乘法通常不具备交换性. 但是有某些量在交换中保持一致，下面的迹算子就是一种. 这在某种程度上是很有用的，例如处理 \( \alpha\beta\T \) 这是一个列向量和行向量的乘积，为一个矩阵，但是交换后 \( \alpha\T\beta \) 就变成一个数了. 我们未来要学习的降阶公式就是一个类似的例子.
 
@@ -1601,7 +1605,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	原式两边同乘 \( B\T \) 或者 \( B\Her \). 注意到 \( (B\T AB)\T=-(B\T AB) \) 以及 \( (B\Her AB)\Her=-(B\Her AB) \). 利用迹的正定性得到结论，具体细节留给读者. 
 \end{proof}
 
-\vspace{1ex}
+
 
 最后我们给出迹的公理化刻画. 
 
@@ -1897,7 +1901,7 @@ n_s & B_{r1} & B_{r2} & \cdots  & B_{st}  \cr
 	
 	这和将后四行作为整体和第一行的互换变换没有任何区别.
 	
-	\vspace{2ex}
+	\vspace{1ex}
 	
 	(\textbf{法二}) \ 求 \( n \) 次幂相当于对下列矩阵
 	\[ \begin{bmatrix}
@@ -1912,7 +1916,7 @@ n_s & B_{r1} & B_{r2} & \cdots  & B_{st}  \cr
 	
 	右乘初等矩阵，进行列初等变换，也即进行 \( n-1 \) 次前四列作为整体和最后一列的互换变换. 那么完全同上计算. 这种方法等价于按列分块处理，记原矩阵为 \( A=(\varepsilon_5,\varepsilon_1,\varepsilon_2,\varepsilon_3,\varepsilon_4) \). 那么 \( A^2 \) 从左到右分别是 \( A \) 的第 5 列，第 1 列，第 2 列，第 3 列，第 4 列. 也即 \( A^2=(\varepsilon_4,\varepsilon_5,\varepsilon_1,\varepsilon_2,\varepsilon_3) \). 以此类推. 
 	
-	\vspace{2ex}
+	\vspace{1ex}
 	
 	\fbox{\parbox{9cm}{\textbf{警惕!} \ 这个矩阵不可以直接作分块矩阵的乘法，因为
 	\[ \bordermatrix{
@@ -2001,7 +2005,7 @@ n_s & B_{r1} & B_{r2} & \cdots  & B_{st}  \cr
 	将 \( B \) 按照 \( A \) 的分块模式分块为 \( B=(B_{ij})_{m \times m} \). 那么 \( AB=BA \Leftrightarrow A_iB_{ij}=B_{ij}A_j  \) 成立. 又对任意 \( i \neq j \) 都有矩阵方程 \( A_iX-XA_j=O \) 仅有零解，故只能 \( B_{ij}=O \ (i \neq j) \).
 \end{proof}
 
-\vspace{1ex}
+
 
 推论 \ref{1.4.9} 要求矩阵方程 \( A_iX-XA_j=O \) 仅有零解这个条件是很难验证的，我们要等到高等代数 II 才能给出一个它比较好验证的等价条件.
 
