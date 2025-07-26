@@ -44,7 +44,7 @@
 \definecolor{purple}{HTML}{512E5F}     
 
 \usepackage{hyperref}
-\hypersetup{colorlinks = true, linktoc=all, linkcolor=black, urlcolor=winered}
+\hypersetup{colorlinks = true, linktoc=all, linkcolor=blue, urlcolor=winered}
 
 
 \usepackage{amsthm}
@@ -211,7 +211,7 @@
 \section{Guass-Jordan 消元法和矩阵运算}
 \subsection{初等变换和 Guass-Jordan 消元法}
 \label{1.1}
-代数学起源于数系的扩充，方程的求解. 而在今天，代数学的主要研究对象集中在代数系统及其之间的态射上，在高等代数 I 的后半部分，我们将集中研究一类最简单的代数系统及其态射，线性空间和线性映射，更确切地说，我们大多时候只关注有限维线性空间. 无限维线性空间理论会在泛函分析课程进一步讨论.
+代数学起源于数系的扩充，方程的求解. 而在今天，代数学的主要研究对象集中在代数系统及其之间的态射上. 在高等代数 I 的后半部分，我们将集中研究一类最简单的代数系统及其态射，线性空间和线性映射，更确切地说，我们大多时候只关注有限维线性空间. 无限维线性空间理论会在泛函分析课程进一步讨论.
 
 对方程而言，我们不仅希望找到是否有解的判定准则，更希望能找到一套普适的算法在方程有解时计算出所有解. 高等代数的一个重要组成部分是线性代数. 所谓"线性"，指的是加法和数乘两个运算. 往一般了说，加法指的是一个集合关于该运算构成 Abel 群，而数乘，则可以看成是某个交换环在这个 Abel 群上的作用，并且需要满足运算间的若干协调性. 不过，我们现在不关心这些. 我们的起点不过就是高中所学的平面 \( \mathbb{R}^2:=\{(a,b) \mid a,b \in \mathbb{R} \} \)，以及空间 \( \mathbb{R}^3:=\{ (a,b,c) \mid a,b,c \in \mathbb{R} \} \)，乃至这一概念的自然推广: \( n \) 维向量空间
 \[ \mathbb{R}^n:=\{ (x_1,x_2,\cdots,x_n) \mid x_1,\cdots,x_n \in \mathbb{R} \}. \]
@@ -236,7 +236,7 @@
 
 其中 \( a_{ij}, b_i \in \mathbb{R} \ (1 \leq i \leq m,\; 1 \leq j \leq n) \). 对 \( m,n \) 的大小关系，我们并不关心，只要求它们均有限即可. 我们在中学阶段已经学习过 \( n=m=2 \) 以及 \( n=m=3 \) 这两种特殊情形的线性方程组. 所用的方法无非是代入法和加减消元法. 但这两种方法对 \( n \) 个变量的情形就有些困难了，因为很多时候，加减无法实现消元的效果; 而代入法对求解的难度也几乎于事无补. 为了更自然的引出下面有关求解线性方程组的 Guass-Jordan 消元法，我们从几个例子开始.
 
-\begin{example}
+\begin{example}\label{1.1.1}
 	求解线性方程组
 	\[
 	(\text{I}) \left\{
@@ -248,7 +248,7 @@
 	\end{array}
 	\right.
 	\]
-	\label{1.1.1}
+	
 \end{example}
 
 \begin{solution}
@@ -419,21 +419,21 @@
 
 也就说明解线性方程组时，只需要写出 \( \overline{A} \)，然后按上述操作求解即可. 除此之外，在解方程中，我们对上述增广矩阵的行使用了三种变换来化简方程，达到消元效果. 我们称这三种变换为线性方程组的初等行变换. 
 
-\begin{definition}[初等行变换]
+\begin{definition}[初等行变换]\label{1.1.2}
 	称下面的三种变换为线性方程组 (\ref{linequ.}) 或者矩阵 \( A \) 或者矩阵 \( \overline{A} \) 的初等行变换:
 	\begin{enumerate}[(A)]
 		\item 消法变换：对 \( 1 \leq i \neq j \leq m \)，\( c \in \mathbb{R} \). 将第 \( i \) 行的 \( c \) 倍加到第 \( j \) 行;
 		\item 倍法变换：设 \( 1 \leq i \leq m \)，且 \( 0 \neq c \in \mathbb{R} \)，将第 \( i \) 行的每个元素都乘 \( c \);
 		\item 互换变换：设 \( 1 \leq i \neq j \leq m \)，将第 \( i \) 行和第 \( j \) 行的元素互换.
 	\end{enumerate}
-	\label{1.1.2}
+	
 \end{definition}
 
 对矩阵而言，我们可以类似定义初等列变换. 初等行变换和初等列变换统称为矩阵的初等变换. 在后面的学习中，你会看到初等变换将成为贯穿高等代数最重要的一类方法. 从例 \ref{1.1.1} 的讨论中，你不难发现如下结果：
 
-\begin{theorem}
+\begin{theorem}	\label{1.1.3}
 	矩阵的初等行变换给出同解的线性方程组.
-	\label{1.1.3}
+
 \end{theorem}
 
 \begin{proof}
@@ -444,7 +444,7 @@
 
 定理 \ref{1.1.3} 和初等行变换就是 Guass-Jordan 消元法的核心. 在介绍 Guass-Jordan 消元法之前，不妨再看一个例子. 在例 \ref{1.1.1} 中，我们发现方程的解不仅是存在的，还是唯一的. 但这并不普遍成立.
 
-\begin{example}
+\begin{example}\label{1.1.4}
 	令 \( a,b,c \) 为给定的常数，解线性方程组
 	\begin{align*}
 		\left\{ \begin{array}{l}
@@ -453,7 +453,7 @@
 			2x_1-2x_2-x_3=c.
 		\end{array}\right.
 	\end{align*}
-	\label{1.1.4}
+	
 \end{example}
 
 
@@ -521,7 +521,7 @@
 
 上图中空白元均为 0，更严格的定义如下：
 
-\begin{definition}[行阶梯形矩阵]
+\begin{definition}[行阶梯形矩阵]\label{1.1.5}
 	设 \( m \times n \) 阶矩阵 \( A \) 可以经过若干次行初等变换变为 \( K \)，且 \( K \) 满足
 	\begin{enumerate}[(i)]
 		\item 存在整数 \( 0 \leq r \leq m \) 使得 \( K \) 的第 \( i \) 行全为 0 当且仅当 \( i>r \)，即在矩阵 \( K \) 中，不全为零的恰好是第 \( 1 \sim r \) 行;
@@ -529,7 +529,7 @@
 	\end{enumerate}
 	
 	那么称矩阵 \( K \) 为行阶梯形矩阵.
-\label{1.1.5}
+
 \end{definition}
 
 行阶梯形矩阵对应的线性方程组已经易于求解，但是在例 \ref{1.1.1} 以及例 \ref{1.1.4} 中，我们发现还可以对行阶梯形矩阵进一步进行初等行变换，得到如下定义的简化行阶梯形矩阵. 而我们可以直接从简化行阶梯形矩阵中读出矩阵的解，而不用更多多余的操作.
@@ -554,9 +554,9 @@
 
 有了简化行阶梯形矩阵的概念，我们自然引出本节的主要算法: Guass-Jordan 消元法. 这一算法是对例 \ref{1.1.1} 以及例 \ref{1.1.4} 方法的一般化.
 
-\begin{theorem}[Guass-Jordan, 线性方程组求解的算法]
+\begin{theorem}[Guass-Jordan, 线性方程组求解的算法]	\label{1.1.8}
 	给定 \( m \times n \) 阶矩阵 \( A \)，那么 \( A \) 必定可以通过初等行变换化为简化行阶梯形矩阵.
-	\label{1.1.8}
+
 \end{theorem}
 
 
@@ -597,9 +597,9 @@
 
 在例 \ref{1.1.1} 我们在解方程的过程中，既可以先得到行阶梯形矩阵，进而得到简化行阶梯形矩阵，也可以一步到位直接得到简化行阶梯形矩阵. 并且两者的结果是相同的. 自然疑惑，如果给定矩阵 \( A \in \mathbb{R}^{m \times n} \)，对 \( A \) 经过两种不同的初等行变换得到 \( K_1, K_2 \) 均为简化行阶梯形矩阵，那么是否有 \( K_1 = K_2 \)? 如果此处只要求 \( K_1, K_2 \) 为行阶梯形矩阵，那么答案自然是否定的，因为可以进行任意次数的倍法变换，不会改变行阶梯形矩阵的形状. 
 
-\begin{theorem}
+\begin{theorem}	\label{1.1.9}
 	给定矩阵 \( A \in \mathbb{R}^{m \times n} \)，对 \( A \) 经过两种不同的初等行变换得到 \( K_1, K_2 \) 均为简化行阶梯形矩阵，那么必定有 \( K_1=K_2 \). 换言之，\( A \) 的简化行阶梯形矩阵必定唯一. 
-	\label{1.1.9}
+
 \end{theorem}
 
 \begin{proof}
@@ -660,22 +660,34 @@
 \end{proof}
 
 \begin{remark}
-	事实上，\( r(A) \) 为初等变换下的不变量. 在行和列初等变换下均不变. 在 \S 4 中会用子式的定义证明.
+	事实上，\( r(A) \) 为初等变换下的不变量. 在行和列初等变换下均不变. 在 \S 3 中会用子式的定义证明.
 \end{remark}
 
-\begin{theorem}[线性方程组有解的判定]
+\begin{theorem}[线性方程组有解的判定]	\label{1.1.12}
 	给定线性方程组如同方程 (\ref{linequ.})，那么方程 (\ref{linequ.}) 有解当且仅当 \( r(A)=r(\overline{A}) \).
-	\label{1.1.12}
+
 \end{theorem}
 
 \begin{proof}
 	由定理 \ref{1.1.8} 的 Guass-Jordan 消元法，\( \overline{A} \) 可以通过行初等变换变为简化行阶梯形矩阵 \( \overline{K} \). 那么 \( \overline{K} \) 的最后一列必定不可能出现主元，否则导出 \( 0=1 \)，无解. 取 \( \overline{A} \) 和 \( \overline{K} \) 的前 \( n \) 列组成的矩阵 \( A \) 和 \( K \). 那么 \( A \) 可以通过行初等变换变为 \( K \). 此时 \( K \) 和 \( \overline{K} \) 有相同的非零行数目，得证.
 \end{proof}
 
-\begin{theorem}[线性方程组解的结构]
-	给定线性方程组如同方程 \ref{linequ.}，且 \( r(A)=r(\overline{A})=r \)，那么存在 \( n-r(A)=:k \) 个自由未知量 \( c_1,\cdots,c_{k} \in \mathbb{R} \) 以及 \( n \) 维列向量 \( \gamma,\eta_1,\cdots,\eta_k \in \mathbb{R}^n \)，使得方程 (\ref{linequ.}) 解的全体可以表示为
+\begin{theorem}[线性方程组解的结构]	\label{1.1.13}
+	给定线性方程组如同方程 (\ref{linequ.})，且 \( r(A)=r(\overline{A})=r \)，那么存在 \( n-r(A)=:k \) 个自由未知量 \( c_1,\cdots,c_{k} \in \mathbb{R} \) 以及 \( n \) 维列向量 \( \gamma,\eta_1,\cdots,\eta_k \in \mathbb{R}^n \)，使得方程 (\ref{linequ.}) 解的全体可以表示为
 	\[ X=\gamma+c_1\eta_1+\cdots+c_k\eta_k. \] 
-	\label{1.1.13}
+    
+    其中要求 \( \gamma \) 为方程 (\ref{linequ.}) 的一个特解，而 \( \eta_1,\cdots,\eta_k \) 为方程
+    	\begin{equation}
+    		\left\{\begin{array}{l}
+    			a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=0, \\
+    			a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=0, \\
+    			\qquad \vdots \\
+    			a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n=0.
+    		\end{array}\right.
+    		\label{linequ.2}
+    	\end{equation}
+    	
+    的若干不同解.
 \end{theorem}
 
 \begin{proof}
@@ -695,7 +707,17 @@
 	\end{bmatrix}, \; \cdots, \; \eta_k=\begin{bmatrix}
 	p_{1,n} \\ p_{2,n} \\ \vdots \\ p_{r,n} \\ 0 \\ \vdots \\ 1
 	\end{bmatrix}  \; c_{m}=x_{r+m} \ ( 1 \leq m \leq k). \]
+	取 \( c_1=\cdots=c_k=0 \) 时，容易验证 \( \gamma \) 就为方程 (\ref{linequ.}) 的一个特解. 考察方程 (\ref{linequ.2})，将 \( \overline{A} \) 的最后一列全换为零，那么 \( \overline{K} \) 的前 \( n \) 列保持不变，最后一列依旧全为零. 同解方程组就变为
+	\[ \left\{ \begin{array}{l}
+		x_1= -p_{1,r+1}x_{r+1}-\cdots-p_{1,n}x_n, \\
+		x_2= -p_{2,r+1}x_{r+1}-\cdots-p_{2,n}x_n, \\
+		\qquad \vdots \\
+		x_r= -p_{r,r+1}x_{r+1}-\cdots-p_{r,n}x_n. 
+	\end{array}\right. \leadsto X=c_1\eta_1+\cdots+c_k\eta_k. \]
+	
+    遍历 \( 1 \leq i \leq k \)，依次取 \( c_i=1, c_j=0 \ (j \neq i) \) 即可证明 \( \eta_1,\cdots,\eta_k \) 为方程 (\ref{linequ.2}) 的若干不同解.
 \end{proof}
+
 
 定理 \ref{1.1.8}, 定理 \ref{1.1.12} 以及定理 \ref{1.1.13} 共同构成了线性方程组的理论基石，其中定理 \ref{1.1.13} 只能算是基础解系的初步刻画，我们在未来学习向量组理论之后将会完善这个命题. 在本节，秩只先定义为矩阵的行阶梯形矩阵的非零行数目，我们未来会给出更一般的定义. 秩作为相抵关系下的全系不变量，将会在后续的讨论中占据极其重要的地位.
  
@@ -714,14 +736,14 @@
 
 在前面的讨论中，我们一直默认在实数域上进行，然而定理 \ref{1.1.8}, 定理 \ref{1.1.12} 以及定理 \ref{1.1.13} 告诉我们只需要系数可以自由进行四则运算，就能够求解线性方程组. 于是我们引入数域的概念.
 
-\begin{definition}[数域]
+\begin{definition}[数域]	\label{1.2.1}
 	设 \( \{0,1\} \subseteq \F \subseteq \mathbb{C} \). 且任意 \( a,b \in \F \) 都有 \( a \pm b, a \cdot b \in \F \). 进一步，要求 \( b \neq 0 \)，则有 \( a/b \in \F \). 那么称 \( \F \) 为一个数域.
-	\label{1.2.1}
+
 \end{definition}
 
 在代数学中，我们非常关心运算满足的特性. 这里的定义看似只包含了封闭性，事实上还掩盖了一些额外的运算律. 我们在下面将它们列举出来.
 
-\begin{definition}[域]
+\begin{definition}[域]	\label{1.2.2}
 	设 \( \{0,1\} \subseteq \F \) 为一个集合，其上有两种二元运算 \( +:\F \times \F \to \F, \; \cdot :\F \times \F \to \F \)，分别称为加法和乘法.
 	\begin{enumerate}[(A)]
 		\item 加法运算满足，
@@ -745,7 +767,7 @@
 	\end{enumerate}
 	
 	其中 \( x,y,z \) 指 \( \F \) 中的任意元素，那么称满足上述所有条件的 \( (\F,+, \cdot) \) 为一个域.
-	\label{1.2.2}
+
 \end{definition}
 
 \begin{proposition}
@@ -771,9 +793,9 @@
 	\ref{1.1} 节中的讨论所涉及的 \( \mathbb{R} \) 都可以换成一般的域 \( \F \). 本节之后所有的讨论如没有特别说明，都基于一般的域进行. 当然，教材内都基于一般的数域，很多时候没有什么区别.
 \end{example}
 
-\begin{proposition}
+\begin{proposition}\label{1.2.6}
 	设 \( \F \) 为 \( \mathbb{C} \) 的子域，那么 \( \mathbb{Q} \subseteq \F \).
-	\label{1.2.6}
+	
 \end{proposition}
 
 \begin{proof}
@@ -796,7 +818,7 @@
 
 下面介绍的环是以整数 \( \mathbb{Z} \) 为模板的，它相比上述定义 \ref{1.2.2}，仅仅只缺少了 (B)(3) 这一条件. 
 
-\begin{definition}[环]
+\begin{definition}[环]	\label{1.2.8}
 	设 \( R \) 为一个非空集合，其上有两种二元运算 \( +:R \times R \to R , \; \cdot : R \times R \to R \)，分别称为加法和乘法.
 	\begin{enumerate}[(A)]
 		\item 加法运算满足，
@@ -819,7 +841,7 @@
 	\end{enumerate}
 	
 	其中 \( x,y,z \) 指 \( R \) 中的任意元素，那么称满足 (A)+(B)(1)+(C) 的 \( (R,+, \cdot) \) 为一个环. 进一步，若还满足 (B)(2) 称为含幺环，若还满足 (B)(3) 称为交换环. 若同时满足上述 (A)+(B)+(C) 所有条件，称为含幺交换环. 这是最常见的环. 
-	\label{}
+
 \end{definition}
 
 \begin{remark}
@@ -840,9 +862,9 @@
 	下构成一个含幺交换环. 其中幺元为 \( 1 \in \F \)，交换律来自 \( \F \) 的交换律. 
 \end{example}
 
-\begin{proposition}
+\begin{proposition}	\label{1.2.12}
 	设 \( p \) 为素数，那么显然 \( \sqrt{p} \notin \mathbb{Q} \). 记 \( \mathbb{Q}(\sqrt{p}) \) 为包含 \( \sqrt{p} \) 的最小数域，那么 \( \mathbb{Q}(\sqrt{p})=\mathbb{Q}[\sqrt{p}]=\{ a+b\sqrt{p} \mid a,b \in \mathbb{Q} \} \).
-	\label{1.2.12}
+
 \end{proposition}
 
 \begin{proof}
@@ -860,9 +882,9 @@
 	代入 \( x=\sqrt{p} \)，得到 \( (a+b\sqrt{p})(b\sqrt{p}-a)=b^2p-a^2 \). 那么 \( (a+b\sqrt{p})^{-1}=(b\sqrt{p}-a)(b^2p-a^2)^{-1} \).
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}	\label{1.2.13}
 	设 \( p \) 为素数，若存在 \( c_1,c_2 \in \mathbb{Q} \) 使得 \( c_1+c_2\sqrt{p}=0 \)，那么必定有 \( c_1=c_2=0 \).
-	\label{1.2.13}
+
 \end{corollary}
 
 \begin{proof}
@@ -956,9 +978,9 @@
 	设 \( R \) 为环，若 \( 0 \neq a \in R \) 满足存在整数 \( m \in \mathbb{N}^* \) 使得 \( ma=0 \). 称 \( a \) 为周期元，并称满足上式最小的 \( m \) 为 \( a \) 的周期. 
 \end{definition}
 
-\begin{proposition}[整环的特征]
+\begin{proposition}[整环的特征]	\label{1.2.24}
 	设 \( R \) 为整环，若 \( R \) 中有周期元，那么必定存在素数 \( p \) 使得 \( pr=0 \) 对任意 \( r \in R \) 都成立. 此时 \( R \) 中所有非零元素均有相同周期 \( p \). 称 \( p \) 为整环 \( R \) 的特征，并记为 \( \tz  R=p \). 若 \( R \) 中没有周期元，那么记 \( \tz  R=0 \).
-	\label{1.2.24}
+
 \end{proposition}
 
 \begin{proof}
@@ -1020,10 +1042,10 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 记矩阵 \( A=(a_{ij}) \) 为 \( m \times n \) 矩阵且 \( B=(b_{ij}) \) 为 \( t\times m \) 矩阵. 现在希望得到 \( z_i \) 关于 \( x_1,\cdots,x_n \) 的表达式，利用求和符号，即
 \[ z_i=\sum_{k=1}^{m} b_{ik}y_k= \sum_{k=1}^{m} b_{ik} \left( \sum_{j=1}^{n} a_{kj} x_j \right)= \sum_{j=1}^{n} \sum_{k=1}^{m} b_{ik}a_{kj} x_j = \sum_{j=1}^{n} \left( \sum_{k=1}^{m} b_{ik}a_{kj}\right) x_j. \]
 
-\begin{definition}[矩阵的乘法]
+\begin{definition}[矩阵的乘法]	\label{1.3.1}
 	设 矩阵 \( A=(a_{ij}) \) 为数域 \( \F \) 上的 \( m \times n \) 矩阵且 \( B=(b_{ij}) \) 为数域 \( \F \) 上的 \( t\times m \) 矩阵. 定义矩阵 \( B \) 和矩阵 \( A \) 的乘积为矩阵 \( BA=:C=(c_{ij}) \)，其中 \( C \) 为数域 \( \F \) 上的 \( t \times m \) 阶矩阵，且
 	\[ c_{ij}=\sum_{k=1}^{m} b_{ik}a_{kj}. \] 
-	\label{1.3.1}
+
 \end{definition}
 
 为了熟练上述运算，给出几个例子.
@@ -1040,7 +1062,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	可以简单记为 \( AX=\beta \).
 \end{example}
 
-\begin{definition}[初等矩阵]
+\begin{definition}[初等矩阵] 	\label{1.3.3}
 	在定义 \ref{1.1.2} 的基础上，定义初等矩阵
 	\begin{enumerate}[(A)]
 		\item 消法矩阵
@@ -1084,7 +1106,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 		\]
 		
 	\end{enumerate}
-	\label{1.3.3}
+
 \end{definition}
 \begin{example}[初等变换的矩阵表示]
 	给定线性方程组 (\ref{linequ.})，设其系数矩阵为 \( A \)，那么
@@ -1111,9 +1133,9 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 		\[ E(i,j)A=\bordermatrix{
 			&&&&& \cr
 			&&&&& \cr
-			i &a_{j1} & a_{j2} & a_{j3} &  \cdots & ca_{jn} \cr
+			i &a_{j1} & a_{j2} & a_{j3} &  \cdots & a_{jn} \cr
 			&\vdots & \vdots & \ddots & \ddots & \vdots \cr
-			j &a_{i1} & a_{i2} & a_{i3} &  \cdots & ca_{in} \cr
+			j &a_{i1} & a_{i2} & a_{i3} &  \cdots & a_{in} \cr
 			&&&&& 
 		}.   \]
 	\end{enumerate}
@@ -1128,14 +1150,14 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 \end{definition}
 
 
-\begin{example}[矩阵乘法的映射观点]
+\begin{example}[矩阵乘法的映射观点]	\label{1.3.6}
 	设 \( A \) 为 \( m \times n \) 矩阵，\( B \) 为 \( n \times t \) 矩阵，定义 \( \varphi: \F^n \to \F^m, \; X \mapsto AX, \; \psi: \F\T \to \F^n, \; Y \mapsto BY \). 那么存在唯一的映射 \( \T Au: \F\T \to \F^m \) 使得下图交换
 	\[ \xymatrix@R=7ex@C=6ex{
 		 & \F^n\ar"2,3"_{\varphi} & \\
 		\F^t\ar"1,2"_{\psi}\ar"2,3"_{\exists ! \T Au} &  & \F^m\\
 	} \]
 	事实上，这些映射都是线性映射，即保持加法和数乘运算.
-	\label{1.3.6}
+
 \end{example}
 
 \begin{example}
@@ -1165,7 +1187,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 		-\sin n\theta & \cos n\theta
 	\end{bmatrix}X. \]
 	
-	由 \( X \) 的任意性得到结果.
+	由 \( X \) 的任意性得到结果. \textbf{思考}: 这里怎么用任意性得到结果呢? 事实上如果有对任意 \( X \in \F^n \) 都有 \( AX=BX \)，那么 \( A=B \). 参考下面性质 \ref{1.3.14} 的 (4).
 \end{solution}
 
 \begin{example}[矩阵乘法非交换]
@@ -1278,7 +1300,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	为 \( \F^n \) 中的 \( n \) 维标准列向量. 对行向量，也有类似的定义. 不过在后续学习中，我们更多使用列向量，对行向量往往采用列向量的转置的写法.
 \end{example}
 
-\begin{property}[标准列向量]
+\begin{property}[标准列向量]	\label{1.3.14}
 	给定矩阵 \( A,B \) 为数域 \( \F \) 上的 \( m \times n \) 矩阵，那么
 	\begin{enumerate}[(1)]
 		\item(标准正交基) \( \varepsilon_i\T\varepsilon_j = \delta_{ij} \) ，其中 \( \delta_{ij} \) 仅当 \( i=j \) 时取值为 1，否则取值为 0;
@@ -1286,7 +1308,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 		\item 设 \( A \) 的 \( (i,j) \) 元为 \( a_{ij} \)，那么 \( \varepsilon_i\T A\varepsilon_j =a_{ij} \);
 		\item \( A=B \Leftrightarrow A\varepsilon_j = B\varepsilon_j \Leftrightarrow \varepsilon_i\T A = \varepsilon_i\T B \Leftrightarrow \varepsilon_i\T A\varepsilon_j = \varepsilon_i\T B\varepsilon_j  \) 对任意 \( 1 \leq i \leq m \) 以及 \( 1 \leq j \leq n \) 成立.
 	\end{enumerate} 
-	\label{1.3.14}
+
 \end{property}
 
 \begin{proof}
@@ -1307,7 +1329,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	}. \]
 \end{example}
 
-\begin{property}[基础矩阵]
+\begin{property}[基础矩阵]	\label{1.3.16}
 	基础矩阵可以看成标准列向量和标准行向量的乘积，即 \( E_{ij}=\varepsilon_i\varepsilon_j^{T} \)，那么可以得到
 	\begin{enumerate}[(1)]
 		\item \( E_{ij}E_{kl}=\delta_{ij}E_{il} \)，其中 \( \delta_{ij} \) 仅当 \( i=j \) 时取值为 1，否则取值为 0;
@@ -1315,7 +1337,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 		\item 给定 \( m \times n \) 矩阵 \( A \)，那么 \( E_{ij}A \) 的第 \( i \) 行为矩阵 \( A \) 的第 \( j \) 行， \( E_{ij}A \) 的其余行均为 0;
 		\item 给定 \( m \times n \) 矩阵 \( A \)，并设 \( A \) 的 \( (i,j) \) 元为 \( a_{ij} \)，那么 \( E_{ij}AE_{kl} =a_{jk}E_{il} \).
 	\end{enumerate}
-	\label{1.3.16}
+
 \end{property}
 
 \begin{proof}
@@ -1388,9 +1410,9 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	\end{enumerate}
 \end{example}
 
-\begin{proposition}
+\begin{proposition}	\label{1.3.19}
 	设 \( A \in \F^{n \times n} \) 为上三角矩阵且对角线上的元素全为零，证明 \( A^n=O \).
-	\label{1.3.19}
+
 \end{proposition}
 
 \begin{proof}
@@ -1403,9 +1425,9 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	那么用性质 \ref{1.3.16} (1) 可以发现 \( A^2 \) 中只能留下 \( E_{ij} \ (j \geq i+2) \) 之类的项. 因为对 \( i<j \) 有 \( E_{ij}^2=O=E_{ji}E_{ij} \). 进而 \( A^{n-1} \) 只能留下 \( E_{ij} \ (j \geq i+n-1) \) 之类的项，也即只留下了 \( E_{1n} \) 这一类项，那么 \( E_{1n}^2=O \) 蕴含 \( A^n=O \).
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}	\label{1.3.20}
 	和任意矩阵乘法可交换的必定为数量矩阵 \( cE_n \ (c \in \F)\).
-	\label{1.3.20}
+
 \end{proposition}
 
 \begin{proof}
@@ -1491,9 +1513,9 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 	反对称矩阵的对角线元全为 0. 既是对称矩阵又是反对称矩阵的矩阵必定为零矩阵.
 \end{remark}
 
-\begin{proposition}
+\begin{proposition}	\label{1.3.26}
 	设 \( A \in \F^{n \times n} \)，那么 \( A \) 可以\textbf{唯一}表示为一个对称矩阵和一个反对称矩阵的和.
-	\label{1.3.26}
+
 \end{proposition}
 
 \begin{proof}
@@ -1507,9 +1529,9 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 
 下面这个命题我们会在高等代数 II 课程的尾声再次使用到，用来刻画双线性函数由其在取定一组基下的度量矩阵唯一确定. 到时候我们会引用本命题. 不过现在谈起这一点似乎有点为时过早，笔者希望在前面多铺垫一些内容. 本段可以忽略.
 
-\begin{proposition}
+\begin{proposition}	\label{1.3.27}
 	设 \( A \in \F\n \)，证明 \( A=O \) 的充要条件为对任意的列向量 \( X \in \F^n\) 都有 \( X\T AX=0 \).
-	\label{1.3.27}
+
 \end{proposition} 
 
 \begin{proof}
@@ -1996,9 +2018,9 @@ n_s & B_{r1} & B_{r2} & \cdots  & B_{st}  \cr
 	将 \( B \) 按照 \( A \) 的分块模式分块为 \( B=(B_{ij})_{m \times m} \). 那么 \( AB=BA \Leftrightarrow a_iE_{r_i}B_{ij}=B_{ij}(a_jE_{r_j}) \) 成立. 又 \( a_i \neq a_j \ (i \neq j) \). 故只能 \( B_{ij}=O \ (i \neq j) \).
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}	\label{1.4.9}
 	设 \( A=\diag\{ A_1,A_2,\cdots,A_m\} \)，若对任意 \( i \neq j \) 都有矩阵方程 \( A_iX-XA_j=O \) 仅有零解，证明：与 \( A \) 可交换的必定为同型分块对角矩阵 \( B=\diag\{B_1,B_2,\cdots,B_m\} \).
-	\label{1.4.9}
+
 \end{corollary}
 
 \begin{proof}
@@ -2020,5 +2042,5 @@ n_s & B_{r1} & B_{r2} & \cdots  & B_{st}  \cr
 0 & 1 \\ 0 & 0
 \end{bmatrix} \]
 
-明显有相同的非零行数目，但是却并不能通过初等行变换互相得到. 这说明如果两个矩阵有相同的秩，那么不一定能通过初等行变换互相得到. 也就是秩相同是比能通过初等行变换互相得到更强的条件，为了探寻秩相同的充分必要条件，我们将会从行列式出发，在 \textit{\S 4 矩阵的秩和相抵标准型} 中给出另一种秩的刻画，最后会发现它和我们今天的定义是完全等价的. 
+明显有相同的非零行数目，但是却并不能通过初等行变换互相得到. 这说明如果两个矩阵有相同的秩，那么不一定能通过初等行变换互相得到. 也就是秩相同是比能通过初等行变换互相得到更强的条件，为了探寻秩相同的充分必要条件，我们将会从行列式出发，在 \textit{\S 3 矩阵的秩和相抵标准型} 中给出另一种秩的刻画，最后会发现它和我们今天的定义是完全等价的. 
 \end{document}
