@@ -572,7 +572,7 @@ a_{31} & a_{32} & a_{33}
 		a_{n1} & \cdots & a_{n,j-1} & a_{n,j+1} & \cdots & a_{nn}
 	\end{bmatrix}. \]
 	
-	记元素 \( a_{ij} \) 的代数余子式为 \( A_{ij}:=(-1)^{i+j}M_{ij} \).那么 \( \det A=|A|:= a_{11}A_{11}+a_{21}A_{21}+\cdots+a_{n1}A_{n1} \). 这一定义称为按第一列展开归纳定义.
+	记元素 \( a_{ij} \) 的代数余子式为 \( A_{ij}:=(-1)^{i+j}M_{ij} \).那么 \( \det A=|A|:= a_{11}A_{11}+a_{21}A_{21}+\cdots+a_{n1}A_{n1} \). 这一定义称为按第一列展开归纳定义. 对 \( n=0 \) 的情形，规定 \( \det A=1 \).
 	\label{2.2.1}
 \end{definition}
 
@@ -1165,7 +1165,7 @@ a_{31} & a_{32} & a_{33}
 \end{lemma}
 
 \begin{proof}
-	
+	用性质 \ref{2.2.2} (2) 拆开行列式，注意到推论 \ref{2.2.3} 蕴含如果两列相同行列式值为零，那么原本拆开的 \( 2^n \) 项只剩下 \( \det A(0) \)，以及 \( \det A(0) \) 中任意一列被全为 \( t \) 的列填充得到的行列式共 \( n+1 \) 项，对后者，按全为 \( t \) 的列展开，所有项求和，结论即证.
 \end{proof}
 
 \begin{example}
@@ -1185,6 +1185,82 @@ a_{31} & a_{32} & a_{33}
 \end{example}
 
 \begin{solution}
+	(\textbf{法一})\ 先考虑 \( y \neq z \). 记行列式 \( \det A=\det A(0) \). 用引理 \ref{2.2.21} 的方式定义 \( \det A(t) \). 那么 \( \det A(-y)=(x_1-y)\cdots (x_n-y) \)，以及 \( A(-z)= (x_1-z)\cdots (x_n-z) \). 联立如下的方程组求解
+	\[ \left\{ \begin{array}{l}
+		A(-y)=\det A(0)- y \sum_{i,j=1}^{n} A_{ij}= \prod_{i=1}^{n} (x_i-y), \\
+		A(-z)=\det A(0)- z\sum_{i,j=1}^{n} A_{ij}= \prod_{i=1}^{n} (x_i-z).
+	\end{array}\right. \]
+	
+	那么 
+	\[ \det A= \det A(0)= \frac{y}{y-z} \prod_{i=1}^{n} (x_i-z)- \frac{z}{y-z} \prod_{i=1}^{n} (x_i-y). \]
+	
+	当 \( y=z \) 时，类似例 \ref{2.2.21} 得到
+	\[ \det A=\det \begin{bmatrix}
+		1 & y & y & y & \cdots & y \\
+		-1 & x_1-y & 0 & 0 & \cdots & 0 \\
+		-1 & 0 & x_2-y & 0 & \cdots & 0 \\
+		-1 & 0 & 0 & x_3-y & \cdots & 0 \\
+		\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+		-1 & 0 & 0 & 0 & \cdots & x_n-y
+	\end{bmatrix}=\prod_{i=1}^{n}(x_i-y)+y\sum_{i=1}^{n} \prod_{j \neq i}^{} (x_j-y).   \]
+	
+	最后一个等号利用了例 \ref{2.2.18} 中法二的结论. 当然也可以假设 \( y \neq x_1,\cdots,x_n \)，然后用例 \ref{2.2.18} 中法一的公式，最后对 \( y=x_1,\cdots,x_n \) 延拓. 只不过写起来复杂一点.
+	
+	\vspace{2ex}
+	
+	(\textbf{法二})\ 递推公式法，考虑最后一列的拆分，
+	\begin{align*}
+		D_n &= \begin{vmatrix}
+			x_1 & y & y & \cdots & y & y \\
+			z & x_2 & y & \cdots & y & y \\
+			z & z & x_3 & \cdots & y & y \\
+			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+			z & z & z & \cdots & x_{n-1} & y \\
+			z & z & z & \cdots & z & x_n \\
+		\end{vmatrix}_n= \begin{vmatrix}
+		x_1 & y & y & \cdots & y & y \\
+		z & x_2 & y & \cdots & y & y \\
+		z & z & x_3 & \cdots & y & y \\
+		\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+		z & z & z & \cdots & x_{n-1} & y \\
+		z & z & z & \cdots & z & y+x_n-y \\
+		\end{vmatrix} \\
+		&= \begin{vmatrix}
+			x_1 & y & y & \cdots & y & 0 \\
+			z & x_2 & y & \cdots & y & 0 \\
+			z & z & x_3 & \cdots & y & 0 \\
+			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+			z & z & z & \cdots & x_{n-1} & 0 \\
+			z & z & z & \cdots & z & x_n-y \\
+		\end{vmatrix}+y\begin{vmatrix}
+		x_1-z & y-z & y-z & \cdots & y-z & 1 \\
+		0 & x_2-z & y-z & \cdots & y-z & 1 \\
+		0 & 0 & x_3-z & \cdots & y-z & 1 \\
+		\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+		0 & 0 & 0 & \cdots & x_{n-1}-z & 1 \\
+		0 & 0 & 0 & \cdots & 0 & 1 \\
+		\end{vmatrix} \\
+		&= (x_n-y)D_{n-1}+y\prod_{i=1}^{n-1}(x_i-z).
+	\end{align*}
+	
+	用相同的方法，将 \( x_n \) 改写为 \( x_n-z+z \)，然后对最后一行拆分可以得到
+	\[ D_n=(x_n-z)D_{n-1}+z\prod_{i=1}^{n-1}(x_i-y). \]
+	
+	联立上述两个式子，可以解出
+	\[ D_n=\det A= \frac{y}{y-z} \prod_{i=1}^{n} (x_i-z)- \frac{z}{y-z} \prod_{i=1}^{n} (x_i-y). \]
+	
+	当 \( y=z \) 时，不妨设 \( y \neq x_1,\cdots,x_n \). 考察 \( D_n=(x_n-y)D_{n-1}+y\prod_{i=1}^{n-1}(x_i-y) \). 那么
+	\[ \frac{D_n}{\prod_{i=1}^{n}(x_i-y)}= \frac{D_{n-1}}{\prod_{i=1}^{n-1}(x_i-y)}+\frac{y}{x_n-y}. \]
+	
+    那么用累加法得到
+	\[ \frac{D_n}{\prod_{i=1}^{n}(x_i-y)}= \frac{x_1}{x_1-y}+\sum_{i=2}^{n}\frac{y}{x_i-y}. \leadsto D_n= x_1\prod_{i=2}^{n}(x_i-y)+y \sum_{i=2}^{n} \prod_{j \neq i, 1 \leq j \leq n}^{}(x_j-y).  \]
+	
+	接下来要对 \( y=x_1,\cdots,x_n \) 用连续性延拓. 可以验证这个结果和法一是相同的，
+	\begin{align*}
+		x_1\prod_{i=2}^{n}(x_i-y)+y \sum_{i=2}^{n} \prod_{j \neq i, 1 \leq j \leq n}^{}(x_j-y) & =\prod_{i=1}^{n}(x_i-y)+y \left( \prod_{i=2}^{n} (x_i-y)+\sum_{i=2}^{n} \prod_{j \neq i, 1 \leq j \leq n}^{}(x_j-y) \right), \\
+		&= \prod_{i=1}^{n}(x_i-y)+y \sum_{i=1}^{n} \prod_{j \neq i, 1 \leq j \leq n}^{}(x_j-y).
+	\end{align*}
+	
 	
 \end{solution}
 
@@ -1257,7 +1333,11 @@ a_{31} & a_{32} & a_{33}
 \subsubsection{一类交错型的刻画}
 
 
-\subsubsection{定义的等价性}
+\subsubsection{行列式的映射定义与组合展开式}
+
+
+\subsubsection{两种定义的等价性}
+
 
 \subsection{行列式的其他性质}
 
@@ -1265,5 +1345,14 @@ a_{31} & a_{32} & a_{33}
 
 \subsubsection{Cauchy\(-\)Binet 公式}
 
+\subsection{可逆矩阵的一些额外问题}
+
+\subsubsection{群同态}
+
+\subsubsection{抽象型求逆问题}
+
+\subsubsection{伴随矩阵的性质}
+
+\subsubsection{初等变换求逆}
 
 \end{document}
