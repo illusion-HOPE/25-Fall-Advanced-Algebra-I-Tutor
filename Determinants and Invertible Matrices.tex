@@ -28,12 +28,13 @@
 \usepackage{tkz-fct}
 \usetikzlibrary{calc,intersections,through,backgrounds,3d}
 \usepackage{tkz-euclide}
+\usepackage{tikz-3dplot}
 \usepackage{pgfplots}
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage[graphicx]{realboxes}
 \usepackage{fancyhdr}
-
+\usepackage{nicematrix}
 \definecolor{winered}{rgb}{0.5,0,0}
 \definecolor{structurecolor}{RGB}{122,122,142}
 \definecolor{main}{HTML}{3D445F}
@@ -162,6 +163,9 @@
 \newcommand{\tz}{\mathrm{char} \;}
 \newcommand{\tr}{\mathrm{tr}}
 \newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bmxi}{\bm{\xi}}
+\newcommand{\bmeta}{\bm{\eta}}
+\newcommand{\bme}{\bm{e}}
 \newcommand{\oneb}{\underline{\hspace{1em}}\hspace{0.001em}}
 \newcommand{\twob}{\oneb\oneb}
 \newcommand{\fourb}{\twob\twob}
@@ -203,7 +207,7 @@
 
 
 \begin{document}
-
+\tdplotsetmaincoords{70}{110} 
 \pagestyle{fancy}
 \lhead{Lecture 2}
 \chead{illusion \& FzRainD}
@@ -215,13 +219,13 @@
 进入 \S 2 节，我们本节的任务主要是延续上节的讨论，探寻对方阵而言，什么样的方阵能在 \( \F\n \) 中可逆. 进一步，如果 \( A \) 可逆，那么解线性方程组 \( AX=\beta \) 就变得非常容易了，只需要 \( X=A^{-1}AX=A^{-1}\beta \). 我们离这种 \( n \) 个方程组成的关于 \( n \) 个变元的线性方程组的公式解，只有一步之遥，那就是如何给出 \( A^{-1} \) 的表达式?
 但这些假设的前提是，我们已经知道矩阵 \( A \) 可逆，当务之急应该是找出一个判定 \( A \) 可逆的法则. 
 
-\subsection{可逆矩阵和一般线性群}
-\begin{definition}[可逆矩阵]
+\subsection{序幕: 可逆矩阵和一般线性群}
+\begin{definition}[可逆矩阵]\label{2.1.1}
 	设 \( A \in \F\n \)，称 \( A \) 是可逆矩阵，若存在 \( B \in \F\n \) 使得 \( AB=BA=E_n \). 此时，一般记 \( B=A^{-1} \). 从定义可见，可逆矩阵与矩阵本身互为逆矩阵，即 \( A^{-1} \) 的逆矩阵也为 \( A \).
-	\label{2.1.1}
+	
 \end{definition}
 
-\begin{property}[可逆矩阵的性质]
+\begin{property}[可逆矩阵的性质]\label{2.1.2}
 	若矩阵 \( A, B \in \F\n \) 可逆，那么
 	\begin{enumerate}[(1)]
 		\item 矩阵 \( A \) 的逆元 \( B=A^{-1} \) 必定唯一;
@@ -229,27 +233,27 @@
 		\item (穿脱法则 II) \ 对一列方阵 \( \{A_k\}_{1 \leq k \leq n} \) 为可逆矩阵，那么 \( A_1A_2\cdots A_n \) 也可逆，且 \( (A_1A_2\cdots A_n)^{-1}=A_n^{-1}A_{n-1}^{-1}\cdots A_1^{-1} \);
 		\item (转置与取逆的协调) \ \( A\T \) 也可逆，且 \( (A\T)^{-1}=(A^{-1})\T \).
 	\end{enumerate}
-	\label{2.1.2}
+	
 \end{property}
 
 \begin{proof}
 	(1) 设还有 \( C \in \F\n \) 使得 \( AC=CA=E_n \). 那么 \( C=E_nC=(BA)C=B(AC)=BE_n=B \). (2) 只需要验证定义，\( (B^{-1}A^{-1})(AB)=B^{-1}(A^{-1}A)B=B^{-1}E_nB=B^{-1}B=E_n \). 另一方面，\( (AB)(B^{-1}A^{-1})=E_n \) 是类似的. (3) 完全等同 (2)，只需要用归纳法. (4) 验证 \( (A^{-1})\T(A\T)=(AA^{-1})\T=E_n\T=E_n \). 同理 \( (A\T)(A^{-1})\T= E_n \).
 \end{proof}
 
-\begin{example}[初等矩阵]
+\begin{example}[初等矩阵]	\label{2.1.3}
 	初等矩阵均可逆. 且它们的逆矩阵十分容易求出. 可以自行验证如下的结论:
 	\[ E(i,j(c))^{-1}=E(i,j(-c)), \; E(i(c))^{-1}=E(i(c^{-1})) \ (c \neq 0), \; E(i,j)^{-1}=E(i,j). \]
 	现在我们明白了，所谓初等矩阵对应操作的逆操作，无非就是左乘初等矩阵的逆矩阵.
-	\label{2.1.3}
+
 \end{example}
 
 \begin{example}[单位矩阵]
 	单位矩阵显然可逆，且 \( E_n^{-1}=E_n \).
 \end{example}
 
-\begin{example}
+\begin{example}\label{2.1.5}
 	若矩阵 \( A,B \) 可逆，那么 \( A+B \) 不一定可逆，例如取 \( A=E_n, \; B=-E_n \)，那么 \( A+B=O \). 而必定不存在矩阵 \( C \in \F\n \) 使得 \( CO=OC=E_n \)!
-	\label{2.1.5}
+	
 \end{example}
 
 事实上，在性质 \ref{2.1.2} 的证明中我们只用到了矩阵乘法的结合律，矩阵乘法存在幺元，以及可逆矩阵的定义，即定义 \ref{2.1.1}. 这提示我们性质 \ref{2.1.2} 应该具有一般性. 接下来，我们将矩阵环 \( \F\n \) 的乘法部分作如下提炼，就得到群的定义.
@@ -306,9 +310,9 @@
 
 下面的命题说明了可逆矩阵只能在方阵中定义，而无法推广到一般的矩阵. 
 
-\begin{proposition}
+\begin{proposition}\label{2.1.11}
 	对 \( n \neq m \)，不存在 \( A \in \F\nm \) 以及 \( B \in \F\mn \) 使得 \( AB= E_n, \; BA=E_m \).
-	\label{2.1.11}
+	
 \end{proposition}
 
 \begin{proof}
@@ -321,7 +325,7 @@
 
 为了进一步研究可逆矩阵的判定条件，我们先对可逆矩阵有一个初步刻画.
 
-\begin{proposition}[可逆的必要条件]
+\begin{proposition}[可逆的必要条件]\label{2.1.12}
 	设 \( A \in \gf \)，即定义 \ref{2.1.1}，存在矩阵 \( B \in \F\n \)，使得 \( BA=AB=E_n \)，其中 \( B \) 当然也是可逆的. 那么
 	\begin{enumerate}[(1)]
 		\item 线性方程组 \( AX=O \) 仅有零解;
@@ -329,7 +333,7 @@
 		\item \( A \) 可以只经过初等行变换或者初等列变换变为 \( E_n \);
 		\item \( A \) 可以表示为初等矩阵的乘积.
 	\end{enumerate}
-	\label{2.1.12}
+	
 \end{proposition}
 
 \begin{proof}
@@ -341,9 +345,9 @@
     (3) 只经过初等行变换是显然的，对初等列变换，考察 \( A\T \)，由于 \( A\T \) 可以只经过初等行变换化为 \( E_n \)，这就对应 \( A \) 可以只经过初等列变换化为 \( E_n \). (4) 由 (3) 立即得到.
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}	\label{2.1.13}
 	设 \( A \in \F\n \)，那么 \( A \in \gf \) 的充分必要条件为 \( A \) 可以表示为初等矩阵的乘积.
-	\label{2.1.13}
+
 \end{corollary}
 
 \begin{proof}
@@ -561,7 +565,7 @@ a_{31} & a_{32} & a_{33}
 
 于是我们下面提出行列式的第一种定义，按列展开的数学归纳法定义.
 
-\begin{definition}[数学归纳法定义]
+\begin{definition}[数学归纳法定义]\label{2.2.1}
 	考虑 \( A \in \F\n \)，现在递归定义 \( \det A \ (|A|): \F\n \to \F \). 当 \( n=1 \) 时，设 \( A=(a) \)，定义 \( \det A=a \). 现在假设 \( n-1 \) 阶的行列式已经定义好，设元素 \( a_{ij} \) 的余子式为从 \( A \) 中删去第 \( i \) 行和第 \( j \) 列所得 \( n-1 \) 阶矩阵的行列式，记作 \( M_{ij} \)，即
 	\[ M_{ij}=\det \begin{bmatrix}
 		a_{11} & \cdots & a_{1,j-1} & a_{1,j+1} & \cdots & a_{1n} \\
@@ -573,14 +577,14 @@ a_{31} & a_{32} & a_{33}
 	\end{bmatrix}. \]
 	
 	记元素 \( a_{ij} \) 的代数余子式为 \( A_{ij}:=(-1)^{i+j}M_{ij} \).那么 \( \det A=|A|:= a_{11}A_{11}+a_{21}A_{21}+\cdots+a_{n1}A_{n1} \). 这一定义称为按第一列展开归纳定义. 对 \( n=0 \) 的情形，规定 \( \det A=1 \).
-	\label{2.2.1}
+	
 \end{definition}
 
 \subsubsection{行列式的基本性质}
 
 这个定义是否有用，还需要看它能不能用来解决我们先前的问题: 即可逆矩阵的判定以及线性方程组的公式解. 那么沿着定义，我们第一步自然是刻画一些相关的性质.
 
-\begin{property}[行列式的性质]
+\begin{property}[行列式的性质]\label{2.2.2}
 	在定义 \ref{2.2.1} 的基础上，将矩阵按列分块，得到 \( A=(\alpha_1,\alpha_2,\cdots,\alpha_n) \)，也记行列式 \( \det A=\det(\alpha_1,\alpha_2,\cdots,\alpha_n) \). 任取 \( \beta \in \F^n \) 以及 \( c \in \F \)，那么
 	\begin{enumerate}[(1)]
 		\item 将 \( \det A \) 的一列乘以某个常数 \( c \) 得到 \( \det B \)，那么 \( \det B=c\det A \). 即 \( \det(\alpha_1,\cdots,\alpha_{i-1},c\alpha_i,\alpha_{i+1},\cdots,\alpha_n)=c\det A \)，进而 \( \det(cA)=c^n \det A \);
@@ -592,7 +596,7 @@ a_{31} & a_{32} & a_{33}
 	    \[ \det A= a_{1r}A_{1r}+a_{2r}A_{2r}+\cdots+a_{nr}A_{nr}. \]
 	    \item 转置不改变行列式的值，即 \( \det A\T= \det A \).
 	\end{enumerate}
-	\label{2.2.2}
+	
 \end{property}
 
 \begin{proof}
@@ -675,23 +679,23 @@ a_{31} & a_{32} & a_{33}
 \end{proof}
 
 
-\begin{corollary}
+\begin{corollary}\label{2.2.3}
 	若行列式有两列相同，那么行列式的值为 0.
-	\label{2.2.3}
+	
 \end{corollary}
 
 \begin{proof}
 	若 \( \tz \F \neq 2 \)，根据性质 \ref{2.2.2} (4)，交换这两个相同的列，可以得到 \( \det A=-\det A \)，进而 \( 2\det A=0 \) 蕴含 \( \det A=0 \).  \( \tz \F=2 \) 时，由于 \( -1=1 \)，那么任意交换行列式的列，行列式的值均不变. 用数学归纳法即可，当 \( n=2 \) 时显然成立，对 \( n>2 \)，将两个相同的列调换至第 \( 2 \sim n \) 列，再按第一列展开用归纳假设即可.
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}	\label{2.2.4}
 	利用性质 \ref{2.2.2} (7)，可以直接把性质 \ref{2.2.2} 中所有有关列的表述改为行，都完全成立.
-	\label{2.2.4}
+
 \end{corollary}
 
-\begin{corollary}
+\begin{corollary}\label{2.2.5}
 	若行列式有一行或者一列全为零，那么行列式的值为 0.
-	\label{2.2.5}
+	
 \end{corollary}
 
 \begin{proof}
@@ -702,17 +706,17 @@ a_{31} & a_{32} & a_{33}
 
 有了性质 \ref{2.2.2} 我们可以得出下面两个重要的命题，进而体会行列式的工具性: 刻画可逆矩阵的充要条件以及给出一类线性方程组的公式解.
 
-\begin{definition}[伴随矩阵]
+\begin{definition}[伴随矩阵]\label{2.2.6}
 	设 \( A \in \F\n \)，定义矩阵 \( A \) 的古典伴随矩阵为 \( A^*:=(A_{ji}) \)，即按正常行列顺序排列 \( a_{ij} \) 的代数余子式，而后转置. 
-	\label{2.2.6}
+	
 \end{definition}
 
-\begin{proposition}[正交性]
+\begin{proposition}[正交性]	\label{2.2.7}
 	在定义 \ref{2.2.6} 的基础上，成立 \( AA^*=A^*A=(\det A)E_n \). 换言之，用矩阵乘法的定义就写出
 	\[ a_{1i}A_{1j}+a_{2i}A_{2j}+\cdots+a_{ni}A_{nj}=(\det A)\delta_{ij}, \]
 	以及
 	\[ a_{i1}A_{j1}+a_{i2}A_{j2}+\cdots+a_{in}A_{jn}=(\det A)\delta_{ij}. \]
-	\label{2.2.7}
+
 \end{proposition}
 
 \begin{proof}
@@ -728,13 +732,13 @@ a_{31} & a_{32} & a_{33}
 	这里对第 \( j \) 列展开，且运用推论 \ref{2.2.3}.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{2.2.8}
 	设 \( A \in \F\n, \; B \in \F^{m \times m}, \; C \in  \F\mn \)，那么
 	\[ \det \begin{bmatrix}
 		A & O \\
 		C & B
 	\end{bmatrix}= \det A \det B. \]
-	\label{2.2.8}
+	
 \end{lemma}
 
 \begin{proof}
@@ -757,9 +761,9 @@ a_{31} & a_{32} & a_{33}
 	\end{align*}
 \end{proof}
 
-\begin{proposition}[同态性]
+\begin{proposition}[同态性]\label{2.2.9}
 	设 \( A,B \in \F\n \)，那么 \( \det(AB)=(\det A)(\det B) \).
-	\label{2.2.9}
+	
 \end{proposition}
 
 \begin{proof}
@@ -848,7 +852,7 @@ a_{31} & a_{32} & a_{33}
 
 有了命题 \ref{2.2.7} 和命题 \ref{2.2.9}，我们现在终于可以把命题 \ref{2.1.12} 推广到充分必要条件，也就是可逆矩阵的判定.
 
-\begin{proposition}[可逆矩阵的判定，充分必要条件]
+\begin{proposition}[可逆矩阵的判定，充分必要条件]	\label{2.2.13}
 	设 \( A \in \F\n \)，那么下列叙述等价:
 	\begin{enumerate}[(1)]
 		\item \( A \in \gf \)，即定义 \ref{2.1.1}，存在矩阵 \( B \in \F\n \)，使得 \( BA=AB=E_n \);
@@ -859,7 +863,7 @@ a_{31} & a_{32} & a_{33}
 		\item \( A \) 可以只经过初等行变换或者初等列变换变为 \( E_n \);
 		\item \( A \) 可以表示为初等矩阵的乘积.
 	\end{enumerate}
-	\label{2.2.13}
+
 \end{proposition}
 
 \begin{proof}
@@ -872,7 +876,7 @@ a_{31} & a_{32} & a_{33}
 
 那么下面关于不可逆矩阵的等价刻画，简直是呼之欲出.
 
-\begin{proposition}[不可逆矩阵的判定，充分必要条件]
+\begin{proposition}[不可逆矩阵的判定，充分必要条件]	\label{2.2.14}
 	设 \( A \in \F\n \)，那么下列叙述等价:
 	\begin{enumerate}[(1)]
 		\item \( A \) 不可逆;
@@ -881,7 +885,7 @@ a_{31} & a_{32} & a_{33}
 		\item 存在非零矩阵 \( B \in \F\n \) 使得 \( AB=O \);
 		\item \( A \) 的简化行阶梯形矩阵的非零行数目 \( r(A)<n \).
 	\end{enumerate}
-	\label{2.2.14}
+
 \end{proposition}
 
 \begin{proof}
@@ -890,7 +894,7 @@ a_{31} & a_{32} & a_{33}
 
 从性质 \ref{2.1.2} 以及命题 \ref{2.2.13} 的证明我们知道，如果 \( A \) 可逆，逆元必定唯一 \( A^{-1}=(\det A)^{-1} A^* \). 那么 \( AX=\beta \) 的解就完全归结到计算一些行列式，得到 \( A^* \) 和 \( \det A \)，最后计算 \( X=A^{-1}\beta \) 即可. 这就是下面的 Cramer 法则，回答了我们开头提出的如何求线性方程组公式解的问题.
 
-\begin{theorem}[Cramer]
+\begin{theorem}[Cramer]\label{2.2.15}
 	给定 \( A \in \F\n \) 以及 \( \beta \in \F^n \)，那么线性方程组 \( AX=\beta \) 有唯一解的充分必要条件为 \( A \) 可逆，此时解为
 	\[ X=\frac{A^*\beta}{\det A}. \]
 	
@@ -898,6 +902,7 @@ a_{31} & a_{32} & a_{33}
 	\[ x_i=\frac{\det(\alpha_1,\cdots,\alpha_{i-1},\beta,\alpha_{i+1},\cdots,\alpha_n)}{\det A}. \]
 	
 	这和我们在二元以及三元方程组解的表达式探究中所得到的结果一致.
+	
 \end{theorem}
 
 \begin{proof}
@@ -910,6 +915,8 @@ a_{31} & a_{32} & a_{33}
 	
 	最后一个等号由行列式按第 \( i \) 列展开得到，即性质 \ref{2.2.2} (5).
 \end{proof}
+
+虽然说 Crmaer 法则成功给出了线性方程组的公式解，不过这一定理的理论性意义大于它实际操作的意义，因为 \( n \) 阶行列式实在太过复杂，我们在数值计算中多采用 Guass-Jordan 消元法或者后面介绍的 LU 分解.
 
 到此为止，可以说关于本节开始之前所提出的问题，都获得了圆满的回答. 剩下的部分，则是对我们新定义的行列式提供几个例子练习，以及给出它的一种几何含义便于我们进一步理解它存在的意义.
 
@@ -981,7 +988,7 @@ a_{31} & a_{32} & a_{33}
 那么最后的结果为 \( 6 \cdot 44/3=88 \). 这里的系数只是为了计算行列式的简单记法，不代表矩阵的数乘.
 \end{solution}
 
-\begin{example}[爪型行列式]
+\begin{example}[爪型行列式]	\label{2.2.18}
 	设下述行列式的主对角元素均非零，计算
 	\[ \det A= \begin{vmatrix}
 		a_0 & b_1 & \cdots & b_n \\
@@ -989,10 +996,10 @@ a_{31} & a_{32} & a_{33}
 		\vdots &  & \ddots & \\
 		c_n &       &        & a_n
 	\end{vmatrix}. \]
-	\label{2.2.18}
+
 \end{example}
 
-\begin{solution}
+\begin{solution} 
 	(\textbf{法一}) \ 利用第 \( 2 \sim n \) 列把第一列全打成零，也就是如下的初等列变换
 	\[ \begin{bmatrix}
 		a_0 & b_1 & \cdots & b_n \\
@@ -1027,9 +1034,10 @@ a_{31} & a_{32} & a_{33}
 	
 	那么再按第 \( i \) 行展开，即 \( M_{1,i+1}=(-1)^{i+1} c_i \prod_{j \neq i}^{} a_j \). 那么
 	\[ \det A= \prod_{k=0}^{n} a_i- \sum_{i=1}^{n} (-1)^{i+2} b_i M_{1,i+1}= \prod_{k=0}^{n} a_i- \sum_{i=1}^{n} (-1)^{i+2} b_i \left( (-1)^{i+1} c_i \prod_{j \neq i}^{} a_j \right)= \prod_{k=0}^{n} a_i-\sum_{i=1}^{n} b_ic_i \prod_{j \neq i}^{} a_j. \]
+	
 \end{solution}
 
-\begin{remark}
+\begin{remark} \label{2.2.19}
 	例 \ref{2.2.18} 中当所有 \( a_i \neq 0 \) 时，法一和法二的结果必然相同，这就是组合问题中的“算两次”原理. 当存在 \( a_i =0 \) 时，法二仍然适用，而法一则需要利用多元函数的连续性进行延拓，也就是我们在 \( V_1:=\{ (a_1,\cdots,a_n) \in \F^n \mid a_1,\cdots,a_n \neq 0 \} \) 这个 \( \F^n \) 的子空间中已经求出了行列式，而行列式 \( \det A \) 又可以看成关于 \( a_1,\cdots,a_n \) 的多元多项式，自然在空间的每个点都连续. 接下来为了利用 \( (\det A)|_{V_1} \) 来求出 \( (\det A)|_{\mathbb{F}^n\textbackslash V_1} \) 的值，可以选择类似 \( \ell: a_1=\cdots=a_r, a_{r+1} \neq 0, a_n \neq 0 \) 这样的路径取极限得到 \( f(0,\cdots,0,a_{r+1},\cdots,a_n) \) 的值. 
 	
 	不过这里的 \( \F \subseteq \mathbb{R} \) 是需要的，因为我们数学分析只建立在 \( \mathbb{R} \) 上，后续一旦用到连续性延拓，都默认 \( \F \subseteq \mathbb{R} \). 对 \( \F =\C \) 的情况要用到多复变函数中的唯一性定理，此处略去.
@@ -1037,7 +1045,7 @@ a_{31} & a_{32} & a_{33}
 
 利用例 \ref{2.2.18}，我们可以计算很多种行列式，下面举出一些例子.
 
-\begin{example}
+\begin{example}	\label{2.2.20}
 	计算 \[
 	\det A= \det \begin{bmatrix}
 		x & a & a & \cdots & a \\
@@ -1047,7 +1055,7 @@ a_{31} & a_{32} & a_{33}
 		a & a & a & \cdots & x
 	\end{bmatrix}.
 	\]
-	\label{2.2.20}
+
 \end{example}
 
 \begin{solution}
@@ -1155,7 +1163,7 @@ a_{31} & a_{32} & a_{33}
 
 下面推广例 \ref{2.2.20}，先介绍一个引理.
 
-\begin{lemma}
+\begin{lemma}\label{2.2.21}
     设 \( t \in \F \) 为参数，定义
     \[ \det A(t):= \begin{vmatrix}
     	a_{11} + t & a_{12} + t & \cdots & a_{1n} + t \\
@@ -1165,7 +1173,7 @@ a_{31} & a_{32} & a_{33}
     \end{vmatrix}, \]
     
     证明：\( \det A(t) = \det A(0) + t \sum_{i,j=1}^{n} A_{ij} \)，其中 \( A_{ij} \) 为 \( a_{ij} \) 在 \( \det A(0) \) 中的代数余子式.
-    \label{2.2.21}
+    
 \end{lemma}
 
 \begin{proof}
@@ -1270,7 +1278,7 @@ a_{31} & a_{32} & a_{33}
 
 下面一个例子是一个很重要的行列式模板: Vandermonde 行列式，我们随后会给出它的一种应用. 它在很多存在性问题中起着关键作用.
 
-\begin{example}[Vandermonde 行列式]
+\begin{example}[Vandermonde 行列式]\label{2.2.23}
 	证明:
 	\[ V_n = \begin{vmatrix}
 		1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\
@@ -1279,23 +1287,46 @@ a_{31} & a_{32} & a_{33}
 		1 & x_n & x_n^2 & \cdots & x_n^{n-1}
 	\end{vmatrix}
 	= \prod_{1 \leq j < i \leq n} (x_i - x_j). \]
+	
 \end{example}
 
 \begin{proof}
+	对阶数 \( n \) 用数学归纳法. 当 \( n=2 \) 时，\( V_2=x_2-x_1 \) 显然成立. 假设对 \( n-1 \) 阶行列式成立，对 \( n \) 阶的情形，先后将第 \( n-1 \) 列的 \( -x_n \) 倍加到第 \( n \) 列，第 \( n-2 \) 列的 \( -x_n \) 倍加到第 \( n-1 \) 列，\( \cdots \)，第 \( 1 \) 列的 \( -x_n \) 倍加到第 \( 2 \) 列. 这样可以按最后一行展开降低阶数，
+	\[ V_n=\begin{vmatrix}
+		1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\
+		1 & x_2 & x_2^2 & \cdots & x_2^{n-1} \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		1 & x_n & x_n^2 & \cdots & x_n^{n-1}
+	\end{vmatrix}=\begin{vmatrix}
+	1 & x_1-x_n & x_1^2-x_nx_1 & \cdots & x_1^{n-1}-x_1^{n-2}x_n \\
+	1 & x_2-x_n & x_2^2-x_nx_2 & \cdots & x_2^{n-1}-x_2^{n-2}x_n \\
+	\vdots & \vdots & \vdots & \ddots & \vdots \\
+	1 & 0 & 0 & \cdots & 0
+	\end{vmatrix}=(-1)^{n+1} \prod_{i=1}^{n-1}(x_i-x_n) V_{n-1}. \]
 	
+	那么
+	\[ V_n=(-1)^{n-1} \prod_{i=1}^{n-1}(x_i-x_n) V_{n-1}= \prod_{i=1}^{n-1}(x_n-x_i) V_{n-1}= \prod_{i=1}^{n-1}(x_n-x_i)\prod_{i=1}^{n-2}(x_{n-1}-x_i)V_{n-2}=\cdots=\prod_{1 \leq j < i \leq n} (x_i - x_j). \]
 \end{proof}
 
 \begin{proposition}
-	设 \( f(\cdot) \in \mathbb{C}[x] \)，若存在互不相同的 \( n+1 \) 个数 \( c_1,\cdots,c_{n+1} \in \mathbb{F} \) 使得 \( f(c_i) \in \mathbb{F} \)，那么 \( f(\cdot) \in \mathbb{F}[x] \). 
+	设 \( f(x) \in \mathbb{C}[x] \)，且 \( f(x) \) 为 \( n \) 次多项式. 若存在互不相同的 \( n+1 \) 个数 \( c_1,\cdots,c_{n+1} \in \mathbb{F} \) 使得 \( f(c_i) \in \mathbb{F} \)，那么 \( f(x) \in \mathbb{F}[x] \). 
 \end{proposition}
 
 \begin{proof}
+	设 \( f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0 \). 那么将
+	\[ \left\{ \begin{array}{l}
+		f(c_1)=a_nc_1^{n}+a_{n-1}c_1^{n-1}+\cdots+a_1c_1+a_0, \\
+		f(c_2)=a_nc_2^{n}+a_{n-1}c_2^{n-1}+\cdots+a_1c_2+a_0, \\
+		\qquad \vdots \\
+		f(c_{n+1})=a_nc_{n+1}^{n}+a_{n-1}c_{n+1}^{n-1}+\cdots+a_1c_{n+1}+a_0.
+	\end{array}\right. \]
 	
+	视作关于变元 \( a_{n},\cdots,a_0 \) 的线性方程组，其系数矩阵为 Vandermonde 行列式，由于 \( c_i \) 两两不同，由例 \ref{2.2.23} 的公式，这个系数矩阵行列式必定非零，即可逆，那么这个线性方程组必定有唯一解. 再由定理 \ref{2.2.15} 给出的 Cramer 法则，这个方程的解 \( a_{n},\cdots,a_0 \) 就是通过计算由系数矩阵以及 \( f(c_i) \) 构成的若干个行列式，那么由它们的四则运算确定，又 \( \F \) 关于四则运算封闭，那么 \( a_{n},\cdots,a_0 \in \C \).
 \end{proof}
 
 下面的命题是对引理 \ref{2.2.8} 的推广，事实上我们在命题 \ref{2.2.9} 的证明中也使用到这一点的特殊情形，也就是 \( m=n \) 的情况. 
 
-\begin{proposition}
+\begin{proposition} \label{2.2.25}
     设 \( A \in \F\n, \; B \in \F^{m \times m}, \; C \in \F\nm, \; D \in \F\mn \)，那么
     \[ 
     \det\begin{bmatrix} 
@@ -1306,13 +1337,23 @@ a_{31} & a_{32} & a_{33}
     	O & A \\
     	 B & D
     \end{bmatrix}= (-1)^{mn} (\det A)(\det B). \]
+    
 \end{proposition}
 
 \begin{proof}
+	基本想法就是通过若干次互换变换，利用性质 \ref{2.2.2} (3) 和引理 \ref{2.2.8}. 将第 \( n+1 \) 行先后和第 \( n \) 行，第 \( n-1 \) 行，\( \cdots \)，第 \( 1 \) 行互换，实现第 \( n+1 \) 行和前 \( n \) 行的整体互换，一共操作 \( n \) 次，接下来用同样的方法将大矩阵的 \( n+2 \) 行和 \( 2 \sim n+1 \) 行的整体互换，\( \cdots \)，\( n+m \) 行和 \( m \sim n+m-1 \) 行的整体互换. 一共操作 \( mn \) 次. 即
+	\[ \det\begin{bmatrix} 
+		C & A \\
+		B & O 
+	\end{bmatrix}= (-1)^{mn}\det\begin{bmatrix} 
+	B & O \\
+	C & A 
+	\end{bmatrix}= (-1)^{mn} (\det A)(\det B). \]
 	
+	最后一个等号来自引理 \ref{2.2.8}. 对后一个行列式无非就是把上述过程换成对列进行，先将 \( m+1 \) 列和前 \( m \) 列整体互换，后续同理，一共换了 \( n \cdot m \) 次.
 \end{proof}
 
-最后我们再看一个利用命题 \ref{2.2.9} 的案例. 通过将一个矩阵拆分为两个矩阵的乘积，化解难题.
+必须强调引理 \ref{2.2.8} 和命题 \ref{2.2.25} 是后续计算分块矩阵行列式最基本的公式，务必掌握. 最后我们再看一个利用命题 \ref{2.2.9} 的案例. 通过将一个矩阵拆分为两个矩阵的乘积，化解难题.
 
 \begin{example}
 	计算
@@ -1325,31 +1366,771 @@ a_{31} & a_{32} & a_{33}
 \end{example}
 
 \begin{solution}
+	基本的想法来自对矩阵元素的观察，熟练二项式展开的读者马上就可以写出下面的求和
+	\[ (a_i+b_j)^n=\sum_{k=0}^{n} (C_n^k a_i^k) (b_j^{n-k}). \]
 	
+	那么套用矩阵乘法的定义，定义两个 \( n+1 \) 阶矩阵 \( B=(C_n^j a_i^j), \; C=(b_j^{n-i}) \)，要求 \( 0 \leq i,j \leq n \). 
+	\[ B= \begin{bmatrix}
+		C_n^0 a_0^0 & C_n^1 a_0^1 & \cdots & C_n^n a_0^n \\
+		C_n^0 a_1^0 & C_n^1 a_1^1 & \cdots & C_n^n a_1^n \\
+		\vdots & \vdots & \ddots & \vdots \\
+		C_n^0 a_n^0 & C_n^1 a_n^1 & \cdots & C_n^n a_n^n 
+	\end{bmatrix}, \; C= \begin{bmatrix}
+	b_0^{n} & b_1^{n} & \cdots & b_n^{n} \\
+	b_0^{n-1} & b_1^{n-1} & \cdots & b_n^{n-1} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	b_0^{0} & b_1^{0} & \cdots & b_n^{0}  
+	\end{bmatrix}. \]
+	
+	那么利用命题 \ref{2.2.9}，知道 \( \det A=\det B\det C \)，因为 \( A=BC \). 现在分别求两个行列式，先求 \( \det B \)，这是 Vandermonde 行列式的直接结果，即例 \ref{2.2.23} 的结论, 
+	\[  \det B= \prod_{i=0}^{n} C_n^i \prod_{0 \leq i<j \leq n}^{} (a_j-a_i). \]
+	
+	另一方面，为求 \( \det C \)，需要完全重排这个矩阵才能变成 Vandermonde 行列式，也就是希望调整后的第 \( i \) 行是现在矩阵 \( C \) 的第 \( n+1-i \) 行才可以. 那又和命题 \ref{2.2.25} 类似，先把第 \( n+1 \) 行和前 \( n \) 行整体对调，需要 \( n \) 次，然后再让新的第 \( n+1 \) 行和第 \( 2 \sim n \) 行整体对调，需要 \( n+1 \) 次，依次类推. 一共需要对调 \( n+(n-1)+\cdots+1 \) 次.
+	\[ \det C= (-1)^{n+(n-1)+\cdots+1} \prod_{0 \leq i<j \leq n}^{} (b_j-b_i). \]
+	
+	一个小观察，后面那个连乘式也恰好是 \( n+(n-1)+\cdots+1 \) 项，那么直接将负号都提进去，就是
+	\[ \det C=\prod_{0 \leq i<j \leq n}^{} (b_i-b_j). \]
+	
+	当然了，还有一种方法，先不妨设 \( b_0,\cdots,b_n \neq 0 \)，对第一行提取公因式，就是
+	\[ \det C= \prod_{i=0}^{n} b_i^n \det\begin{bmatrix}
+		1 & 1 & \cdots & 1 \\
+		b_0^{-1} & b_1^{-1} & \cdots & b_n^{-1} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		b_0^{-n} & b_1^{-n} & \cdots & b_n^{-n}  
+	\end{bmatrix}= \prod_{i=0}^{n} b_i^n \prod_{0 \leq i<j \leq n}^{} (b_j^{-1}-b_i^{-1}). \]
+	
+	注意到在第二个连乘中，每一个 \( b_i^{-1} \) 只会出现 \( n \) 次，分别是 \( b_j^{-1}-b_i^{-1} \ (i+1 \leq k \leq n) \)，这里一共 \( n-i \) 项，还有 \( b_i^{-1}-b_k^{-1} \ (0 \leq k \leq i-1) \)，这里一共 \( i \) 项. 那么把前面一共 \( n \) 个 \( b_i \) 的乘积提入，就是一个关于 \( b_i \) 的一次式. 所以最后的结果不会出现分母，对于 \( b_0,\cdots,b_n  \) 可能为零的情况，又需要类似注 \ref{2.2.19} 的延拓操作.
+	
+	为了说明两个结果的等价性，按照上述分配法则，每个括号 \( b_j^{-1}-b_i^{-1} \) 都能得到一个 \(b_ib_j \) 的乘积，即
+	\[ \det C= \prod_{i=0}^{n} b_i^n \prod_{0 \leq i<j \leq n}^{} (b_j^{-1}-b_i^{-1})= \prod_{0 \leq i<j \leq n}^{} b_ib_j (b_j^{-1}-b_i^{-1})=\prod_{0 \leq i<j \leq n}^{}  (b_i-b_j). \]
 \end{solution}
 
 \subsection{几何动机: 有向体积}
 \label{2.3}
 
-\subsubsection{向量组的线性关系}
+下面我们将开始探究行列式的几何意义，具体而言，行列式的几何意义是两个线性空间之间的线性映射带来的体积伸缩量. 到最后你可以发现书本上行列式的组合展开式就自然而然出现了，
 
+\subsubsection{基的定向}\label{Sec 2.3.1}
+
+
+在解析几何中，我们已经定义好了三维空间的向量积 \( \bm{a} \times \bm{b} \)，它的方向遵循右手定则，模长为 \( |\bm{a}||\bm{b}|\sin \langle \bm{a},\bm{b} \rangle \). 如果给定空间 \( \R^3 \) 的一组右手规范基 \( \{\bm{e}_1,\bm{e}_2,\bm{e}_3 \} \)，以及向量 \( \bm{a}, \bm{b} \) 在这组基下的坐标
+\[ (\bm{a},\bm{b})=(\bm{e}_1,\bm{e}_2,\bm{e}_3)\begin{bmatrix}
+	x_1 & x_2 \\ y_1 & y_2 \\ z_1 & z_2
+\end{bmatrix}. \]
+
+那么 \( \bm{a} \times \bm{b} \) 的计算公式写为
+\[ \bm{a} \times \bm{b}= \begin{vmatrix}
+	\bm{e}_1 & \bm{e}_2 & \bm{e}_3 \\
+	x_1 & y_1 & z_1 \\
+	x_2 & y_2 & z_2
+\end{vmatrix}. \]
+
+
+\begin{figure}[htbp!]
+	\centering
+	\label{cap1}
+	\begin{tikzpicture}[tdplot_main_coords, scale=2.5]
+		
+		% 坐标轴
+		\draw[->] (0,0,0) -- (1.5,0,0) node[anchor=north east]{$x$};
+		\draw[->] (0,0,0) -- (0,1.5,0) node[anchor=north west]{$y$};
+		\draw[->] (0,0,0) -- (0,0,1.7) node[anchor=south]{$z$};
+		
+		% 向量 a = (1,0,0)
+		\draw[thick,->,blue] (0,0,0) -- (1,0,0) node[anchor=north]{$\bm{a}$};
+		
+		% 向量 b = (0,1,0)
+		\draw[thick,->,blue] (0,0,0) -- (0,1,0) node[anchor=south]{$\bm{b}$};
+		
+		% 平行四边形填充区域：a 和 b
+		\fill[gray,opacity=0.4] (0,0,0) -- (1,0,0) -- (1,1,0) -- (0,1,0) -- cycle;
+		
+		% 向量 a x b = (0,0,1)
+		\draw[thick,->,red] (0,0,0) -- (0,0,1) node[anchor=east]{$\bm{a}\times\bm{b}$};
+		
+		% 向量 c = (-1,1,1.5)
+		\draw[thick,->,purple] (0,0,0) -- (0.5,-0.6,1.2) node[anchor=west]{$\bm{c}$};
+		
+		% 从 c 的终点作垂线到 z 轴
+		\draw[dashed] (0.5,-0.6,1.2) -- (0,0,1.2);
+		\filldraw[black] (0,0,1.2) circle (0.2pt);
+		
+		% 平行六面体虚线框： a, b, c 构成
+		\coordinate (O) at (0,0,0);
+		\coordinate (A) at (1,0,0);          % a
+		\coordinate (B) at (0,1,0);          % b
+		\coordinate (C) at (0.5,-0.6,1.2);   
+		\coordinate (A1) at (1.5,-0.6,1.2);     %a+c
+		\coordinate (B1) at (0.5,0.4,1.2);      %b+c
+		\coordinate (ABC) at (1.5,0.4,1.2);   %a+b+c
+		\coordinate (AB) at (1,1,0);        %a+b 
+		\coordinate (Top) at (0,0,1.2);     
+		
+		% 底面虚线连接 (a,b,ab)
+		\draw[dashed] (A) -- (AB);
+		\draw[dashed] (B) -- (AB);
+		
+		% 从 a 向量起点出发的平行六面体边
+		\draw[dashed] (A) -- (A1);
+		\draw[dashed] (B) -- (B1);
+		\draw[dashed] (ABC) -- (A1);
+		\draw[dashed] (ABC) -- (B1);
+		\draw[dashed] (AB) -- (ABC);
+		\draw[dashed] (C) -- (A1);
+		\draw[dashed] (C) -- (B1);
+		
+	\end{tikzpicture}
+	\caption{向量示例}
+
+\end{figure}
+
+
+我们在中学阶段熟知 \( |\bm{a}||\bm{b}|\sin \langle \bm{a},\bm{b} \rangle \) 其实就代表了以 \( \bm{a}, \bm{b} \) 为邻边的平行四边形面积. 现在 \( \bm{a} \times \bm{b} \) 又给出了一个垂直 \( \bm{a}, \bm{b} \) 所在平面 \( \mathcal{L}(\bm{a},\bm{b}) \) 的一个法向. 如果引入一个新的向量 \( \bm{c} \)，使得其与 \( \bm{a}, \bm{b} \) 共起点，那么它们三者在 \( \R^3 \) 中会形成一个平行六面体，这个平行六面体当然可以以  \( \bm{a}, \bm{b} \) 为邻边组成的平行四边形为底，那高就相当于 \( \bm{c} \) 在 \( \bm{a} \times \bm{b} \) 上投影的模长，即
+\[ h= \frac{|\bm{c} \cdot (\bm{a} \times \bm{b})|}{|\bm{a} \times \bm{b}|}. \leadsto V=h \cdot |\bm{a} \times \bm{b}|= |\bm{c} \cdot (\bm{a} \times \bm{b})|=: |[\bm{a},\bm{b},\bm{c}]|. \]
+
+上面的 \( [\bm{a},\bm{b},\bm{c}] \) 就是向量 \( \bm{a}, \bm{b}, \bm{c} \) 的混合积，由于平行六面体可以用任意面作为底面，故混合积具有轮换对称性. 如果设 \( \bm{c} \) 在右手规范基 \( \{\bm{e}_1,\bm{e}_2,\bm{e}_3 \} \) 下的坐标为 \( (x_3,y_3,z_3)\T \)，那么
+\[ [\bm{a},\bm{b},\bm{c}]= (x_3\bm{e}_1+y_3\bm{e}_2+z_3\bm{e}_3) \cdot \begin{vmatrix}
+	\bm{e}_1 & \bm{e}_2 & \bm{e}_3 \\
+	x_1 & y_1 & z_1 \\
+	x_2 & y_2 & z_2
+\end{vmatrix}= \begin{vmatrix}
+x_3 & y_3 & z_3 \\
+x_1 & y_1 & z_1 \\
+x_2 & y_2 & z_2
+\end{vmatrix}=(-1)^2\begin{vmatrix}
+x_1 & y_1 & z_1 \\
+x_2 & y_2 & z_2 \\
+x_3 & y_3 & z_3 
+\end{vmatrix}=:\det A. \]
+
+当 \( \det A>0 \) 时，说明 \( \bm{c} \cdot (\bm{a} \times \bm{b})>0 \) 就是向量 \( \bm{a}, \bm{b}, \bm{c} \) 在 \( \R^3 \) 中形成平行六面体的体积，而如果 \( \det A<0 \)，那么说明 \( \bm{c} \cdot (\bm{a} \times \bm{b})<0 \)，也就是在图 \ref{cap1} 中 \( \bm{c} \) 的终点应该在 \( xOy \) 平面下方. 此时 \( V=|\det A| \). 我们往往称 \( \det A \) 为这个平行六面体的有向体积，因为它可以帮助我们确定基的定向. 若 \( \bmxi_1,\bmxi_2,\bmxi_3 \) 以及 \( \bmeta_1,\bmeta_2,\bmeta_3 \) 都是 \( \R^3 \) 中的不共面向量，那么根据空间向量基本定理，存在唯一的矩阵 \( A \in \R^{3 \times 3} \) 使得
+\[ (\bmxi_1,\bmxi_2,\bmxi_3)=(\bmeta_1,\bmeta_2,\bmeta_3)A. \]
+
+把 \( (\bmxi_1,\bmxi_2,\bmxi_3), (\bmeta_1,\bmeta_2,\bmeta_3) \) 看成在右手规范基 \( \{\bm{e}_1,\bm{e}_2,\bm{e}_3 \} \) 下的坐标组成的矩阵，那么矩阵的行列式就是三个向量张成平行六面体的体积，由于不共面，故体积必定非零，由命题 \ref{2.2.13} (2)，那么这两个矩阵必定可逆，且
+\[ \det A= [\bmxi_1,\bmxi_2,\bmxi_3][\bmeta_1,\bmeta_2,\bmeta_3]^{-1} \neq 0. \]
+
+说明 \( A \) 也是可逆的. 那么只能 \( \det A>0 \) 或者 \( \det A<0 \). 下面的定义是自然的.
+
+\begin{definition}[基的定向] \label{2.3.1}
+	记 \( \text{OrderBasis}:=\{ (\bmxi_1,\bmxi_2,\bmxi_3) \in \R^3 \mid [\bmxi_1,\bmxi_2,\bmxi_3] \neq 0 \} \). 也就是这个集合中都是不共面的三个向量组成的向量组，那么自然都能构成 \( \R^3 \) 的一组基. 称 \( (\bmxi_1,\bmxi_2,\bmxi_3), (\bmxi_1',\bmxi_2',\bmxi_3') \in \text{OrderBasis} \) 为同向的，若如下定义的矩阵 \( A \) 满足 \( \det A>0 \).
+	\[ (\bmxi_1,\bmxi_2,\bmxi_3)= (\bmxi_1',\bmxi_2',\bmxi_3')A. \]
+	
+	并简单记为 \( (\bmxi_1,\bmxi_2,\bmxi_3) \sim (\bmxi_1',\bmxi_2',\bmxi_3') \).
+\end{definition}
+
+\begin{property}[等价关系] \label{2.3.2}
+	沿用定义 \ref{2.3.1} 的记号，若 \( (\bmxi_1,\bmxi_2,\bmxi_3) \sim (\bmxi_1',\bmxi_2',\bmxi_3') \)，那么
+	\begin{enumerate}[(1)]
+		\item 自反性: \( (\bmxi_1,\bmxi_2,\bmxi_3) \sim (\bmxi_1,\bmxi_2,\bmxi_3) \);
+		\item 对称性: \( (\bmxi_1',\bmxi_2',\bmxi_3') \sim (\bmxi_1,\bmxi_2,\bmxi_3) \)
+		\item 传递性: 设还有 \( (\bmxi_1',\bmxi_2',\bmxi_3')  \sim (\bmxi_1'',\bmxi_2'',\bmxi_3'')  \)，那么 \( (\bmxi_1,\bmxi_2,\bmxi_3) \sim (\bmxi_1'',\bmxi_2'',\bmxi_3'') \).
+	\end{enumerate}
+	
+	称满足上述三种关系的二元关系为等价关系.
+\end{property}
+
+\begin{proof}
+	(1) \( A=E \) 显然; (2) 由于 \( AA^{-1}=E \leadsto \det(A^{-1})=(\det A)^{-1}>0 \); (3) 设 \( \det A,\det B>0 \)，那么 \( \det (AB)>0 \).
+\end{proof}
+
+\begin{definition}[等价类]
+	设 \( \sim \) 为集合 \( A \) 上的一个等价关系，那么称 \( A \) 的一个非空子集 \( C \) 为一个等价类，若
+	\begin{enumerate}[(1)]
+		\item \( C \) 中的元素相互等价，即对任意 \( x,y \in C \) 都有 \( x \sim y \);
+		\item \( C \) 对 \( \sim \) 封闭，即对 \( x \in C, y \in A \)，若 \( x \sim y \)，那么 \( y \in C  \).
+	\end{enumerate}
+\end{definition}
+
+\begin{proposition}
+	沿用定义 \ref{2.3.1} 的记号，那么集合 \( \text{OrderBasis} \) 可以分为两个等价类的无交并，记为 \( \text{OrderBasis}= C_1 \cup C_2 \)，若右手规范基 \( (\bm{e}_1,\bm{e}_2,\bm{e}_3) \in C_1 \)，那么称 \( C_1 \) 中的所有基为正定向，\( C_2 \) 为负定向.
+\end{proposition}
+
+\begin{proof}
+	设 \( C_1:=\{ (\bmxi_1,\bmxi_2,\bmxi_3) \in \text{OrderBasis} \mid (\bmxi_1,\bmxi_2,\bmxi_3) \sim (\bm{e}_1,\bm{e}_2,\bm{e}_3) \} \). 先证明 \( C_1 \) 为一个等价类. 利用性质 \ref{2.3.2} (2)(3) 容易验证 \( C_1 \) 中的元素相互等价. 另一方面，对 \( (\bmxi_1,\bmxi_2,\bmxi_3) \in C \) 且 \(  (\bmxi_1,\bmxi_2,\bmxi_3) \sim  (\bmxi_1',\bmxi_2',\bmxi_3') \)，再次利用性质 \ref{2.3.2} (2)(3) 可以得到 \( (\bmxi_1',\bmxi_2',\bmxi_3') \sim (\bm{e}_1,\bm{e}_2,\bm{e}_3) \). 这蕴含 \( (\bmxi_1',\bmxi_2',\bmxi_3') \in C_1 \). 另一方面，取 \( C_2:=\{ (\bmxi_1,\bmxi_2,\bmxi_3) \in \text{OrderBasis} \mid (\bmxi_1,\bmxi_2,\bmxi_3) \sim (\bm{e}_1,\bm{e}_2,-\bm{e}_3) \} \). 同理 \( C_2 \) 也是一个等价类.
+	
+	下面说明 \( \text{OrderBasis} \) 是 \( C_1 \) 和 \( C_2 \) 的无交并. 任取 \( (\bmxi_1,\bmxi_2,\bmxi_3) \in \text{OrderBasis} \)，记 \( (\bmxi_1,\bmxi_2,\bmxi_3)=(\bm{e}_1,\bm{e}_2,\bm{e}_3)A \). 那么 \( A \) 必定可逆，自然要么 \( \det A>0 \)，要么 \( \det A<0 \). 当 \( \det A<0 \) 时，记 \( A=(\alpha_1\T,\alpha_2\T,\alpha_3\T)\T \). 那么 
+	\[ (\bmxi_1,\bmxi_2,\bmxi_3)=(\bm{e}_1,\bm{e}_2,\bm{e}_3)\begin{bmatrix}
+     \alpha_1\T \\ \alpha_2\T \\ -\alpha_3\T
+	\end{bmatrix}. \]
+	
+	而后面这个过渡矩阵的行列式显然为 \( -\det A>0 \).这也就说明了 \( (\bmxi_1,\bmxi_2,\bmxi_3) \in C_1 \) 或者 \( (\bmxi_1,\bmxi_2,\bmxi_3) \in C_2 \)，两者必居其一. 任取 \( (\bmxi_1,\bmxi_2,\bmxi_3) \in C_1 \cap C_2 \)，同样设 \( (\bmxi_1,\bmxi_2,\bmxi_3)=(\bm{e}_1,\bm{e}_2,\bm{e}_3)A \)，那么要同时满足 \( \det A<0 \) 以及 \( \det A>0 \)，矛盾. 故 \( C_1 \cap C_2= \emptyset \).
+	
+	下面换一种更一般性的方法，说明两个等价类要么相等要么交集为空. 任取 \( (\bmxi_1,\bmxi_2,\bmxi_3) \in C_1 \cap C_2 \)，那么 \( (\bmxi_1,\bmxi_2,\bmxi_3)  \sim (\bm{e}_1,\bm{e}_2,\bm{e}_3) \) 且 \( (\bmxi_1,\bmxi_2,\bmxi_3)  \sim (\bm{e}_1,\bm{e}_2,-\bm{e}_3) \)，利用性质 \ref{2.3.2} (3)，这说明 \( (\bm{e}_1,\bm{e}_2,\bm{e}_3) \sim (\bm{e}_1,\bm{e}_2,-\bm{e}_3) \)，立即得到矛盾. 对一般的情况，如果推出上式成立，那就对应 \( C_1=C_2 \). 但此处明显不成立.
+\end{proof}
+
+\subsubsection{向量组的线性关系}\label{Sec 2.3.2}
+
+我们显然不拘泥于研究三阶行列式，为了将上述有关基的几何理论推广到 \( n \) 阶行列式，至少我们要先刻画在 \( \F^n \) 中什么是基? 什么是共面和共线? 两个从低维情况出发的简单命题启发了我们这一点.
+
+\begin{proposition} \label{2.3.5}
+    设 \( \alpha, \beta \in \R^2 \)，那么
+    \begin{enumerate}[(1)]
+    	\item \( \alpha \) 和 \( \beta \) 共线当且仅当存在不全为零的 \( c_1,c_2 \in \R \) 使得 \( c_1\alpha+c_2\beta=\bm{0} \);
+    	\item \( \alpha \) 和 \( \beta \) 不共线当且仅当对任意 \( c_1,c_2 \in \R \) 使得 \( c_1\alpha+c_2\beta=\bm{0} \) 都只能有 \( c_1=c_2=0 \).
+    \end{enumerate}  
+\end{proposition}
+
+\begin{proof}
+	(1) \( (\Rightarrow) \) 如果存在零向量，那直接在 \( \bm{0} \) 前面的系数随便取一个非零的即可，否则根据共线向量基本定理，存在唯一实数 \( \lambda \neq 0 \) 使得 \( \alpha=\lambda \beta \). 移项即可. \( (\Leftarrow) \) 如果存在零向量，那么利用零向量和任何向量共线即可. 否则，自然 \( c_1,c_2 \neq 0 \) 都成立. 简单的移项就能得到想要的.
+	
+	(2) 简单书写一下 (1) 两端的逆命题即可. 
+\end{proof}
+
+\begin{proposition}
+	设 \( \alpha, \beta, \gamma \in \R^3 \)，那么
+	\begin{enumerate}[(1)]
+		\item \( \alpha , \beta, \gamma \) 共面当且仅当存在不全为零的 \( c_1,c_2,c_3 \in \R \) 使得 \( c_1\alpha+c_2\beta+c_3\gamma=\bm{0} \);
+		\item \( \alpha , \beta, \gamma \) 共面当且仅当对任意 \( c_1,c_2,c_3 \in \R \) 使得 \( c_1\alpha+c_2\beta+c_3\gamma=\bm{0} \) 都只能有 \( c_1=c_2=c_3=0 \).
+	\end{enumerate}  
+\end{proposition}
+
+\begin{proof}
+	仿照命题 \ref{2.3.5} 的证明，将共线向量基本定理换成共面向量基本定理即可. 细节留给读者.
+\end{proof}
+
+\begin{definition}[线性关系]
+	设 \( \alpha_1,\cdots,\alpha_s \in \F^n \)，那么
+	\begin{enumerate}[(1)]
+		\item 称 \( \alpha_1,\cdots,\alpha_s \) 线性相关若存在不全为零的 \( c_1,\cdots,c_s \in \F \) 使得 \( c_1\alpha_1+\cdots+c_s\alpha_s= \bm{0} \);
+		\item 称 \( \alpha_1,\cdots,\alpha_s \) 线性无关若对任意 \( c_1,\cdots,c_s \in \F \) 使得 \( c_1\alpha_1+\cdots+c_s\alpha_s= \bm{0} \) 都有 \( c_1=\cdots=c_s=0 \).
+		\item 再给 \( \beta \in \F^n \)，若存在 \( c_1,\cdots,c_s \in \F \) 使得 \( \beta= c_1\alpha_1+\cdots+c_s\alpha_s \) 成立，称 \( \beta \) 可由 \( \alpha_1,\cdots,\alpha_s \) 线性表出.
+	\end{enumerate} 
+\end{definition}
+
+\begin{proposition} \label{2.3.8}
+	设 \( \beta, \alpha_1,\cdots,\alpha_s \in \F^n \)，若 \( \beta \) 可由 \( \alpha_1,\cdots,\alpha_s \) 线性表出且 \( \alpha_1,\cdots,\alpha_s \) 线性无关的充分必要条件为  \( \beta \) 可由 \( \alpha_1,\cdots,\alpha_s \) 唯一线性表出.
+\end{proposition}
+
+\begin{proof}
+	必要性，否则，若存在两组不同的数 \( c_1,\cdots,c_s \in \F  \) 以及 \( d_1,\cdots,d_s \in \F \)，使得
+	\[ \beta=c_1\alpha_1+\cdots+c_s\alpha_s=d_1\alpha_1+\cdots+d_s\alpha_s. \]
+	
+	作差可以得到 \( (c_1-d_1)\alpha_1+\cdots+(c_s-d_s)\alpha_s=\bm{0} \). 而 \( c_i-d_i \) 不全为零，这蕴含 \( \alpha_1,\cdots,\alpha_s \) 线性相关，矛盾. 充分性，设 \( c_1\alpha_1+\cdots+c_s\alpha_s=\bm{0} \) 以及 \( \beta=d_1\alpha_1+\cdots+d_s\alpha_s \). 自然
+	\[ \beta=d_1\alpha_1+\cdots+d_s\alpha_s=(c_1+d_1)\alpha_1+\cdots+(c_s+d_s)\alpha_s. \]
+	
+	由唯一线性表出可知 \( c_1=\cdots=c_s=0 \).
+\end{proof}
+
+\begin{proposition}
+	设 \( \beta, \alpha_1,\cdots,\alpha_s \in \F^n \)，若  \( \alpha_1,\cdots,\alpha_s \) 线性无关且  \( \alpha_1,\cdots,\alpha_s,\beta \) 线性相关，那么   \( \beta \) 可由 \( \alpha_1,\cdots,\alpha_s \) 唯一线性表出.
+\end{proposition}
+
+\begin{proof}
+	利用命题 \ref{2.3.8}，只需要说明   \( \beta \) 可由 \( \alpha_1,\cdots,\alpha_s \) 线性表出即可. 由于   \( \alpha_1,\cdots,\alpha_s,\beta \) 线性相关，那么存在不全为零的数 \( c_1,\cdots,c_{s+1} \) 使得 \( c_1\alpha_1+\cdots+c_s\alpha_s+c_{s+1}\beta=\bm{0} \). 断言 \( c_{s+1} \neq 0 \). 否则，若 \( c_{s+1}=0 \)，那么由   \( \alpha_1,\cdots,\alpha_s \) 线性无关立即推出 \( c_1=\cdots=c_s=0 \). 这与不全为零矛盾. 则
+	\[ \beta= -\sum_{i=1}^{s} \frac{c_i}{c_{s+1}} \alpha_i. \]
+\end{proof}
+
+下面关于基的概念，我们仍然希望从低维的情况稍加推广.
+
+\begin{definition}[平面] \label{2.3.10}
+	称 \( \alpha, \beta \in \R^2 \) 为 \( \R^2 \) 的一组基，若
+	\begin{enumerate}[(1)]
+		\item \( \alpha,\beta \) 线性无关;
+		\item 任意 \( \gamma \in \R^2 \)，\( \gamma \) 都能由 \( \alpha,\beta \) 线性表出.
+	\end{enumerate}
+	利用命题 \ref{2.3.8}，上述 (2) 在中学阶段往往加强为唯一线性表出.
+\end{definition}
+
+\begin{theorem}[平面向量基本定理] \label{2.3.11}
+	若 \( \alpha,\beta \in \R^2 \) 线性无关，那么 \( \alpha, \beta \in \R^2 \) 为 \( \R^2 \) 的一组基.
+\end{theorem}
+
+\begin{proof}
+	用定义 \ref{2.3.10}，只需要证明定义的 (2). 任取 \( \gamma \in \R^2 \)，只需要说明存在 \( c_1,c_2 \) 使得
+	\[ c_1\alpha+c_2\beta=(\alpha,\beta)\begin{bmatrix}
+		c_1 \\ c_2
+	\end{bmatrix}= \gamma \]
+	
+	成立. 注意到 \( \alpha,\beta \) 不共线，那么 \( \alpha,\beta \) 的分量不成比例，那么 \( \det(\alpha,\beta) \neq 0 \)，利用定理 \ref{2.2.15}，上述线性方程组有唯一解.
+\end{proof}
+
+\begin{definition}[空间] \label{2.3.12}
+	称 \( \alpha, \beta, \gamma \in \R^3 \) 为 \( \R^3 \) 的一组基，若
+	\begin{enumerate}[(1)]
+		\item \( \alpha,\beta,\gamma \) 线性无关;
+		\item 任意 \( \delta \in \R^3 \)，\( \delta \) 都能由 \( \alpha,\beta,\gamma \) 线性表出.
+	\end{enumerate}
+	利用命题 \ref{2.3.8}，上述 (2) 在中学阶段往往加强为唯一线性表出.
+\end{definition}
+
+\begin{theorem}[空间向量基本定理] \label{2.3.13}
+	若 \( \alpha,\beta,\gamma \in \R^3 \) 线性无关，那么 \( \alpha, \beta,\gamma \in \R^3 \) 为 \( \R^3 \) 的一组基.
+\end{theorem}
+
+\begin{proof}
+	模仿定理 \ref{2.3.11} 即可. \( \det(\alpha,\beta,\gamma) \neq 0 \) 利用混合积的几何意义.
+\end{proof}
+
+\begin{definition}[基] \label{2.3.14}
+	设 \( \alpha_1,\cdots,\alpha_s \in \F^n \) 为 \( \F^n \) 的一组基，若
+	\begin{enumerate}[(1)]
+		\item \( \alpha_1,\cdots,\alpha_s \) 线性无关;
+		\item 任意 \( \beta \in \F^n \)，\( \beta \) 都能由 \( \alpha_1,\cdots,\alpha_s \) 线性表出.
+	\end{enumerate}
+	利用命题 \ref{2.3.8}，上述 (2) 可以加强为唯一线性表出，此时一般记 \( \dim \F^n=s \).
+\end{definition}
+
+类比定义 \ref{2.3.10} 和定义 \ref{2.3.12}，一个自然的想法是这里的 \( s=n \). 在定义 \ref{2.3.10} 和定义 \ref{2.3.12} 中我们直接定义基的向量的个数为 2 个和 3 个，纯粹是因为少于这个数量显然不满足我们规定的条件 (2)，对应到线性方程组的语言就是例如对 \( \R^3 \) 而言，如果基的数量为 \( r \ (r<3) \) 个，那么对线性无关的 \( \alpha_1,\cdots,\alpha_r \)，待定 \( \beta \in \R^3 \)，令线性方程组
+\[ (\alpha_1,\cdots,\alpha_r)\begin{bmatrix}
+	c_1 \\ \vdots \\ c_r
+\end{bmatrix}= \beta. \]
+
+将 \( 3 \times r \) 矩阵 \( (\alpha_1,\cdots,\alpha_r) \) 经过初等行变换变为简化行阶梯矩阵 \( K=P(\alpha_1,\cdots,\alpha_r) \)，那么非零行数目 \( r(\alpha_1,\cdots,\alpha_r) \leq r<3 \). 取 \( P\beta=(*,*,1)\T \) 就能使得上述方程无解. 而 \( r>3 \) 也是不可能的，定理 \ref{2.3.13} 蕴含了四个三维向量必定线性相关. 事实上，我们有
+
+\begin{lemma}\label{2.3.15}
+	\( n+1 \) 个 \( n \) 维向量必定线性相关. 
+\end{lemma}
+
+\begin{proof}
+	取 \( \F^n \) 的一组线性无关向量组 \( \varepsilon_1,\cdots,\varepsilon_n \)，显然任意向量可以由它们线性表出. 任取 \( n+1 \) 个向量 \( \alpha_1,\cdots,\alpha_{n+1} \)，那么由命题 \ref{2.3.8}，存在唯一 \( n \times (n+1) \) 矩阵 \( A \) 使得
+	\[ (\alpha_1,\cdots,\alpha_{n+1})=(\varepsilon_1,\cdots,\varepsilon_n)A. \]
+	
+	现在考虑 \( c_1\alpha_1+\cdots+c_{n+1}\alpha_{n+1}=\bm{0} \)，也就是
+	\[ (\varepsilon_1,\cdots,\varepsilon_n)A\begin{bmatrix}
+		c_1 \\ \vdots \\ c_{n+1}
+	\end{bmatrix}=\bm{0}=E_nA\begin{bmatrix}
+	c_1 \\ \vdots \\ c_{n+1}
+	\end{bmatrix}. \] 
+	
+	对于这样的矩阵我们已经多次讨论过它存在非零解的问题了，无非就是考虑简化行阶梯形的非零行数目. 我们知道 \( A\T \) 的简化行阶梯形 \( K=PA\T \) 必定最后一行为零，即 \( \varepsilon_{n+1}\T PA\T=\bm{0} \)，那么 \( P\T \varepsilon_{n+1} \) 就是一个非零解. 也就是 \( \alpha_1,\cdots,\alpha_{n+1} \) 线性相关.
+\end{proof}
+
+\begin{theorem}\label{2.3.16}
+	在定义 \ref{2.3.14} 中，\( \F^n \) 的基的个数是良定的. 即 \( s=n \) 成立.
+\end{theorem}
+
+\begin{proof}
+	对 \( s<n \)，类似三维情形证明，必定存在 \( \beta \) 不能够被线性表出. 对 \( s>n \)，利用引理 \ref{2.3.15} 即可，与定义 \ref{2.3.14} (1) 矛盾.
+\end{proof}
+
+\begin{remark}
+	从上面的证明可以看出，基的存在性是非常关键的! 在 \( \F^n \) 中就是因为有了一组天然的基 \( \varepsilon_1,\cdots,\varepsilon_n \)，那么接下来一切都能围绕它进行. 也就说明在有限维线性空间中，基的存在性蕴含基的良定. 未来在线性空间的学习中，我们会利用 Zorn 引理来说明基的存在性，从而说明一般线性空间中维数是良定的.
+\end{remark}
+
+\begin{proposition} \label{2.3.18}
+	设 \( A=(\alpha_1,\cdots,\alpha_n) \in \F^{n \times n} \)，那么 \( A \) 可逆当且仅当 \( \alpha_1,\cdots,\alpha_n \) 线性无关. 
+\end{proposition}
+
+\begin{proof}
+	用命题 \ref{2.2.13}，\( A \) 可逆当且仅当 \( AX=O \) 仅有零解，换言之，即 \( x_1\alpha+x_2\alpha_2+\cdots+x_n\alpha_n=\bm{0} \) 蕴含 \( x_1=\cdots=x_n=0 \)，也即 \( \alpha_1,\cdots,\alpha_n \) 线性无关. 
+\end{proof}
+
+\begin{theorem} \label{2.3.19}
+	设 \( \alpha_1,\cdots,\alpha_n \in \F^n \) 线性无关，那么 \( \alpha_1,\cdots,\alpha_n \) 构成 \( \F^n \) 的一组基. 
+\end{theorem}
+
+\begin{proof}
+	只需要证明任取 \( \beta \in \F^n \) 都存在 \( c_1,\cdots,c_n \in \F \) 使得 \( c_1\alpha_1+\cdots+c_n\alpha_n=\beta \). 令 \( A=(\alpha_1,\cdots,\alpha_n), \; X=(c_1,\cdots,c_n)\T \). 由命题 \ref{2.3.18} 可知 \( A \) 可逆，再由定理 \ref{2.2.15} 可知 \( AX=\beta \) 有唯一解. 那么回到定义 \ref{2.3.14}.
+\end{proof}
+
+\begin{proposition} \label{2.3.20}
+	设 \( A \in \F\n \) 为可逆矩阵，且 \( \alpha_1,\cdots,\alpha_n \) 为 \( \F^n \) 的一组基，那么 \( (\beta_1,\beta_2,\cdots,\beta_n)=(\alpha_1,\cdots,\alpha_n)A \) 也是  \( \F^n \) 的一组基. 用这个方法可以从已知的基构造出很多其他的基. 另外，\( \F^n \) 的 基是不唯一的，但是定理 \ref{2.3.16} 说明 \( \F^n \) 的 基中所含向量个数是唯一的.
+\end{proposition}
+
+\begin{proof}
+	用定理 \ref{2.3.19} 和性质 \ref{2.1.2} (2)，推出 \( (\beta_1,\beta_2,\cdots,\beta_n)=(\alpha_1,\cdots,\alpha_n)A \) 也可逆，那么由命题 \ref{2.3.18} 知道 \( \beta_1,\cdots,\beta_n \) 线性无关，回到定理 \ref{2.3.19}.
+\end{proof}
+
+\begin{example}
+	\( \F^n \) 的一组最常见的基就是规范正交基 \( \varepsilon_1,\cdots,\varepsilon_n \)，它不仅满足基的所有定义，而且具有正交性质，即 \( \varepsilon_i\varepsilon_j\T=\delta_{ij} \). 另外，\( \varepsilon_1+\varepsilon_2,\varepsilon_2, \cdots,\varepsilon_n \) 也是 \( \F^n \) 的一组基，因为它用 \( \varepsilon_1,\cdots,\varepsilon_n \) 线性表出的矩阵是主对角元素全为 1 的下三角矩阵，当然可逆，用命题 \ref{2.3.20}.
+\end{example}
 
 \subsubsection{一类交错型的刻画}
 
+有了 \ref{Sec 2.3.2} 中基和线性关系的必要准备，我们就能将 \ref{Sec 2.3.1} 中三维的有向体积推广到 \( \R^n \) 中. 先假定，
+\begin{enumerate}[(i)]
+	\item 可以合理地定义体积，长度，向量的夹角等概念，这一点要到欧氏空间章节以及数学分析 III 中才能进一步明确;
+	\item 类似定义 \ref{2.3.1}，对 \( \R^n \) 的基也赋予了类似的定向概念. 也就是给出了 \( \R^n \) 的有序基正向和负向的无交并分解.
+\end{enumerate}
 
+我们先承认上述两条假设，认为自然如此. 在后续的讨论中，主要就使用到如下两条性质，对于 \( \R^3 \) 的情形，是显然的.
+
+\begin{enumerate}[(1)]
+	\item \textbf{变号反向} \; 若基 \( (u_1,\cdots,u_n) \) 是正向的，那么 \( (u_1,\cdots,-u_i,\cdots,u_n) \) 是负向的;
+	\item \textbf{微扰不变} \; 设 \( u_1(t),\cdots,u_n(t) \) 都是关于 \( t \in I \) 内的连续函数，且 \( (u_1(t),\cdots,u_n(t)) \) 对 \( t \in I \) 都是 \( \R^n \) 的一组基，那么对每一个 \( t \in I \) 而言，\( (u_1(t),\cdots,u_n(t)) \) 定向都是相同的. 
+	
+	对这一点，只需要注意到 \( \det(u_1(t),\cdots,u_n(t)) \) 也是 \( t \in I \) 的连续函数，且 \( \det(u_1(t),\cdots,u_n(t)) \neq 0 \)，那么 \( \det(u_1(t),\cdots,u_n(t)) \) 在 \( I \) 内必定保号，否则由零点定理推出矛盾. 也就相当于任意两组基之间过渡矩阵的行列式为正.
+	
+	例如，常见的基的连续变动有基的旋转，引入旋转变换，给出角度参数 \( \theta \); 或者线性伸缩，给定一个线性参数 \( t \)，它们都是连续的.
+\end{enumerate}
+
+为了推广有向体积，那么首先得明确什么是高维的平行六面体. 任给向量组 \( (u_1,u_2,\cdots,u_n) \in \R^n \)，记其张成的几何对象为
+\[ \lozenge(u_1,\cdots,u_n)= \left\{ \sum_{i=1}^{n} t_iu_i \ \bigg| \ t_i \in [0,1] \right\}. \]
+
+类似一个平面在 \( \R^3 \) 中的体积为零，一条直线在 \( \R^2 \) 中的面积为零，当 \( u_1,\cdots,u_n \in \R^n \) 线性相关时，它就是至多只有 \( n-1 \) 个自由度的几何对象，自然规定 \( \lozenge(u_1,\cdots,u_n)=0 \). 于是定义
+
+\begin{definition}[有向体积]
+	设 \( \R^n \) 上已经有基的定向，定义映射 \( D: \R^n \to \R \) 如下
+	\[ D(u_1,\cdots,u_n)= \left\{ \begin{array}{ll}
+		0, & \text{\( (u_1,\cdots,u_n) \) 线性相关}, \\
+		\text{\( \lozenge(u_1,\cdots,u_n) \) 的体积}, & \text{\( (u_1,\cdots,u_n) \) 线性无关且取正定向}, \\
+		\text{\( -\lozenge(u_1,\cdots,u_n) \) 的体积}, & \text{\( (u_1,\cdots,u_n) \) 线性无关且取负定向}.
+	\end{array}\right. \]
+	
+	称如上定义的 \( D(u_1,\cdots,u_n) \) 为由向量组 \( (u_1,\cdots,u_n) \) (记顺序) 确定的 \( \R^n \) 上的有向体积.
+\end{definition}
+
+那么类比 \( \R^3 \) 中 \( D(u_1,u_2,u_3)=\det(u_1,u_2,u_3) \) 所具有的性质，不难得到 \( D(u_1,\cdots,u_n) \) 应该具备
+
+\begin{enumerate}[(i)]
+	\item \textbf{退化} \ 若存在 \( u_i=u_j \)，那么
+	\[ D(u_1,\cdots,u_n)=0. \]
+	
+	无论是从行列式的推论 \ref{2.2.3} 还是从线性相关角度理解，这一点都很容易接受.
+	\item \textbf{数量乘法} \ 对 \( t \in \R \)，成立
+	\[ D(u_1,\cdots,tu_i,\cdots,u_n)=tD(u_1,\cdots,u_i,\cdots,u_n). \]
+	
+	若 \( t=0 \)，那么线性相关性蕴含了上式成立. 若 \( t>0 \)，由微扰不变前提，此时至少定向不变，体积上可以看成在某个方向伸缩了 \( t \) 倍. 若 \( t<0 \)，那么利用变号反向性，得到
+	\[ D(u_1,\cdots,tu_i,\cdots,u_n)=-D(u_1,\cdots,|t|u_i,\cdots,u_n)=-|t|D(u_1,\cdots,u_i,\cdots,u_n). \]
+	
+	最后一个等号来自我们对 \( t>0 \) 的讨论.
+	
+	\item \textbf{加法} 对任意 \( u \in \R^n \) 有
+	\[ D(u_1,\cdots,u_i+u,\cdots,u_n)=D(u_1,\cdots,u_i,\cdots,u_n)+D(u_1,\cdots,u,\cdots,u_n). \]
+	
+	我们不关心 \( \{u_j\}_{j \neq i} \) 这个向量组是线性相关的情况，因为在退化前提下，这时候显然两边都是零. 不妨  \( \{u_j\}_{j \neq i} \) 这个向量组线性无关. 下面对 \( n=3, \; i=3 \) 的情况进行几何诠释. 若 \( u_i \) 和 \( u \) 之一能够被 \( \{u_j\}_{j \neq i} \) 线性表出，那么相当于这个添加的部分对体积没有贡献作用. 不妨设 \( u \) 可以被 \( \{u_j\}_{j \neq i} \) 线性表出，
+	
+	\vspace{2ex}
+	
+	\begin{figure}[htbp!]
+		\begin{minipage}{0.3\linewidth}
+			\centering    
+			\begin{tikzpicture}[scale=2]
+				\coordinate (O) at (0,0);
+				\coordinate (u1) at (1,0);
+				\coordinate (u2) at (0.5,0.5);
+				\coordinate (u3) at (-0.3,1.2);
+				\coordinate (u4) at  ($(u3) + (0.75,0.25)$);
+				\coordinate (u12) at  ($(u1) + (u2)$);
+				
+				\fill[fill=blue, opacity=0.5]
+				(O) -- (u1) -- (u12) -- (u2) -- cycle;
+				
+				\fill[fill=blue!40!white, opacity=0.3]
+				(u2) -- (O) -- (u3) -- ($(u2)+(u3)$) -- cycle
+				($(u2)+(u3)$) -- ($(u12)+(u3)$) -- (u12) -- (u2)-- cycle;
+				
+				\draw[thick,->] (O)-- (u1) node[below]{\( u_1 \)};
+				\draw[thick,->] (O) -- (u2) node[above left]{\( u_2 \)};
+				\draw[thick,->] (O) -- (u3) node[above left]{\( u_3 \)};
+				\draw[thick,->] (u3) -- (u4) node[above left]{\( u \)};
+				
+				
+				\foreach \x in {u3}{
+					\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+				
+				\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+				
+				\foreach \x in {u1,u2,u12}{
+					\draw[dashed] (\x) -- ($(\x) + (u3)$);}
+			\end{tikzpicture}
+		\end{minipage}
+		\begin{minipage}{0.3\linewidth}
+			\centering
+			\begin{tikzpicture}[scale=2]
+				\coordinate (O) at (0,0);
+				\coordinate (u1) at (1,0);
+				\coordinate (u2) at (0.5,0.5);
+				\coordinate (u3) at (-0.3,1);
+				\coordinate (u4) at  ($(u3) + (0.75,0.25)$);
+				\coordinate (u12) at  ($(u1) + (u2)$);
+				
+				\fill[fill=blue, opacity=0.5]
+				(O) -- (u1) -- (u12) -- (u2) -- cycle;
+				
+				\fill[fill=blue!40!white, opacity=0.3]
+				(u2) -- (O) -- (u4) -- ($(u2)+(u4)$) -- cycle
+				($(u2)+(u4)$) -- ($(u12)+(u4)$) -- (u12) -- (u2) -- cycle;
+				
+				\draw[thick,->] (O)-- (u1) node[below]{\( u_1 \)};
+				\draw[thick,->] (O) -- (u2) node[above left]{\( u_2 \)};
+				\draw[thick,purple,->] (O) -- (u4) node[above left]{\( u_3+u \)};
+				
+				\foreach \x in {u4}{
+					\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+				
+				\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+				
+				\foreach \x in {u1,u2,u12}{
+					\draw[dashed] (\x) -- ($(\x) +  (u4)$);}
+			\end{tikzpicture}
+		\end{minipage}
+		\begin{minipage}{0.3\linewidth}
+			\centering
+			\begin{tikzpicture}[scale=2]
+				\coordinate (O) at (0,0);
+				\coordinate (u1) at (1,0);
+				\coordinate (u2) at (0.5,0.5);
+				\coordinate (u12) at ($(u1) + (u2)$);
+				\coordinate (n1) at  (0,1.2);
+				
+				\fill[fill=blue, opacity=0.5]
+				(O) -- (u1) -- (u12) -- (u2) -- cycle;
+				
+				\fill[fill=blue!40!white, opacity=0.3]
+				(u2) -- (O) -- (n1) -- ($(u2)+(n1)$) -- cycle
+				($(u2)+(n1)$) -- ($(u12)+(n1)$) -- (u12) -- (u2) -- cycle;
+				
+				\draw[thick,->] (O)-- (u1) node[below]{\( u_1 \)};
+				\draw[thick,->] (O) -- (u2) node[above left]{\( u_2 \)};
+				\draw[thick,red,->] (O) -- (n1) node[above left]{\( u^{\perp} \)};
+				
+				\foreach \x in {n1}{
+					\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+				
+				\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+				
+				\foreach \x in {u1,u2,u12}{
+					\draw[dashed] (\x) -- ($(\x) + (n1)$);}
+			\end{tikzpicture}
+		\end{minipage}
+	\end{figure}
+	
+	\vspace{2ex}
+	
+	如上图所示，这个 \( u \) 的加入对体积没有任何影响，无非就是起到在 \( u_1,u_2 \) 张成平面拉伸的作用，由于 \( \{ u_1,u_2,u_3+tu\} \) 对 \( t \in [0,1] \) 为基，因为 \( u_3 \) 真正起到与 \( u_1 \) 和 \( u_2 \) 不共面的垂直分量 \( su^{\perp} \ (s \in \mathbb{R}) \) 并没有被 \( u \) 影响. 那么根据微扰不变前提，基的定向不变，又体积本身也不变(高和底没有变化)，那么
+	\[ D(u_1,u_2,u_3+u)=D(u_1,u_2,u_3)+D(u_1,u_2,u)=D(u_1,u_2,u_3)+0. \]
+	
+	若 \( u \) 也不能被 \( \{u_j\}_{j \neq i} \) 线性表出，给出一个分解
+	\[ u_3=\lambda u^{\perp}+ \sum_{j \neq i}^{} c_ju_j, \; u=\mu u^{\perp}+ \sum_{j \neq i}^{} c_ju_j. \]
+
+	这里我们 \( u^{\perp} \) 的定义就是由 \( u_1 \times u_2 \) 给出 \( u_1, u_2 \) 所在平面的一个法向量. 在高维情况，这样的向量也是存在的，在欧氏空间一章我们会介绍 Gram-Schmidt 正交化方法. 你现在只需要承认这一点. 也就是存在 \( u^{\perp} \) 和已经给定的 \( n-1 \) 个向量 \( u_1,\cdots,u_{n-1} \) 是 “垂直” 的，并且可以拼在一起构成 \( \F^n \) 的一组基. 因为 “垂直” 本身实际上比线性无关更强. 例如若平面向量 \( u_1 \perp u_2 \)，考察 \( c_1u_1+c_2u_2=\bm{0} \leadsto c_1u_1\T u_1+c_2 u_1\T u_2= c_1 |u_1|^2= 0 \). 这里 \( \alpha\T \beta \) 就是通常意义下的平面向量数量积. 进而 \( c_1=0 \). 另一方面，如果我们左乘 \( u_2\T \)，那就能得到 \( c_2=0 \). 说明 “垂直” 蕴含线性无关.
+	
+	
+	一种比较幸运的情况，\( \lambda \) 和 \( \mu \) 是同号的，此时 \( u_3+u \) 在 \( u^{\perp} \) 方向的分量为 \( (\lambda+\mu) u^{\perp}=:su^{\perp} \). 那么 \( \{ u_1,u_2,u_3+tu\} \) 对 \( t \in [0,1] \) 仍为基，根据微扰不变前提，基的定向不变. 接着研究体积本身，明显第一幅图沿着 \( u_1 \) 和 \( u_2 \) 所在平面 “平推” 就可以得到第三幅图，这个过程不改变高，也就不改变体积. 而二三幅图明显体积相同. 也就有
+	
+	\[ D(u_1,u_2,u_3+u)=D(u_1,u_2,u_3)+D(u_1,u_2,u). \]
+	
+	\begin{figure}[htbp!]
+		\begin{minipage}{0.3\linewidth}
+			\centering    
+		    \begin{tikzpicture}[scale=2]
+		    	\coordinate (O) at (0,0);
+		    	\coordinate (u1) at (1,0);
+		    	\coordinate (u2) at (0.5,0.5);
+		    	\coordinate (u3) at (-0.3,1);
+		    	\coordinate (u4) at  ($(u3) + (0.15,1.2)$);
+		    	\coordinate (u12) at  ($(u1) + (u2)$);
+		    	
+		    	\fill[fill=blue, opacity=0.5]
+		    	(O) -- (u1) -- (u12) -- (u2) -- cycle;
+		    	
+		    	\fill[fill=blue!40!white, opacity=0.3]
+		    	(u2) -- (O) -- (u3) -- ($(u2)+(u3)$) -- cycle
+		    	($(u2)+(u3)$) -- (u3) -- (u4) -- ($(u2)+(u4)$)-- cycle
+		    	($(u2)+(u4)$) -- ($(u12)+(u4)$) -- ($(u12)+(u3)$) -- ($(u2)+(u3)$)-- cycle
+		    	($(u2)+(u3)$) -- (u2) -- (u12) -- ($(u12)+(u3)$)-- cycle;
+		    	
+		    	\draw[thick,->] (O)-- (u1) node[below]{\( u_1 \)};
+		    	\draw[thick,->] (O) -- (u2) node[above left]{\( u_2 \)};
+		    	\draw[thick,->] (O) -- (u3) node[above left]{\( u_3 \)};
+		    	\draw[thick,->] (u3) -- (u4) node[above left]{\( u \)};
+		        
+		        
+		        
+		        \foreach \x in {u3,u4}{
+		    	\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+		    	
+		    	\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+		    	
+		    	\foreach \x in {u1,u2,u12}{
+		    	\draw[dashed] (\x) -- ($(\x) + (u3)$) -- ($(\x) +  (u4)$);}
+		    \end{tikzpicture}
+		\end{minipage}
+		\begin{minipage}{0.3\linewidth}
+			\centering
+			\begin{tikzpicture}[scale=2]
+				\coordinate (O) at (0,0);
+				\coordinate (u1) at (1,0);
+				\coordinate (u2) at (0.5,0.5);
+				\coordinate (u3) at (-0.3,1);
+				\coordinate (u4) at  ($(u3) + (0.15,1.2)$);
+				\coordinate (u12) at  ($(u1) + (u2)$);
+				
+				\fill[fill=blue, opacity=0.5]
+				(O) -- (u1) -- (u12) -- (u2) -- cycle;
+				
+				\fill[fill=blue!40!white, opacity=0.3]
+				(u2) -- (O) -- (u4) -- ($(u2)+(u4)$) -- cycle
+				($(u2)+(u4)$) -- ($(u12)+(u4)$) -- (u12) -- (u2) -- cycle;
+				
+				\draw[thick,->] (O)-- (u1) node[below]{\( u_1 \)};
+				\draw[thick,->] (O) -- (u2) node[above left]{\( u_2 \)};
+				\draw[thick,purple,->] (O) -- (u4) node[above left]{\( u_3+u \)};
+				
+				\foreach \x in {u4}{
+					\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+				
+				\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+				
+				\foreach \x in {u1,u2,u12}{
+					\draw[dashed] (\x) -- ($(\x) +  (u4)$);}
+			\end{tikzpicture}
+		\end{minipage}
+		\begin{minipage}{0.3\linewidth}
+			\centering
+			\begin{tikzpicture}[scale=2]
+				\coordinate (O) at (0,0);
+				\coordinate (u1) at (1,0);
+				\coordinate (u2) at (0.5,0.5);
+				\coordinate (u12) at ($(u1) + (u2)$);
+				\coordinate (n1) at  (0,1);
+				\coordinate (n2) at  (0,2.2);
+				
+				\fill[fill=blue, opacity=0.5]
+				(O) -- (u1) -- (u12) -- (u2) -- cycle;
+				
+				\fill[fill=blue!40!white, opacity=0.3]
+				(u2) -- (O) -- (n2) -- ($(u2)+(n2)$) -- cycle
+				($(u2)+(n2)$) -- ($(u12)+(n2)$) -- (u12) -- (u2) -- cycle;
+				
+				\draw[thick,->] (O)-- (u1) node[below]{\( u_1 \)};
+				\draw[thick,->] (O) -- (u2) node[above left]{\( u_2 \)};
+				\draw[thick,red,->] (O) -- (n2) node[above left]{\( su^{\perp} \)};
+
+				
+				\foreach \x in {n1,n2}{
+					\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+				
+				\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+				
+				\foreach \x in {u1,u2,u12}{
+					\draw[dashed] (\x) -- ($(\x) + (n1)$) -- ($(\x) +  (n2)$);}
+			\end{tikzpicture}
+		\end{minipage}
+	\end{figure}
+	
+	\vspace{2ex}
+	
+    若 \( \lambda \) 和 \( \mu \) 不同号，不妨设 \( \lambda>0>\mu \) 且 \( |\lambda|>|\mu| \)，那么 \( \{ u_1,u_2,u_3+tu\} \) 对 \( t \in [0,1] \) 仍为基，基的定向没有改变. 但 
+    \[ D(u_1,u_2,u_3)+D(u_1,u_2,u)=V_{\lozenge(u_1,u_2,u_3)}-V_{\lozenge(u_1,u_2,u)}=V_{\lozenge(u_1,u_2,u_3+u)}=D(u_1,u_2,u_3+u), \]
+    
+    故结论还是成立的，若 \( \lambda+\mu=0 \)，那么 \( D(u_1,u_2,u_3+u) =0 \)，剩下两个有向体积刚好抵消.
+	
+	\vspace{2ex}
+	
+	\begin{figure}[htbp!]
+		\begin{minipage}{0.35\linewidth}
+			\centering    
+			\begin{tikzpicture}[scale=2]
+				\coordinate (O) at (0,0);
+				\coordinate (u1) at (1,0);
+				\coordinate (u2) at (0.5,0.5);
+				\coordinate (u3) at (-0.3,1.2);
+				\coordinate (u) at  (0.75,-0.3);
+				\coordinate (u4) at  ($(u3) + (u)$);
+				\coordinate (u12) at  ($(u1) + (u2)$);
+				
+				
+				\fill[fill=blue, opacity=0.5]
+				(O) -- (u1) -- (u12) -- (u2) -- cycle;
+				
+				\fill[fill=blue!40!white, opacity=0.3]
+				(O) -- (u3) -- ($(u2)+(u3)$) -- (u2) -- cycle
+				(u2)-- ($(u2)+(u3)$) -- ($(u12)+(u3)$) -- (u12) --  cycle
+				(u12) -- ($(u12)+(u)$) -- ($(u1)+(u)$) -- (u1) -- cycle
+				(u1) -- (O) -- (u) -- ($(u1)+(u)$) -- cycle;
+				
+								
+				\draw[thick,->] (O)-- (u1) node[above left]{\( u_1 \)};
+				\draw[thick,->] (O) -- (u2) node[above left]{\( u_2 \)};
+				\draw[thick,->] (O) -- (u3) node[above left]{\( u_3 \)};
+				\draw[dashed,red,->] (u3) -- (u4) node[above left]{\( u \)};
+				\draw[thick,red,->] (O) -- (0.75,-0.3) node[above left]{\( u \)};
+				
+				
+				\foreach \x in {u3,u}{
+					\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+				
+				\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+				
+				\foreach \x in {u1,u2,u12}{
+					\draw[dashed] ($(\x) +  (u)$) -- (\x) -- ($(\x) + (u3)$);}
+			\end{tikzpicture}
+		\end{minipage}
+		\begin{minipage}{0.25\linewidth}
+			\centering
+			\begin{tikzpicture}[scale=2]
+				\coordinate (O) at (0,0);
+				\coordinate (u1) at (1,0);
+				\coordinate (u2) at (0.5,0.5);
+				\coordinate (u3) at (-0.3,1);
+				\coordinate (u4) at  ($(u3) + (0.75,-0.3)$);
+				\coordinate (u12) at  ($(u1) + (u2)$);
+				
+				\fill[fill=blue, opacity=0.5]
+				(O) -- (u1) -- (u12) -- (u2) -- cycle;
+				
+				\fill[fill=blue!40!white, opacity=0.3]
+				(u2) -- (O) -- (u4) -- ($(u2)+(u4)$) -- cycle
+				($(u2)+(u4)$) -- ($(u12)+(u4)$) -- (u12) -- (u2) -- cycle;
+				
+				\draw[thick,->] (O)-- (u1) node[below]{\( u_1 \)};
+				\draw[thick,->] (O) -- (u2) node[below right]{\( u_2 \)};
+				\draw[thick,purple,->] (O) -- (u4) node[above left]{\( u_3+u \)};
+				
+				\foreach \x in {u4}{
+					\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+				
+				\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+				
+				\foreach \x in {u1,u2,u12}{
+					\draw[dashed] (\x) -- ($(\x) +  (u4)$);}
+			\end{tikzpicture}
+		\end{minipage}
+		\begin{minipage}{0.25\linewidth}
+			\centering
+			\begin{tikzpicture}[scale=2]
+				\coordinate (O) at (0,0);
+				\coordinate (u1) at (1,0);
+				\coordinate (u2) at (0.5,0.5);
+				\coordinate (u12) at ($(u1) + (u2)$);
+				\coordinate (n1) at  (0,0.7);
+				
+				\fill[fill=blue, opacity=0.5]
+				(O) -- (u1) -- (u12) -- (u2) -- cycle;
+				
+				\fill[fill=blue!40!white, opacity=0.3]
+				(u2) -- (O) -- (n1) -- ($(u2)+(n1)$) -- cycle
+				($(u2)+(n1)$) -- ($(u12)+(n1)$) -- (u12) -- (u2) -- cycle;
+				
+				\draw[thick,->] (O)-- (u1) node[below]{\( u_1 \)};
+				\draw[thick,->] (O) -- (u2) node[above left]{\( u_2 \)};
+				\draw[thick,red,->] (O) -- (n1) node[above left]{\( su^{\perp} \)};
+				
+				\foreach \x in {n1}{
+					\draw[dashed] (\x) -- ($(\x) + (u1)$) -- ($(\x) + (u1)+ (u2)$) -- ($(\x) + (u2)$) -- cycle;}
+				
+				\draw[dashed] (u1) -- ($(u1) + (u2)$) -- (u2);
+				
+				\foreach \x in {u1,u2,u12}{
+					\draw[dashed] (\x) -- ($(\x) + (n1)$);}
+			\end{tikzpicture}
+		\end{minipage}
+	\end{figure}
+	
+	\vspace{2ex}
+	
+	虽然最后一个结论的几何诠释分类显得有些复杂，本质上没有什么内容. 读者如果愿意用行列式来理解可以跳过. 总之，我们从 \( \R^3 \) 中得到了上述原材料，看似不劳而获. 我们马上会发现，这三条性质几乎完全刻画了 \( D \)，最多差一个比例常数.
+	
+\end{enumerate}
+
+上面的三条性质，尽管从源头上来说需要一些度量的刻画，但性质描述本身没有对域 \( \F \) 有多少限制，于是我们自然想推广到一般的域 \( \F \) 上. 称满足上述三条性质的函数为 \( \F^n \) 上的交错形式.
+ 
 \subsubsection{行列式的映射定义与组合展开式}
 
 
 \subsubsection{两种定义的等价性}
 
 
-\subsection{行列式的其他性质}
+\subsection{间奏: 行列式的其他性质}
 
 \subsubsection{Laplace 展开}
 
 \subsubsection{Cauchy\(-\)Binet 公式}
 
-\subsection{可逆矩阵的一些额外问题}
+
+\subsection{尾声: 再谈可逆矩阵}
 
 \subsubsection{群同态}
 
