@@ -565,7 +565,7 @@ a_{31} & a_{32} & a_{33}
 
 于是我们下面提出行列式的第一种定义，按列展开的数学归纳法定义.
 
-\begin{definition}[数学归纳法定义]\label{2.2.1}
+\begin{definition}[行列式的归纳定义]\label{2.2.1}
 	考虑 \( A \in \F\n \)，现在递归定义 \( \det A \ (|A|): \F\n \to \F \). 当 \( n=1 \) 时，设 \( A=(a) \)，定义 \( \det A=a \). 现在假设 \( n-1 \) 阶的行列式已经定义好，设元素 \( a_{ij} \) 的余子式为从 \( A \) 中删去第 \( i \) 行和第 \( j \) 列所得 \( n-1 \) 阶矩阵的行列式，记作 \( M_{ij} \)，即
 	\[ M_{ij}=\det \begin{bmatrix}
 		a_{11} & \cdots & a_{1,j-1} & a_{1,j+1} & \cdots & a_{1n} \\
@@ -584,7 +584,7 @@ a_{31} & a_{32} & a_{33}
 
 这个定义是否有用，还需要看它能不能用来解决我们先前的问题: 即可逆矩阵的判定以及线性方程组的公式解. 那么沿着定义，我们第一步自然是刻画一些相关的性质.
 
-\begin{property}[行列式的性质]\label{2.2.2}
+\begin{property}[行列式的性质] \phantomsection \label{2.2.2} 
 	在定义 \ref{2.2.1} 的基础上，将矩阵按列分块，得到 \( A=(\alpha_1,\alpha_2,\cdots,\alpha_n) \)，也记行列式 \( \det A=\det(\alpha_1,\alpha_2,\cdots,\alpha_n) \). 任取 \( \beta \in \F^n \) 以及 \( c \in \F \)，那么
 	\begin{enumerate}[(1)]
 		\item 将 \( \det A \) 的一列乘以某个常数 \( c \) 得到 \( \det B \)，那么 \( \det B=c\det A \). 即 \( \det(\alpha_1,\cdots,\alpha_{i-1},c\alpha_i,\alpha_{i+1},\cdots,\alpha_n)=c\det A \)，进而 \( \det(cA)=c^n \det A \);
@@ -596,7 +596,6 @@ a_{31} & a_{32} & a_{33}
 	    \[ \det A= a_{1r}A_{1r}+a_{2r}A_{2r}+\cdots+a_{nr}A_{nr}. \]
 	    \item 转置不改变行列式的值，即 \( \det A\T= \det A \).
 	\end{enumerate}
-	
 \end{property}
 
 \begin{proof}
@@ -920,7 +919,7 @@ a_{31} & a_{32} & a_{33}
 
 到此为止，可以说关于本节开始之前所提出的问题，都获得了圆满的回答. 剩下的部分，则是对我们新定义的行列式提供几个例子练习，以及给出它的一种几何含义便于我们进一步理解它存在的意义.
 
-\subsubsection{简单的行列式计算}
+\subsubsection{一些计算实例 I}
 
 我们会在章节总复习时多练习一些困难的行列式，现在先来看几个基本的例子.
 
@@ -1405,6 +1404,18 @@ a_{31} & a_{32} & a_{33}
 	\[ \det C= \prod_{i=0}^{n} b_i^n \prod_{0 \leq i<j \leq n}^{} (b_j^{-1}-b_i^{-1})= \prod_{0 \leq i<j \leq n}^{} b_ib_j (b_j^{-1}-b_i^{-1})=\prod_{0 \leq i<j \leq n}^{}  (b_i-b_j). \]
 \end{solution}
 
+\begin{example}
+	设 \( \Omega \subseteq \F\n \) 为非空集合，\( \Omega \) 满足存在某个正整数 \( m \in \mathbb{N}^* \)，对任意 \( A,B \in \Omega \) 都有 \( (AB)^{m}=BA \in \Omega \). 那么
+	\begin{enumerate}[(1)]
+		\item 对任意 \( A \in \Omega \) 都有 \( \det A=0 \) 或者当 \( \det A \neq 0 \) 时有 \( (\det A)^{m-1}=1  \);
+		\item 对任意 \( A,B \in \Omega \) 都有 \( AB=BA \).
+	\end{enumerate}
+\end{example}
+
+\begin{proof}
+	\( m=1 \) 是显然的. 此时题设直接给出 (2)，且对任意 \( \det A \neq 0 \)，都成立 \( (\det A)^{0}=1 \). 下设 \( m \geq 2 \). 任取 \( A,B \in \Omega \) 都有 \( (AB)^m=BA \in \Omega \) 以及 \( (BA)^m=AB \in \Omega \). 那么自然 \( (AB)^k, (BA)^k \in \Omega \ (k \geq 2) \)，(1) 任取 \( A \in \Omega \)，\( (A^2)^{m}=A^{2m}=A^2 \). 利用命题 \ref{2.2.9}，即 \( (\det A)^{2m}=(\det A)^2 \)，移项得到 \( (\det A)^2 [(\det A)^{m-1}-1]=0 \). 而域中没有零因子，得到 \( \det A=0 \) 或者 \( (\det A)^{m-1}=1 \). (2) 下面这个等式是关键的，\( (AB)^m=[(AB)^{m-1}(AB)]=[(AB)(AB)^{m-1}]^m=(AB)^{m^2} \). 那么 \( BA=(AB)^m=(AB)^{m^2}=[(AB)^m]^m=(BA)^m=AB \).
+\end{proof}
+
 \subsection{几何动机: 有向体积}
 \label{2.3}
 
@@ -1735,7 +1746,7 @@ x_3 & y_3 & z_3
 	\( \F^n \) 的一组最常见的基就是规范正交基 \( \varepsilon_1,\cdots,\varepsilon_n \)，它不仅满足基的所有定义，而且具有正交性质，即 \( \varepsilon_i\varepsilon_j\T=\delta_{ij} \). 另外，\( \varepsilon_1+\varepsilon_2,\varepsilon_2, \cdots,\varepsilon_n \) 也是 \( \F^n \) 的一组基，因为它用 \( \varepsilon_1,\cdots,\varepsilon_n \) 线性表出的矩阵是主对角元素全为 1 的下三角矩阵，当然可逆，用命题 \ref{2.3.20}.
 \end{example}
 
-\subsubsection{一类交错型的刻画}
+\subsubsection{一类交错形式的刻画}
 
 有了 \ref{Sec 2.3.2} 中基和线性关系的必要准备，我们就能将 \ref{Sec 2.3.1} 中三维的有向体积推广到 \( \R^n \) 中. 先假定，
 \begin{enumerate}[(i)]
@@ -1788,11 +1799,12 @@ x_3 & y_3 & z_3
 	\item \textbf{加法} 对任意 \( u \in \R^n \) 有
 	\[ D(u_1,\cdots,u_i+u,\cdots,u_n)=D(u_1,\cdots,u_i,\cdots,u_n)+D(u_1,\cdots,u,\cdots,u_n). \]
 	
-	我们不关心 \( \{u_j\}_{j \neq i} \) 这个向量组是线性相关的情况，因为在退化前提下，这时候显然两边都是零. 不妨  \( \{u_j\}_{j \neq i} \) 这个向量组线性无关. 下面对 \( n=3, \; i=3 \) 的情况进行几何诠释. 若 \( u_i \) 和 \( u \) 之一能够被 \( \{u_j\}_{j \neq i} \) 线性表出，那么相当于这个添加的部分对体积没有贡献作用. 不妨设 \( u \) 可以被 \( \{u_j\}_{j \neq i} \) 线性表出，
+	我们不关心 \( \{u_j\}_{j \neq i} \) 这个向量组是线性相关的情况，因为在退化前提下，这时候显然两边都是零. 不妨  \( \{u_j\}_{j \neq i} \) 这个向量组线性无关. 下面对 \( n=3, \; i=3 \) 的情况进行几何诠释. 
 	
-	\vspace{2ex}
 	
-	\begin{figure}[htbp!]
+
+	
+	\begin{figure}[htbp!] 
 		\begin{minipage}{0.3\linewidth}
 			\centering    
 			\begin{tikzpicture}[scale=2]
@@ -1884,24 +1896,28 @@ x_3 & y_3 & z_3
 					\draw[dashed] (\x) -- ($(\x) + (n1)$);}
 			\end{tikzpicture}
 		\end{minipage}
+		\caption{加法等式的示例 I}
+		\label{cap2}
 	\end{figure}
 	
-	\vspace{2ex}
 	
-	如上图所示，这个 \( u \) 的加入对体积没有任何影响，无非就是起到在 \( u_1,u_2 \) 张成平面拉伸的作用，由于 \( \{ u_1,u_2,u_3+tu\} \) 对 \( t \in [0,1] \) 为基，因为 \( u_3 \) 真正起到与 \( u_1 \) 和 \( u_2 \) 不共面的垂直分量 \( su^{\perp} \ (s \in \mathbb{R}) \) 并没有被 \( u \) 影响. 那么根据微扰不变前提，基的定向不变，又体积本身也不变(高和底没有变化)，那么
+	(\textbf{Case I}) \ 若 \( u_i \) 和 \( u \) 之一能够被 \( \{u_j\}_{j \neq i} \) 线性表出，那么相当于这个添加的部分对体积没有贡献作用. 不妨设 \( u \) 可以被 \( \{u_j\}_{j \neq i} \) 线性表出. 在图 \ref{cap2} 中，这个 \( u \) 的加入对体积没有任何影响，无非就是起到在 \( u_1,u_2 \) 张成平面拉伸的作用.  \( \{ u_1,u_2,u_3+tu\} \) 对每个 \( t \in [0,1] \) 都是 \( \F^n \) 的一组基，因为 \( u_3 \) 真正起到与 \( u_1 \) 和 \( u_2 \) 不共面的分量 \( su^{\perp} \ (s \in \mathbb{R}) \) 并没有被 \( u \) 影响. 这里 \( u^{\perp} \) 指 \( u_1 \times u_2 \)，它给出 \( u_1, u_2 \) 所在平面的一个法向量. 那么根据微扰不变前提，基的定向不变，也就是 \( \{u_1,u_2,u_3\} \) 和 \( \{u_1,u_2,u_3+u\} \) 的定向应当是相同的. 又平行六面体的高和底没有变化，体积也不变，进而
 	\[ D(u_1,u_2,u_3+u)=D(u_1,u_2,u_3)+D(u_1,u_2,u)=D(u_1,u_2,u_3)+0. \]
 	
-	若 \( u \) 也不能被 \( \{u_j\}_{j \neq i} \) 线性表出，给出一个分解
+    补充说明一点，在一般的 \( \R^n \) 中，这样的 “垂直” 于给定 \( n-1 \) 个线性无关向量 \( u_1,\cdots,u_{n-1} \) 张成的 “平面” 的向量 \( u^{\perp} \) 也是存在的. 在欧氏空间一章我们会介绍 Gram-Schmidt 正交化方法来从已知的基出发构造之，现在只需要承认这一点. 那么这时候一定有 \( u_1,\cdots,u_{n-1},u^{\perp} \) 可以拼成 \( \F^n \) 的一组基. 因为 “垂直” 本身实际上比线性无关更强. 从一个简单的情形入手，取 \( u_1,u_2 \in \R^2, \; u_1 \perp u_2 \)，考察 \( c_1u_1+c_2u_2=\bm{0} \). 那么
+    
+    \[ c_1u_1\T u_1+c_2 u_1\T u_2= c_1 |u_1|^2= 0 \leadsto c_1=0. \]
+    
+    这里 \( \alpha\T \beta \) 就是通常意义下的平面向量数量积. 另一方面，如果我们左乘 \( u_2\T \)，那就能得到 \( c_2=0 \). 
+	
+	(\textbf{Case II}) \ 若 \( u \) 也不能被 \( \{u_j\}_{j \neq i} \) 线性表出，给出一个分解
 	\[ u_3=\lambda u^{\perp}+ \sum_{j \neq i}^{} c_ju_j, \; u=\mu u^{\perp}+ \sum_{j \neq i}^{} c_ju_j. \]
-
-	这里我们 \( u^{\perp} \) 的定义就是由 \( u_1 \times u_2 \) 给出 \( u_1, u_2 \) 所在平面的一个法向量. 在高维情况，这样的向量也是存在的，在欧氏空间一章我们会介绍 Gram-Schmidt 正交化方法. 你现在只需要承认这一点. 也就是存在 \( u^{\perp} \) 和已经给定的 \( n-1 \) 个向量 \( u_1,\cdots,u_{n-1} \) 是 “垂直” 的，并且可以拼在一起构成 \( \F^n \) 的一组基. 因为 “垂直” 本身实际上比线性无关更强. 例如若平面向量 \( u_1 \perp u_2 \)，考察 \( c_1u_1+c_2u_2=\bm{0} \leadsto c_1u_1\T u_1+c_2 u_1\T u_2= c_1 |u_1|^2= 0 \). 这里 \( \alpha\T \beta \) 就是通常意义下的平面向量数量积. 进而 \( c_1=0 \). 另一方面，如果我们左乘 \( u_2\T \)，那就能得到 \( c_2=0 \). 说明 “垂直” 蕴含线性无关.
 	
-	
-	一种比较幸运的情况，\( \lambda \) 和 \( \mu \) 是同号的，此时 \( u_3+u \) 在 \( u^{\perp} \) 方向的分量为 \( (\lambda+\mu) u^{\perp}=:su^{\perp} \). 那么 \( \{ u_1,u_2,u_3+tu\} \) 对 \( t \in [0,1] \) 仍为基，根据微扰不变前提，基的定向不变. 接着研究体积本身，明显第一幅图沿着 \( u_1 \) 和 \( u_2 \) 所在平面 “平推” 就可以得到第三幅图，这个过程不改变高，也就不改变体积. 而二三幅图明显体积相同. 也就有
+	一种比较幸运的情况，\( \lambda \) 和 \( \mu \) 是同号的，此时 \( u_3+u \) 在 \( u^{\perp} \) 方向的分量为 \( (\lambda+\mu) u^{\perp}=:su^{\perp} \). 那么 \( \{ u_1,u_2,u_3+tu\} \) 对 \( t \in [0,1] \) 仍为基，根据微扰不变前提，基的定向不变. 对体积而言，明显图 \ref{cap3} 的第一幅图沿着 \( u_1 \) 和 \( u_2 \) 所在平面 “平推” 就可以得到图 \ref{cap3} 的第三幅图，这个过程不改变高，也就不改变体积. 而图 \ref{cap3} 的二三幅图明显体积相同. 也就有
 	
 	\[ D(u_1,u_2,u_3+u)=D(u_1,u_2,u_3)+D(u_1,u_2,u). \]
 	
-	\begin{figure}[htbp!]
+	\begin{figure}[htbp!] 
 		\begin{minipage}{0.3\linewidth}
 			\centering    
 		    \begin{tikzpicture}[scale=2]
@@ -1998,11 +2014,13 @@ x_3 & y_3 & z_3
 					\draw[dashed] (\x) -- ($(\x) + (n1)$) -- ($(\x) +  (n2)$);}
 			\end{tikzpicture}
 		\end{minipage}
+		\caption{加法等式的示例 II}
+		\label{cap3}
 	\end{figure}
 	
 	\vspace{2ex}
 	
-    若 \( \lambda \) 和 \( \mu \) 不同号，不妨设 \( \lambda>0>\mu \) 且 \( |\lambda|>|\mu| \)，那么 \( \{ u_1,u_2,u_3+tu\} \) 对 \( t \in [0,1] \) 仍为基，基的定向没有改变. 但 
+    (\textbf{Case III}) \ 若 \( \lambda \) 和 \( \mu \) 不同号，如图 \ref{cap4} 所示. 不妨设 \( \lambda>0>\mu \) 且 \( |\lambda|>|\mu| \)，那么 \( \{ u_1,u_2,u_3+tu\} \) 对 \( t \in [0,1] \) 仍为基，基的定向没有改变. 但 
     \[ D(u_1,u_2,u_3)+D(u_1,u_2,u)=V_{\lozenge(u_1,u_2,u_3)}-V_{\lozenge(u_1,u_2,u)}=V_{\lozenge(u_1,u_2,u_3+u)}=D(u_1,u_2,u_3+u), \]
     
     故结论还是成立的，若 \( \lambda+\mu=0 \)，那么 \( D(u_1,u_2,u_3+u) =0 \)，剩下两个有向体积刚好抵消.
@@ -2107,6 +2125,9 @@ x_3 & y_3 & z_3
 					\draw[dashed] (\x) -- ($(\x) + (n1)$);}
 			\end{tikzpicture}
 		\end{minipage}
+		
+		\caption{加法等式的示例 III}
+		\label{cap4}
 	\end{figure}
 	
 	\vspace{2ex}
@@ -2117,17 +2138,585 @@ x_3 & y_3 & z_3
 
 上面的三条性质，尽管从源头上来说需要一些度量的刻画，但性质描述本身没有对域 \( \F \) 有多少限制，于是我们自然想推广到一般的域 \( \F \) 上. 称满足上述三条性质的函数为 \( \F^n \) 上的交错形式.
  
+\begin{definition}[交错形式] \label{2.3.23}
+	设 \( n \in \mathbb{Z}_{\geq 1}\)，给出 \( D: \F^n \to \F \) 满足
+	\begin{enumerate}[(i)]
+		\item \textbf{线性} \ 设 \( 1 \leq i \leq n \)，以及 \( u_i,u \in \F^n \) 和 \( c \in \F \)，有
+		\[ D(u_1,\cdots,u_i+u,\cdots,u_n)=D(u_1,\cdots,u_i,\cdots,u_n)+D(u_1,\cdots,u,\cdots,u_n). \]
+		\[ D(u_1,\cdots,cu_i,\cdots,u_n)=cD(u_1,\cdots,u_i,\cdots,u_n). \]
+		
+		\item 若存在 \( 1 \leq i<j \leq n \) 使得 \( u_i=u_j \)，有
+		\[ D(u_1,\cdots,u_i,\cdots,u_j,\cdots,u_n)=0. \]
+	\end{enumerate}
+	
+    那么称 \( D \) 为 \( \F \) 上的一个 \( n \) 元交错形式，并记所有这样的映射构成集合 \( \mathcal{D}_{\F^n} \). 特别规定 \( \mathcal{D}_{\F^0}=\F \). 上述 (ii) 的规定对 \( n=1 \) 是多余的.
+\end{definition}
+
+\begin{remark} \label{2.3.24}
+	有的教材上对于第二点规定的是 \textbf{交错性}: 交换变元 \(u_i \) 和 \( u_j \) 的顺序导致变号. 即
+	\[  D(u_1,\cdots,u_i,\cdots,u_j,\cdots,u_n)=- D(u_1,\cdots,u_j,\cdots,u_i,\cdots,u_n). \]
+	
+	但在一般 \( \tz F=2 \) 的域中，未必有 \( 2x=0 \Rightarrow x=0 \). 而定义 \ref{2.3.23} (2) 其实蕴含了上述交错性. \textbf{提示: }考虑
+	\[ D(u_1,\cdots,u_i+u_j,\cdots,u_i+u_j,\cdots,u_n)=0, \]
+	
+	然后用定义 \ref{2.3.23} (1) 依次对第 \( i \) 和第 \( j \) 个变元线性展开.
+\end{remark}
+
+那么 \( \R^3 \) 上的行列式，或者说有向体积，就是一种 \( 3 \) 元交错形式. 为了从定义 \ref{2.3.23} 中得到更多性质，我们引入逆序数的概念.
+
+\begin{definition}[逆序数] \label{2.3.25}
+	设正整数 \( i_1,\cdots,i_m \) 两两不同，考察集合
+	\[ \text{Inv}(i_1,\cdots,i_m):=\{(p,q) \in \mathbb{Z}^2 \mid 1 \leq p<q \leq m, i_p>i_q \}. \]
+	
+	称 \( \text{Inv}(i_1,\cdots,i_m) \) 中的元素个数 \( |\text{Inv}(i_1,\cdots,i_m)|:= \sigma(i_1,\cdots,i_m) \) 为这个排列的逆序数.
+\end{definition}
+
+\begin{example} \label{2.3.26}
+	给定正整数 \( (i_1,\cdots,i_n) \) 为 \( (1,\cdots,n) \) 的一个排列，那么 
+	\[ \sigma(i_1,\cdots,i_n)=(n-i_n)+\sigma(i_1,\cdots,i_{n-1}). \]
+\end{example}
+
+\begin{proof}
+	只需要注意到，从 \( \text{Inv}(i_1,\cdots,i_n) \) 到 \( \text{Inv}(i_1,\cdots,i_{n-1}) \)，集合中只减少了类似 \( (p,n) \ (1 \leq p \leq n-1) \) 这样的元素. 下面统计这种类型的元素个数. 由于 \( \{ i_1,\cdots,i_{n-1} \}= \{1,2,\cdots,n\} \textbackslash \{i_n\} \). 也就是 \( i_1,\cdots,i_{n-1} \) 中比 \( i_n \) 大的数只有 \( i_n+1,\cdots,n \) 共 \( n-i_n \) 个，用定义 \ref{2.3.25} 得到欲证等式.
+\end{proof}
+
+\begin{proposition} \label{2.3.27}
+	给定正整数 \( (i_1,\cdots,i_n) \) 为 \( (1,\cdots,n) \) 的一个排列，且 \( \sigma(i_1,\cdots,i_n)=k \)，那么对排列 \( (i_1,\cdots,i_n) \) 可以经过 \( k \) 次元素之间的对换使得其变为 \( (1,\cdots,n) \). 
+\end{proposition}
+
+\begin{proof}
+	若 \( k=0 \)，那么命题已经成立. 否则，必定存在 \( 1 \leq p \leq n-1 \) 使得 \( i_{p+1}<i_{p} \). 这时对调 \( i_p \) 和 \( i_{p+1} \)，也就是
+	
+	\[ (\cdots,i_p,i_{p+1},\cdots) \ (\text{I}) \leadsto (\cdots,i_{p+1},i_{p},\cdots) \ (\text{II}). \]
+	
+	\( i_p \) 和 \( i_{p+1} \) 不参与构成的数对，在 (I) 中和在 (II) 中是否逆序是一样的; \( i_p \) 或 \( i_{p+1} \) 和其他数构成的数对，在 (I) 中和在 (II) 中是否逆序也是一样的. 只有 \( i_p \) 和 \( i_{p+1} \) 之间，它在 (I) 中是逆序，在 (II) 中就是顺序. 也就是对调后排列的逆序数变为 \( k-1 \). 若 \( k-1 \geq 1 \)，可以继续找到相邻两数逆序，仿照上述操作继续进行. 当逆序数为 0 时，排列必定形如  \( (1,\cdots,n) \).
+\end{proof}
+ 
+\begin{proposition} \label{2.3.28}
+	给定正整数 \( (i_1,\cdots,i_n) \) 为 \( (1,\cdots,n) \) 的一个排列，记其逆序数为 \( \sigma_1 \). 现将其中的两个元素 \( i_p \) 和 \( i_q \ (1 \leq p<q \leq n) \) 对换，所得新排列 \( (i_1,\cdots,i_{p-1},i_q,i_{p+1},\cdots,i_{q-1},i_p,i_{q+1},\cdots,i_n) \) 的逆序数记为 \( \sigma_2 \). 那么 \( \sigma_1 \) 和 \( \sigma_2 \) 的奇偶性不同，换言之，
+	\[ (-1)^{\sigma_1}+(-1)^{\sigma_2}=1. \]
+\end{proposition}
+
+\begin{proof}
+	先考虑相邻两个数 \( i_p \) 和 \( i_{p+1} \) 对换的情形. 
+	\[ (\cdots,i_p,i_{p+1},\cdots) \ (\text{I}) \leadsto (\cdots,i_{p+1},i_{p},\cdots) \ (\text{II}). \]
+	
+	 \( i_p \) 和 \( i_{p+1} \) 不参与构成的数对，在 (I) 中和在 (II) 中是否逆序是一样的; \( i_p \) 或 \( i_{p+1} \) 和其他数构成的数对，在 (I) 中和在 (II) 中是否逆序是一样的，只有 \( i_p \) 和 \( i_{p+1} \) 之间，它在 (I) 中是顺序，那么它在 (II) 中就是逆序，反之，在 (I) 中是逆序，在 (II) 中就是顺序. 也就是相邻两个数对调后，逆序数必定加一或者减一. 进而，奇偶性改变. 
+	 
+	 现在考虑任意两个数 \( i_p \) 和 \( i_q \) 对换，这一点可以通过 \( i_p \) 先依次和 \( i_{p+1}, i_{p+2},\cdots,i_{q-1}, i_q \) 互换，然后 \( i_q \) 再和 \( i_{p+1}, i_{p+2},\cdots,i_{q-1} \) 互换，累计 \( 2(q-p)-1 \) 次相邻两个数的互换实现，这是奇数次改变排列奇偶性的互换，必然使得逆序数奇偶性改变.
+\end{proof}
+
+\begin{lemma} \label{2.3.29}
+	给定正整数 \( (i_1,\cdots,i_n) \) 为 \( (1,\cdots,n) \) 的一个排列，且 \( D \in \mathcal{D}_{\F^n} \)，那么
+	\[ D(u_{i_1},\cdots,u_{i_n})=(-1)^{\sigma(i_1,\cdots,i_n)} D(u_1,\cdots,u_n). \]
+\end{lemma}
+
+\begin{proof}
+	利用注 \ref{2.3.24}，交错形式具有交错性，也就是每次两个向量之间的对换都会改变符号，再利用命题 \ref{2.3.27}，存在一个 \( \sigma(i_1,\cdots,i_n) \) 次两个元素对换组成的操作，使得 \( u_{i_1},\cdots,u_{i_n} \) 变为 \( u_1,\cdots,u_n \). 即证.
+\end{proof}
+
+\begin{theorem} \label{2.3.30}
+	取定 \( \F^n \) 的一组有序基 \( (\bme_1,\cdots,\bme_n) \)，任取向量 \( u_1,\cdots,u_n \in \F^n \)，那么由定义 \ref{2.3.14}，存在唯一 \( A=(a_{ij}) \in \F\n \) 使得 \( (u_1,\cdots,u_n)=(\bme_1,\cdots,\bme_n)A \). 那么对任意 \( D \in \mathcal{D}_{\F^n} \) 都必须有
+	\begin{equation}
+		 D(u_1,\cdots,u_n)= \sum_{(i_1,\cdots,i_n)}^{} (-1)^{\sigma(i_1,\cdots,i_n)} \ a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n} \ D(\bme_1,\cdots,\bme_n),
+		 \label{equ2.3.1}
+	\end{equation}
+	
+	这表示对 \( (1,2,\cdots,n) \) 的所有排列求和. 换言之，这说明为了确定 \( D \) 的映射效果，只需要观察 \( D \) 在选定的一组基 \( \bme_1,\cdots,\bme_n \) 上的取值即可.
+\end{theorem}
+
+\begin{proof}
+	由于
+	\[ u_j=\sum_{i=1}^{n} a_{ij}\bme_i, \; 1 \leq j \leq n. \]
+	
+	利用定义 \ref{2.3.23} (1) 有
+	\begin{align*}
+		D(u_1,\cdots,u_n) &= \sum_{i_1=1}^{n} a_{i_1,1} \ D(\bme_{i_1},u_2,\cdots,u_n), \\
+		&= \sum_{i_1=1}^{n} \sum_{i_2=1}^{n}\cdots \sum_{i_n=1}^{n} a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n} \ D(\bme_{i_1},\bme_{i_2},\cdots,\bme_{i_n}).
+	\end{align*}
+	
+	上述求和除去存在 \( \bme_{i_p}=\bme_{i_q} \) 交错形式取值为 0 的项，一共有 \( n! \) 项，且刚好遍历 \( (1,2,\cdots,n) \) 的所有排列. 另一方面，再利用引理 \ref{2.3.29}，就有
+	\[ D(u_1,\cdots,u_n)= \sum_{(i_1,\cdots,i_n)}^{} (-1)^{\sigma(i_1,\cdots,i_n)} \ a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n} \ D(\bme_1,\cdots,\bme_n). \]
+\end{proof}
+
+\begin{proposition} \label{2.3.31}
+	在定理 \ref{2.3.30} 的条件下，式 (\ref{equ2.3.1}) 等价于
+	\[ D(u_1,\cdots,u_n)= \sum_{(j_1,\cdots,j_n)}^{} (-1)^{\sigma(j_1,\cdots,j_n)} \ a_{1,j_1}a_{2,j_2}\cdots a_{n,j_n} \ D(\bme_1,\cdots,\bme_n). \]
+\end{proposition}
+
+\begin{proof}
+	我们不妨考虑一个一般的情形，设 \( a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n} \) 经过 \( s \) 次元素的对换变成 \( a_{k_1,j_1}a_{k_2,j_2}\cdots a_{k_n,j_n} \). 这就蕴含了 \( (i_1,\cdots,i_n) \) 经过 \( s \) 次对换变成 \( (k_1,\cdots,k_n) \) 以及 \( (1,\cdots,n) \) 经过 \( s \) 次对换变成 \( (j_1,\cdots,j_n) \). 那么由命题 \ref{2.3.28} 有
+	\[ (-1)^{\sigma(k_1,\cdots,k_n)}=(-1)^{s+\sigma(i_1,\cdots,i_n)}, \; (-1)^{\sigma(j_1,\cdots,j_n)}=(-1)^s.\] 
+	
+	也就是
+	\[ (-1)^{2s+\sigma(i_1,\cdots,i_n)}=(-1)^{\sigma(i_1,\cdots,i_n)}=(-1)^{\sigma(k_1,\cdots,k_n)+\sigma(j_1,\cdots,j_n)}. \]
+	
+	再用命题 \ref{2.3.27}，知道 \( (i_1,\cdots,i_n) \) 可以通过若干次对换变回 \( (1,\cdots,n) \). 那么取 \( (k_1,\cdots,k_n)=(1,\cdots,n) \). 这时，式 (\ref{equ2.3.1}) 中的每一项就可以写为
+	\[ (-1)^{\sigma(i_1,\cdots,i_n)} \ a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n} =(-1)^{\sigma(j_1,\cdots,j_n)+0} \ a_{1,j_1}a_{2,j_2}\cdots a_{n,j_n}. \]
+	
+	这时候注意到，原先求和的时候 \( (i_1,\cdots,i_n) \) 是遍历全排列的，也就是 \( a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n} \) 是互不相同的项，那么经过若干次对调后，对元素本身不变，也就是还是互不相同的项，一共 \( n! \) 项. 那么 \( (j_1,\cdots,j_n) \) 也应当遍历 \( (1,2,\cdots,n) \) 的全排列，于是求和可以改写为
+	\[ D(u_1,\cdots,u_n)= \sum_{(j_1,\cdots,j_n)}^{} (-1)^{\sigma(j_1,\cdots,j_n)} \ a_{1,j_1}a_{2,j_2}\cdots a_{n,j_n} \ D(\bme_1,\cdots,\bme_n). \]
+	
+	上述过程明显可逆，也就是上述两式等价.
+\end{proof}
+
+定理 \ref{2.3.30} 给出了 \( n \) 元交错形式的一种刻画，如果 \( D \) 存在，那么必定要满足定理 \ref{2.3.30} 或者命题 \ref{2.3.31} 给出的等式，相当于一种必要条件. 但这时候 \( D \) 是否存在还未可知，下面的定理 \ref{2.3.32} 刻画了 \( n \) 元交错形式的存在性.
+
+\begin{theorem} \label{2.3.32}
+	取定 \( \F^n \) 的一组有序基 \( (\bme_1,\cdots,\bme_n) \)，那么存在唯一 \( D_{\bm{e}} \in \mathcal{D}_{\F^n} \) 使得 \( D(\bme_1,\cdots,\bme_n)=1 \).
+\end{theorem}
+
+\begin{proof}
+	任取向量 \( u_1,\cdots,u_n \in \F^n \)，那么由定义 \ref{2.3.14}，存在唯一 \( A=(a_{ij}) \in \F\n \) 使得 \( (u_1,\cdots,u_n)=(\bme_1,\cdots,\bme_n)A \). 这时候取
+	\[ D_{\bm{e}}(u_1,\cdots,u_n):=\sum_{(i_1,\cdots,i_n)}^{} (-1)^{\sigma(i_1,\cdots,i_n)} \ a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n}. \]
+	
+	接下来自然问这么定义会满足我们对 \( n \) 元交错形式，也就是定义 \ref{2.3.23} 的要求吗? (i) 线性是很容易的，无非就是其中有一项要拆成两项，或者是其中一项发生了数量乘法，当然可以提出求和号外. 具体细节留给读者. 我们只验证 (ii). 这时候要求 \( n \geq 2 \). 若 \( u_p=u_q \)，那么 \( a_{i,p}=a_{i,q} \) 对任意 \( 1 \leq i \leq n \) 都成立. 接下来，我们用 \( S_{n-2} \) 表示 \( i_1,\cdots,i_{p-1},i_{p+1},\cdots,i_{q-1},i_{q+1},\cdots,i_n \) 这 \( n-2 \) 个元素取值在 \( \{1,2,\cdots,n\} \) 的所有排列，共 \( A_{n}^{n-2}=n!/2 \) 个. 留意
+	\[ a_{i_1,1}\cdots {\color{red}a_{i_p,p}} \cdots {\color{green!40!black} a_{i_q,q}} \cdots a_{i_n,n}= a_{i_1,1}\cdots {\color{green!40!black}a_{i_q,p}} \cdots { \color{red} a_{i_p,q}} \cdots a_{i_n,n}. \]
+	
+	用命题 \ref{2.3.28} 就有
+	\begin{align*}
+		\sum_{(i_1,\cdots,i_n)}^{} (-1)^{\sigma(i_1,\cdots,i_n)} \ a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n} &=\sum_{S_{n-2}}^{} [(-1)^{\sigma(i_1,\cdots,i_q,\cdots,i_p,\cdots,i_n)}+ (-1)^{\sigma(i_1,\cdots,i_p,\cdots,i_q,\cdots,i_n)}] a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n}, \\
+		&=\sum_{S_{n-2}}^{} 0 \cdot a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n}=0. 
+	\end{align*}
+	
+	至此，我们确定了 \(D_{\bm{e}} \in \mathcal{D}_{\F^n} \). 另一方面， \( D_{\bm{e}}(\bme_1,\cdots,\bme_n) \) 的展开式中 \( a_{i_1,1} \) 非零当且仅当 \( i_1=1 \)，且此时 \( a_{1,1}=1 \)，后续同理，那么非零项只有
+	\[ D_{\bm{e}}(\bme_1,\cdots,\bme_n)=(-1)^{\sigma(1,2,\cdots,n)} a_{11}\cdots a_{nn}=1. \]
+	
+	至于唯一性，利用命题 \ref{2.3.31}，一个交错形式完全由其在 \( \bme_1,\cdots,\bme_n \) 上的取值唯一确定.
+\end{proof}
+
+一个很自然的疑问? 我们在定理 \ref{2.3.32} 中给出的构造 \( D_{\bm{e}} \) 和先前谈论的有向体积有什么联系呢? 在 \( n \) 维情况定义的交错形式和行列式存在什么关系呢? 下面的定理告诉我们，在相差一个 \( \F \) 中常数的情况下，有向体积就等同于我们定义的 \( D_{\bm{e}} \). 而行列式的观察留待后面小节讨论.
+
+\begin{theorem} \label{2.3.33}
+	设 \( D \in \mathcal{D}_{\F^n} \)，那么存在唯一 \( c \in \F \)，使得 \( D=cD_{\bme} \)，其中 \( D_{\bme} \) 如同定理 \ref{2.3.32} 所构造. 换言之，其实有 \( \dim \mathcal{D}_{\F^n}=1 \).
+\end{theorem}
+
+\begin{proof}
+	利用命题 \ref{2.3.31}，一个交错形式完全由其在 \( \bme_1,\cdots,\bme_n \) 上的取值唯一确定，而 \( D_{\bm{e}}(\bme_1,\cdots,\bme_n)=1 \)，那么取 \( c=D(\bme_1,\cdots,\bme_n) \)，就有 \( D=cD_{\bm{e}} \). 换言之，就是 \( \mathcal{D}_{\F^n} \) 中的元素全部线性相关，且 \( D_{\bm{e}} \) 可以充当一个基. 
+	
+	当然了，我们还没有定义 \( \mathcal{D}_{\F^n} \) 上的线性结构，这是很容易定义的. 对 \( D_1,D_2 \in \mathcal{D}_{\F^n} \) 以及 \( c \in \F \)，定义
+	\[ (D_1+cD_2)(u_1,\cdots,u_n)=D_1(u_1,\cdots,u_n)+c \cdot [D_2(u_1,\cdots,u_n)]. \]
+\end{proof}
+
 \subsubsection{行列式的映射定义与组合展开式}
 
+下面我们给出行列式的第二种定义，请读者先默认我们还未定义过行列式，下面是你第一次见到这个名词. 我们马上就会证明两种定义的等价性.
 
-\subsubsection{两种定义的等价性}
+\begin{definition}[行列式的映射定义] \label{2.3.34}
+	设 \( A \in \F\n \ (n \in \mathbb{Z}_{\geq 1}) \)，线性变换 \( \varphi_{A}: \F^n \to \F^n, \; X \mapsto AX \) 诱导出 \( \varphi^*_{A}: \mathcal{D}_{\F^n} \to \mathcal{D}_{\F^n}, \; D \mapsto D^* \). 这里 \( D^* \) 的定义为
+	\[ D^*(v_1,\cdots,v_n)=D(Av_1,\cdots,Av_n), \; \forall \; D \in \mathcal{D}_{\F^n}, \; v_1,\cdots,v_n \in \F^n. \]
+	
+	容易验证这时候 \( D^* \in \mathcal{D}_{\F^n} \). 由定理 \ref{2.3.33}，那么存在唯一常数 \( c \in F \)，使得 \( D^*=cD \). 定义 \( c=\det A \)，表示矩阵 \( A \) 的行列式. 对 \( n=0 \)，我们定义 \( \det A=1 \).
+\end{definition}
+
+如果将 \( D \) 和 \( D^* \) 想象为有向体积，那么行列式无非就是 \( \varphi_{A} \) 带来的体积伸缩量，从 \( D(v_1,\cdots,v_n) \) 到 \( D(Av_1,\cdots,Av_n) \). 这一点将在多元重积分的换元公式中自然而然的出现，因为对满足逆映射定理的可微向量值函数，局部存在可逆线性映射 \( Jf: X \mapsto JX \)，其中 \( J \) 为 \( f \) 的 Jacobi 矩阵. 那么局部体积的改变量的绝对值就是 \( |\det J| \)，作为一个比例系数存在.
+
+当 \( A \) 可逆时，由于 \( AX=O \) 仅有零解，那么 \( c_1Av_1+\cdots+c_nAv_n= \bm{0}= A(c_1v_1+\cdots+c_nv_n) \Rightarrow c_1v_1+\cdots+c_nv_n=\bm{0} \). 那么 \( \varphi_{A} \) 保持线性关系. 如果取 \( v_1,\cdots,v_n \) 为一组基，那么体积必定不为零，且 \( Av_1,\cdots,Av_n \) 也为一组基，体积也不为零，体积伸缩量 \( \det A \) 当然也不为零，符合我们在命题 \ref{2.2.13} 中的刻画. 
+
+
+另一方面，若 \( A \) 不可逆，那么 \( AX=O \) 存在非零解，不妨记为 \( X=\beta \neq \bm{0} \)，如果 \( v_1,\cdots,v_n \) 为一组基，那么存在唯一的 \( c_1,\cdots,c_n \in \F \) 使得 \( \beta=c_1v_1+\cdots+c_nv_n \)，且由于 \( \beta \neq \bm{0} \)，故 \( c_1,\cdots,c_n \) 当然不会全为零，此时用 \( A \) 左乘，就有
+\[ c_1(Av_1)+\cdots+c_n(Av_n)=A\beta=\bm{0}. \]
+
+也就说明 \( Av_1,\cdots,Av_n \) 线性相关，那么有向体积自然为零. 说明 \( \varphi_{A} \) 带来的伸缩量就是直接打到零了，即 \( \det A=0 \)，完美符合命题 \ref{2.2.14}. 这只是一种初步验证，我们接下来给出定义 \ref{2.3.34} 的具体表达式.
+
+\begin{definition}[行列式的组合展开式定义] \label{2.3.35}
+	在定义 \ref{2.3.34} 的基础上，设 \( A=(a_{ij}) \)，那么
+	\[ \det A= \sum_{(i_1,\cdots,i_n)}^{} (-1)^{\sigma(i_1,\cdots,i_n)} \ a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n}. \]
+	
+	用命题 \ref{2.3.31}，那么还可以写为
+	\[ \det A= \sum_{(j_1,\cdots,j_n)}^{} (-1)^{\sigma(j_1,\cdots,j_n)} \ a_{1,j_1}a_{2,j_2}\cdots a_{n,j_n}. \]
+	
+	这其实说明了 \( \det A=\det A\T \). 符合性质 \ref{2.2.2}. 
+\end{definition}
+
+\begin{proof}
+	取定 \( \F^n \) 的一组基 \( e_1,\cdots,e_n \). 接下来注意到 \( (A\bme_1,\cdots,A\bme_n)=(\bme_1,\cdots,\bme_n)A \) 即可. 那么由定理 \ref{2.3.30},
+	\[ D^*(\bme_1,\cdots,\bme_n)=\sum_{(i_1,\cdots,i_n)}^{} (-1)^{\sigma(i_1,\cdots,i_n)} \ a_{i_1,1}a_{i_2,2}\cdots a_{i_n,n} \ D(\bme_1,\cdots,\bme_n)=(\det A) D(\bme_1,\cdots,\bme_n). \]
+	
+	对 \( D = \mathcal{O} \) 上式永远成立，只考虑 \( D \neq \mathcal{O} \)，那么 \( D(\bme_1,\cdots,\bme_n) \neq 0 \)，因为基下的取值唯一决定了 \( D \). 两边消去 \( D(\bme_1,\cdots,\bme_n) \) 即可. 另一方面，如果给出定义 \ref{2.3.35}，将上述证明倒着写回去，又能得到 \( D^*=(\det A) D \)，回到定义 \ref{2.3.34}. 也就是这两个定义本身是等价的.
+\end{proof}
+
+\subsubsection{定义的等价性}
+
+我们只需要验证定义 \ref{2.2.1} 和定义 \ref{2.3.35} 等价，因为定义 \ref{2.3.35} 和定义 \ref{2.3.34} 已经等价.
+
+\begin{theorem}
+	定义 \ref{2.2.1} \( \Leftrightarrow \) 定义 \ref{2.3.35}.
+\end{theorem}
+
+\begin{proof}
+	首先定义 \ref{2.2.1} 等价于行列式可按第 \( n \) 行展开. 前者蕴含后者是推论 \ref{2.2.5} 的结果，而如果想从行列式可按第 \( n \) 行展开推出行列式可以按第一列展开，你可以类似性质 \ref{2.2.2} 的证明思路，先证明交换行列式的两行行列式改变符号，然后验证行列式可以按任意行展开，最后证明转置不改变行列式的值. 在此不多赘述.
+	
+	若行列式可以按第 \( n \) 行展开，下面用归纳法证明定义 \ref{2.3.35}. 当 \( n=1 \) 时显然成立，假设命题对 \( n-1 \) 阶行列式成立，研究 \( n \) 阶行列式，那么
+	\[ \det A= \sum_{j=1}^{n} (-1)^{n+j} a_{nj} M_{nj}= \sum_{j=1}^{n} (-1)^{2j} (-1)^{n-j} a_{nj} M_{nj}= \sum_{j=1}^{n}  (-1)^{n-j} a_{nj} M_{nj}. \]
+	
+	其中 
+	\[ a_{nj}M_{nj}= \sum_{(k_1,\cdots,k_{n-1}) }^{} (-1)^{\sigma(k_1,\cdots,k_{n-1})} a_{1,k_1}\cdots a_{(n-1),k_{n-1}} a_{nj}. \]
+	
+	其中 \( k_1,\cdots,k_{n-1} \) 为 \( \{1,2,\cdots,n\}-\{j\} \) 的一个全排列. 那么由例 \ref{2.3.26} 知道
+	\begin{align*}
+		\det A &= \sum_{j=1}^{n}  (-1)^{(n-j)+\sigma(k_1,\cdots,k_{n-1})} a_{1,k_1}\cdots a_{(n-1)k_{n-1}} a_{nj}, \\
+		&= \sum_{j=1}^{n}  (-1)^{\sigma(k_1,\cdots,k_{n-1},j)} a_{1,k_1}\cdots a_{(n-1),k_{n-1}}a_{nj}.
+	\end{align*}
+    
+    这恰好是 \( n! \) 个不同乘积的求和，那么必定遍及全排列，即证. 将上述过程反之，就证明了等价性.
+    
+\end{proof}
+
+\subsubsection{一些计算实例 II}
+
+定义 \ref{2.3.35} 一般不用来计算具体行列式，因为一共需要处理 \( n! \) 项，计算比较繁琐，如果我们使用初等变换打洞，量级只有 \( n^3 \). 它在某些定性判断上很有优势. 例如，如果我们要处理一个整数矩阵，希望判断它是否可逆. 取 \( \varphi: \mathbb{Z} \to \mathbb{Z}_n, \; k \mapsto [k] \)，其中 \( n \) 为某个整数. 容易验证这是一个环同态，即保持数的加法和乘法，
+\[ [k_1]+[k_2]=[k_1+k_2], \; [k_1][k_2]=[k_1k_2], \]
+
+这一点在 \S 1 已经验证过. 那么 
+\[ \varphi(\det A)= \det [A], \; A=([a_{ij}]). \]
+
+这纯粹是因为定义 \ref{2.3.35} 中只涉及到数的加法和乘法，那么 \( \varphi \) 完全保持运算. 如果说 \( \det [A] \neq 0 \)，那么 \( \det A \notin n\mathbb{Z}:=\{nk \mid k \in \mathbb{Z} \} \)，也就更不可能为零了，反之如果 \( \det A \neq 0 \)，却未必有 \( \det [A] \neq 0 \). 我们有时候验证 \( \det [A] \neq 0 \) 这一更强的条件，就可以简化问题的讨论.
+
+
+\begin{example} \label{2.3.37}
+	证明: \[
+	\begin{vmatrix}
+		1 & 2 & \cdots & 2^{2020} & 2^{2021} \\
+		2 & 1 & \cdots & 2^{2019} & 2^{2020} \\
+		\vdots & \vdots & \ddots & \vdots & \vdots \\
+		2^{2020} & 2^{2019} & \cdots & 1 & 2 \\
+		2^{2021} & 2^{2020} & \cdots & 2 & 1
+	\end{vmatrix} \neq 0.
+	\]
+\end{example}
+
+\begin{solution}
+	将所有元素 \( \text{mod} \ 2 \)，也就是构造环同态 \( \varphi: \mathbb{Z} \to \mathbb{Z}_2, \; k \mapsto [k] \)，得到
+	\[ \det [A]=\begin{vmatrix}
+		1 & 0 & \cdots & 0 & 0 \\
+		0 & 1 & \cdots & 0 & 0 \\
+		\vdots & \vdots & \ddots & \vdots & \vdots \\
+		0 & 0 & \cdots & 1 & 0 \\
+		0 & 0 & \cdots & 0 & 1
+	\end{vmatrix}=1.  \]
+	
+	那么 \( \det A \neq 0 \).
+\end{solution}
+
+\begin{example}
+	设 \( A  \) 是 \( 2024 \) 阶方阵，主对角线上全是偶数，其余的都是奇数. 证明该矩阵可逆.
+\end{example}
+
+\begin{solution}
+	和例 \ref{2.3.37} 完全相同.
+\end{solution}
+
+\begin{example}
+	证明: 当 \( n \) 为奇数时有 \[
+	\begin{vmatrix}
+		1 & 2 & 3 & \cdots & n-1 & n \\
+		2^2 & 3^2 & 4^2 & \cdots & n^2 & (n+1)^2 \\
+		3^3 & 4^3 & 5^3 & \cdots & (n+1)^3 & (n+1)^3 \\
+		\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+		n^n & (n+1)^n & (n+1)^n & \cdots & (n+1)^n & (n+1)^n
+	\end{vmatrix} \neq 0.
+	\]
+\end{example}
+
+\begin{solution}
+	将所有元素 \( \text{mod} \ 2 \)，也就是构造环同态 \( \varphi: \mathbb{Z} \to \mathbb{Z}_2, \; k \mapsto [k] \)，得到
+	\[ \det [A]=\begin{vmatrix}
+		* & * & \cdots & * & 1 \\
+		* & * & \cdots & 1 & 0 \\
+		\vdots & \vdots & \ddots & \vdots & \vdots \\
+		* & 1 & \cdots & 0 & 0 \\
+		1 & 0 & \cdots & 0 & 0
+	\end{vmatrix}.  \]
+	
+	那么 \( \det [A] \) 的展开式中非零项只有斜对角线下来的乘积，即
+	\[ \det [A]= (-1)^{\sigma(n,n-1,\cdots,1)} a_{1n}a_{2,n-1}\cdots a_{n,1}=(-1)^{\sigma(n,n-1,\cdots,1)}=1^{\sigma(n,n-1,\cdots,1)}=1 \neq 0. \]
+	
+	这里只需要注意到 \( -1=1 \) 在 \( \mathbb{Z}_2 \) 中.
+\end{solution}
+
+\begin{example}
+	设 \( A = (a_{ij}) \in \mathbb{R}^{2025 \times 2025} \)，满足
+	\[
+	a_{ii} = i^3 + 3i^2 + 2i, \quad
+	a_{ij} = \left\{ \begin{array}{lr}
+	3(i - j) + 1, & i < j, \\
+	3(i + j) + 2, & i > j,
+	\end{array}\right.
+	\]
+	
+	证明: \( 3 \mid \det A \).
+\end{example}
+
+\begin{solution}
+	将所有元素 \( \text{mod} \ 3 \)，也就是构造环同态 \( \varphi: \mathbb{Z} \to \mathbb{Z}_3, \; k \mapsto [k] \)，得到
+	\[ \det [A]=\begin{vmatrix}
+		* & 1 & \cdots & 1 & 1 \\
+		-1 & * & \cdots & 1 & 1 \\
+		\vdots & \vdots & \ddots & \vdots & \vdots \\
+		-1 & -1 & \cdots & * & 1 \\
+		-1 & -1 & \cdots & -1 & *
+	\end{vmatrix}.  \]
+	
+	这是一个奇数阶反对称行列式，那么 \( \det [A]=\det (-[A]\T)= -\det [A]\T= -\det [A] \). 在 \( \mathbb{Z}_3 \) 中 \( 2\det [A]=0 \) 蕴含 \( \det [A]=0 \). 回到 \( \mathbb{Z} \) 中就是 \( 3 \mid \det A \).
+\end{solution}
 
 
 \subsection{间奏: 行列式的其他性质}
 
-\subsubsection{Laplace 展开}
+到这里为止，我们本节的所有任务几乎都已经完成了，得到了可逆矩阵的判定定理，\( A \) 为方阵时 \( AX=\beta \) 的公式解，解释了行列式这一工具的几何意义和有向体积的关联. 为了知识的完整性，下面再介绍两个有关行列式计算的定理，它们偶尔会使用到. 证明只是擘画大概思路，不拘泥于具体的细节.
+
+\subsubsection{Laplace 展开定理}
+
+Laplace 展开定理指的是按多行或者多列展开行列式，计算量上相比按一行或一列展开几乎不变，偶尔遇到含零比较多的行列式用这点或许更快. 理论上的意义肯定是大于实际操作的意义的.
+
+有了 Laplace 展开定理后，计算引理 \ref{2.2.8} 和命题 \ref{2.2.25} 对应的分块矩阵行列式就有了全新的方法，具体可以参考课本上的证明，没有很大难度. 下面先介绍子式，主子式和顺序主子式的概念，这三者在后续会偶尔碰到，不妨现在一并全部认识一下，Laplace 展开定义只用到子式的概念. 
+
+\begin{definition}[\( k \) 阶子式，余子式，代数余子式]
+	取定 \( n \) 阶行列式 \( \det A \) 中第 \( i_1 \) 行， 第 \( i_2 \) 行，\( \cdots \)， 第 \( i_k \) 行以及第 \( j_1 \) 列， 第 \( j_2 \) 列，\( \cdots \)， 第 \( j_k \) 列交点上的元素，其中
+	\[
+	1 \leq i_1 < i_2 < \cdots < i_k \leq n, \quad 1 \leq j_1 < j_2 < \cdots < j_k \leq n,
+	\]
+	按原来在 \( A \) 中的位置构成一个 \( k \) 阶行列式，称为 \( A \) 的一个 \( k \) 阶子式，记为
+	\begin{equation}
+		A\begin{bmatrix}
+			i_1 & i_2 & \cdots & i_k \\
+			j_1 & j_2 & \cdots & j_k
+		\end{bmatrix}
+		= \begin{vmatrix}
+			a_{i_1 j_1} & a_{i_1 j_2} & \cdots & a_{i_1 j_k} \\
+			a_{i_2 j_1} & a_{i_2 j_2} & \cdots & a_{i_2 j_k} \\
+			\vdots & \vdots & \ddots & \vdots \\
+			a_{i_k j_1} & a_{i_k j_2} & \cdots & a_{i_k j_k}
+		\end{vmatrix}. 
+		\label{equ2.4.1}
+	\end{equation}
+
+	在 \( \det A \) 中去掉第 \( i_1 \)， \( i_2 \)，\( \cdots \)，\( i_k \) 行以及第 \( j_1 \)， \( j_2 \)，\( \cdots \)，\( j_k \) 列后的元素，按原来相对位置构成一个 \( (n-k) \) 阶行列式，称为式 (\ref{equ2.4.1}) 的余子式，记为
+	\[
+	M\begin{bmatrix}
+		i_1 & i_2 & \cdots & i_k \\
+		j_1 & j_2 & \cdots & j_k
+	\end{bmatrix}
+	\]
+	
+	令
+	\[
+	p = i_1 + i_2 + \cdots + i_k, \quad
+	q = j_1 + j_2 + \cdots + j_k,
+	\]
+	
+	记
+	\[
+	\hat{A}\begin{bmatrix}
+		i_1 & i_2 & \cdots & i_k \\
+		j_1 & j_2 & \cdots & j_k
+	\end{bmatrix}
+	= (-1)^{p + q} M\begin{bmatrix}
+		i_1 & i_2 & \cdots & i_k \\
+		j_1 & j_2 & \cdots & j_k
+	\end{bmatrix}
+	\]
+	称为式 (\ref{equ2.4.1}) 的代数余子式.
+	
+\end{definition}
+
+
+\begin{definition}[主子式和顺序主子式]
+	设 \( A \) 是 \( n \) 阶方阵，\( A \) 的 \( k \) 阶子式
+	\[
+	A\begin{bmatrix}
+		i_1 & i_2 & \cdots & i_k \\
+		i_1 & i_2 & \cdots & i_k
+	\end{bmatrix}
+	= \begin{vmatrix}
+		a_{i_1 i_1} & a_{i_1 i_2} & \cdots & a_{i_1 i_k} \\
+		a_{i_2 i_1} & a_{i_2 i_2} & \cdots & a_{i_2 i_k} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		a_{i_k i_1} & a_{i_k i_2} & \cdots & a_{i_k i_k}
+	\end{vmatrix}
+	\]
+	称为 \( A \) 的一个 \( k \) 阶主子式. 特别取 \( (i_1,\cdots,i_k)=(1,\cdots,k) \)，称为 \( A \) 的 \( k \) 阶顺序主子式.
+\end{definition}
+
+\begin{theorem}[Laplace 展开定理] \label{2.4.3}
+	设 \( A \) 是 \( n \) 阶方阵，在 \( A \) 中任取 \( k \) 行或列，那么选自这 \( k \) 行或列的全部 \( k \) 阶子式与它们对应的代数余子式的乘积之和等于 \( \det A \). 即若取定
+	\[
+	1 \leq i_1 < i_2 < \cdots < i_k \leq n,
+	\]
+	
+	则
+	\begin{equation}
+		\det A = \sum_{1 \leq j_1 < j_2 < \cdots < j_k \leq n}
+		A\begin{bmatrix}
+			i_1 & i_2 & \cdots & i_k \\
+			j_1 & j_2 & \cdots & j_k
+		\end{bmatrix}
+		\hat{A}\begin{bmatrix}
+			i_1 & i_2 & \cdots & i_k \\
+			j_1 & j_2 & \cdots & j_k
+		\end{bmatrix}.
+		\label{equ2.4.2}
+	\end{equation}
+
+	同样，若取定 \( k \) 列 \( 1 \leq j_1 < j_2 < \cdots < j_k \leq n \)，则
+	\begin{equation}
+		\det A = \sum_{1 \leq i_1 < i_2 < \cdots < i_k \leq n}
+		A\begin{bmatrix}
+			i_1 & i_2 & \cdots & i_k \\
+			j_1 & j_2 & \cdots & j_k
+		\end{bmatrix}
+		\hat{A}\begin{bmatrix}
+			i_1 & i_2 & \cdots & i_k \\
+			j_1 & j_2 & \cdots & j_k
+		\end{bmatrix}.
+		\label{equ2.4.3}
+	\end{equation}
+\end{theorem}
+
+\begin{proof}
+	我们只证明式 (\ref{equ2.4.2})，式 (\ref{equ2.4.3}) 可以由 \( \det A\T= \det A \) 得到. 注意到式 (\ref{equ2.4.2}) 右端的展开式中有 \( C_n^k k! (n-k)!=n! \) 项，且都互不相同. 只需要证明这 \( n! \) 项都是 \( \det A \) 展开式 (定义 \ref{2.3.35}) 中的项且符号一致即可.
+	
+	为了简化讨论，我们先把第 \( i_1,\cdots,i_k \) 行经过对换调整到第 \( 1 \sim k \) 行，而剩余的行调整到 \( (k+1) \sim n \) 行后仍维持原先顺序. 计算这样需要对换的次数. 首先让 \( i_1 \) 对换到第 \( 1 \) 行，且不改变后续行的顺序，需要让第 \( i_1 \) 行先后和 \( i_1-1,\cdots,2,1 \) 行对换，需要 \( i_1-1 \) 次. 类似地，第 \( i_2 \) 行需要对调到第 \( 2 \) 行，且不改变后续行的顺序，\( \cdots \). 行的对调需要 \( (i_1-1)+\cdots+(i_k-k)=p-k(k+1)/2 \) 次. 列的对调就需要 \( q-k(k+1)/2 \) 次. 得到一共需要对调的次数就是 \( (p+q)-k(k+1) \) 次，这与 \( p+q \) 同奇偶.
+	
+	经过上述操作后得到的矩阵记为 \( \hat{A}=(\hat{a}_{ij}) \)，那么 \( \det A= (-1)^{p+q} \det \hat{A} \). 且原先矩阵中每一个子式对应的子矩阵 \( A_1 \) 和余子式对应的子矩阵 \( A_2 \) 都跑到了下面分块矩阵的 \( B \) 和 \( C \) 位置，
+	\[ \bordermatrix{
+		& k & n-k \cr
+		k & B & * \cr
+		n-k & * & C
+	} \]
+	
+	且 \( \det B=\det A_1, \; \det C=\det A_2 \). 又因为 \( \det B \) 在 \( \det \hat{A} \) 中的代数余子式为 \( \det C \). 那么 \( \det B \det C \) 中的每一项都形如
+	\[ (-1)^{\sigma(i_1,\cdots,i_k)}\hat{a}_{1,i_1}\cdots \hat{a}_{1,i_k} \cdot (-1)^{\sigma(i_{k+1},\cdots,i_n)} \hat{a}_{k+1,i_{k+1}}\cdots \hat{a}_{n,i_n},  \]
+	
+	其中 \( (i_1,\cdots,i_k) \) 为 \( (1,\cdots,k) \) 的全排列，而 \( (i_{k+1},\cdots,i_n) \) 为 \( (k+1,\cdots,n) \) 的全排列，那么 \( \sigma(i_1,\cdots,i_n)=\sigma(i_1,\cdots,i_k)+\sigma(i_{k+1},\cdots,i_n) \). 也就说明 \( \det B \det C  \) 中的每一项都是 \( \det \hat{A} \) 的项，且符号相同. 那么
+	\[ (-1)^{p+q}\det B \det C=\det A_1 [(-1)^{p+q} \det A_2] \] 
+	中的每一项都是 \( \det A \) 的项，且符号相同. 而这正是 \( \det A \) 的一个 \( k \) 阶子式和其代数余子式的乘积.
+\end{proof}
+
+\begin{example}
+	计算下列 \( 2n \) 阶行列式:
+	\[
+	D_n=\begin{vmatrix}
+		a &        &        &        &  & b \\
+		& \ddots &        &  & \iddots &   \\
+		&        & a      & b   &     &   \\
+		&  & b      & a   &     &   \\
+		& \iddots&      &   & \ddots     &   \\
+		b &        &        &       & & a
+	\end{vmatrix}_{(2n \times 2n)}
+	\]
+\end{example}
+
+\begin{solution}
+	用定理 \ref{2.4.3}，即 Laplace 展开，按第 \( 1, 2n \) 行展开，那么只有
+	\[ A\begin{bmatrix}
+		1 & 2n \\
+		1 & 2n
+	\end{bmatrix} \]
+	
+	这一二阶主子式非零，那么 \( D_n=(-1)^{2(2n+1)}(a^2-b^2)D_{n-1}=(a^2-b^2)D_{n-1}=(a^2-b^2)^n \).
+\end{solution}
 
 \subsubsection{Cauchy\(-\)Binet 公式}
+
+Cauchy\(-\)Binet 公式是对命题 \ref{2.2.9} 在非方阵情形的推广，下列 \( n<m \) 的情况还可以用矩阵秩的不等式来证明，这个时候 \( AB \) 必定不是满秩的，那么行列式必定为零. 
+
+\begin{theorem}[Cauchy\(-\)Binet] \label{2.4.5}
+	设 \( A \) 是 \( m \times n \) 矩阵，\( B \) 是 \( n \times m \) 矩阵，则
+	\[
+	\det(AB) =
+	\left\{
+	\begin{array}{lr}
+		0, & n < m, \\
+		\det A \cdot \det B, & n = m, \\
+		\displaystyle
+		\sum_{1 \leq i_1 < i_2 < \cdots < i_m \leq n}
+		\det\left(
+		A\begin{bmatrix}
+			1 & 2 & \cdots & m \\
+			i_1 & i_2 & \cdots & i_m
+		\end{bmatrix}
+		\right)
+		\cdot
+		\det\left(
+		B\begin{bmatrix}
+			i_1 & i_2 & \cdots & i_m \\
+			1 & 2 & \cdots & m
+		\end{bmatrix}
+		\right), & n > m.
+	\end{array}
+	\right.
+	\]
+\end{theorem}
+
+\begin{proof}
+	回忆我们在命题 \ref{2.2.9} 所操作的，无非就是如下的分块初等变换
+	\[ \begin{bmatrix}
+		E_n & O \\
+		-A & E_m
+	\end{bmatrix} \Omega:=\begin{bmatrix}
+	E_n & O \\
+	-A & E_m
+	\end{bmatrix}\begin{bmatrix}
+		E_n & B \\
+		A & O
+	\end{bmatrix}=\begin{bmatrix}
+	E_n & B \\
+	O & -AB 
+	\end{bmatrix}.
+	\]
+	
+	用命题 \ref{2.2.25} 和引理 \ref{2.2.8}，两边同时取行列式得到 \( \det(AB)=(-1)^m \det \Omega \). 当 \( n<m \) 时，对 \( \Omega \) 按第 \( (n+1) \sim (n+m) \) 行展开，那么不可能存在非零子式，也就是 \( \det \Omega=0 \).
+\end{proof}
+
+\begin{corollary}
+	\quad 设 \( A \) 是 \( m \times n \) 矩阵，\( B \) 是 \( n \times s \) 矩阵，令 \( C = AB \)，则 \( C \) 的任一 \( r \) 阶子式为
+	\[
+	C\begin{bmatrix}
+		i_1 & i_2 & \cdots & i_r \\
+		j_1 & j_2 & \cdots & j_r
+	\end{bmatrix}
+	=
+	\left\{
+	\begin{array}{lr}
+		0, & n < r, \\
+		\displaystyle \sum_{1 \le l_1 < \cdots < l_r \le n}
+		A\begin{bmatrix}
+			i_1 & i_2 & \cdots & i_r \\
+			l_1 & l_2 & \cdots & l_r
+		\end{bmatrix}
+		B\begin{bmatrix}
+			l_1 & l_2 & \cdots & l_r \\
+			j_1 & j_2 & \cdots & j_r
+		\end{bmatrix}, & n \ge r.
+	\end{array}
+	\right.
+	\]
+\end{corollary}
+
+\begin{proof}
+	
+\end{proof}
+
+
+\begin{proposition}
+	设 \( A \in \R\nm \)，证明 \( AA\T \) 的任意顺序主子式非负.
+\end{proposition}
+
+\begin{proof}
+	
+\end{proof}
+
+
+\begin{proposition}[特征值的降阶公式]
+	设 \( A \) 是 \( n \times m \) 矩阵，\( B \) 是 \( m \times n \) 矩阵，其中 \( n \geq m \)，\( k \) 为常数. 证明
+	\[ \det(\lambda E_n - AB)= \lambda^{m-n} \det(\lambda E_m - BA). \]
+\end{proposition}
+
+\begin{proof}
+	
+\end{proof}
 
 
 \subsection{尾声: 再谈可逆矩阵}
