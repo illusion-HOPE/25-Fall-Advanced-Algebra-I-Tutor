@@ -34,7 +34,7 @@
 \usepackage{float}
 \usepackage[graphicx]{realboxes}
 \usepackage{fancyhdr}
-
+\usepackage{nicematrix}
 \definecolor{winered}{rgb}{0.5,0,0}
 \definecolor{structurecolor}{RGB}{122,122,142}
 \definecolor{main}{HTML}{3D445F}
@@ -474,16 +474,22 @@
 			0 & 0 & 1 & (a-b)/2 \\
 			0 & 0 & -3 & c-2a  
 		\end{bmatrix} \\
-		&\leadsto \begin{bmatrix}
+		&\leadsto \begin{bNiceMatrix}
 			1 & -1 & 1 & a \\
-			0 & 0 & 1 & (a-b)/2 \\
-			0 & 0 & 0 & (-a-3b+2c)/2  
-		\end{bmatrix} \\
-		&\leadsto \begin{bmatrix}
-			1 & -1 & 0 & (a+b)/2 \\
-			0 & 0 & 1 & (a-b)/2 \\
-			0 & 0 & 0 & (-a-3b+2c)/2  
-		\end{bmatrix}
+			0 &  0 & 1 & (a-b)/2 \\
+			0 &  0 & 0 & (-a - 3b + 2c)/2
+			\CodeAfter
+			\tikz \draw[black, dashed]
+			(2-|1)++(3pt,0) -|(3-|3)-|(4-|4)--($(4-|5)+(-10pt,0)$); 
+		\end{bNiceMatrix}\\
+		&\leadsto \begin{bNiceMatrix}
+		1 & -1 & 0 & (a+b)/2 \\
+		0 & 0 & 1 & (a-b)/2 \\
+		0 & 0 & 0 & (-a-3b+2c)/2  
+		\CodeAfter
+		\tikz \draw[black, dashed]
+		(2-|1)++(3pt,0) -|(3-|3)-|(4-|4)--($(4-|5)+(-10pt,0)$); 
+		\end{bNiceMatrix}
 	\end{align*}
 	
 	这也对应到同解方程组
@@ -511,13 +517,16 @@
 
 结合上面的例 \ref{1.1.1} 以及例 \ref{1.1.4}，我们知道，求解线性方程组的主要工具是初等行变换，主要目标是把增广矩阵变为类似如下形式的行阶梯形矩阵：
 
-\[ \begin{bmatrix}
-	* & * & * & * & \cdots & * \\
-	 & * & * & * & \cdots & * \\
-	 & & & * & \cdots & * \\
-	 & & & & \ddots & \vdots \\
-	 & & & & & \vdots
-\end{bmatrix} \]
+\[ \begin{pNiceMatrix}[right-margin=2pt,left-margin=2pt,color-inside]
+ \rowcolor{red!15}* & * & * & * & \cdots & * \\
+&  \rowcolor{red!15}* & * & * & \cdots & * \\
+& & &  \rowcolor{red!15}* & \cdots & * \\
+& & & &  \rowcolor{red!15}\ddots & \vdots \\
+& & & & &  \rowcolor{red!15}\vdots
+\CodeAfter
+\tikz \draw[black, dashed]
+(2-|1)++(3pt,0) -|(3-|2)-|(4-|4)-|(5-|5)--(5-|6)--(6-|6)--($(6-|7)+(-7pt,0)$); 
+\end{pNiceMatrix} \]
 
 上图中空白元均为 0，更严格的定义如下：
 
@@ -1668,31 +1677,47 @@ A_{12}\T & A_{22}\T
 
 不仅 \( A_{12} \) 和 \( A_{21} \) 需要交换位置，而且每个矩阵元素都要转置. 下面着重讨论分块矩阵的乘法. 这一点从直观上来看，有点难以验证. 给定 \( m \times n \) 矩阵 \( A \) 和 \( n \times l \) 矩阵 \( B \) 矩阵的一种分块形式，并保证小矩阵之间的乘法是有意义的.
 
-\[ A=\bordermatrix{
-	& n_1 & n_2 & \cdots  & n_s \cr
-	m_1 & A_{11} & A_{12}& \cdots  & A_{1s} \cr
-	m_2 & A_{21} & A_{22} & \cdots & A_{2s} \cr
-	\vdots & \vdots & \vdots & \ddots  & \vdots  \cr
-	m_r & A_{r1} & A_{r2} & \cdots  & A_{rs}  \cr
-}, \; B=\bordermatrix{
-& l_1 & l_2 & \cdots  & l_t \cr
-n_1 & B_{11} & B_{12}& \cdots  & B_{1t} \cr
-n_2 & B_{21} & B_{22} & \cdots & B_{2t} \cr
-\vdots & \vdots & \vdots & \ddots  & \vdots  \cr
-n_s & B_{s1} & B_{s2} & \cdots  & B_{st}  \cr
-}. \]
+\[ A=\begin{pNiceMatrix}[first-col=1,first-row=1]
+	& n_1 & n_2 & \cdots  & n_s \\
+	m_1 & A_{11} & A_{12}& \cdots  & A_{1s} \\
+	m_2 & A_{21} & A_{22} & \cdots & A_{2s} \\
+	 & \vdots & \vdots & \ddots  & \vdots  \\
+	m_r & A_{r1} & A_{r2} & \cdots  & A_{rs}  \\
+	\CodeAfter
+	\tikz \node at ($(4-1)+(-0.82cm,0.68cm)$) {\vdots};
+\end{pNiceMatrix}, \; B=\begin{pNiceMatrix}[first-col=1,first-row=1]
+& l_1 & l_2 & \cdots  & l_t \\
+n_1 & B_{11} & B_{12}& \cdots  & B_{1t} \\
+n_2 & B_{21} & B_{22} & \cdots & B_{2t} \\
+ & \vdots & \vdots & \ddots  & \vdots  \\
+n_s & B_{s1} & B_{s2} & \cdots  & B_{st}  \\
+\CodeAfter
+\tikz \node at ($(4-1)+(-0.79cm,0.68cm)$) {\vdots};
+\end{pNiceMatrix}. \]
 
 其中 \( m_1+\cdots+m_r=m, \; n_1+\cdots+n_s=n, \; l_1+\cdots+l_t=l \).
 
 \begin{theorem}
 	如上两个分块矩阵的乘积可以表示为
-	\[ C=\bordermatrix{
-		& l_1 & l_2 & \cdots  & l_t \cr
-		m_1 & C_{11} & C_{12}& \cdots  & C_{1t} \cr
-		m_2 & C_{21} & C_{22} & \cdots & C_{2t} \cr
-		\vdots & \vdots & \vdots & \ddots  & \vdots  \cr
-		m_r & C_{r1} & C_{r2} & \cdots  & C_{rt}  \cr
-	}, \]
+	\[ C= \; \begin{pNiceMatrix}[first-col=1,first-row=1]
+		\CodeBefore
+		\tikz \draw [fill=red!15, draw=none] (5-|5) -- (5-|6) -- (6-|6) -- (6-|5) -- cycle;
+		\tikz \draw [fill=blue!15, draw=none] ($(1-|1)+(-1.02cm,0)$) -- ($(1-|2)+(-1.32cm,0)$) -- ($(6-|2)+(-1.32cm,0)$) -- ($(6-|1)+(-1.02cm,0)$) -- cycle;
+		\tikz \draw [fill=green!15, draw=none] (1-|1) -- ($(1-|1)+(0,0.7cm)$) -- ($(1-|6)+(0,0.7cm)$) -- (1-|6) --cycle;
+		\Body
+		 & l_1 & l_2 & \cdots & l_{k-1} & l_k & l_{k+1} & \cdots & l_t \\
+		m_1 & C_{11} & C_{12}& \cdots & C_{1,k-1} & C_{1k} & C_{1,k+1} & \cdots  & C_{1t} \\
+		m_2 & C_{21} & C_{22} & \cdots  & C_{1,k-1} & C_{1k} & C_{1,k+1} & \cdots  & C_{2t} \\
+		 & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots  \\
+		 m_{h-1} & C_{h-1,1} & C_{h-1,2} & \cdots  & C_{h-1,k-1} & C_{h-1,k} & C_{h-1,k+1} & \cdots  & C_{h-1,t} \\
+		 m_h & C_{h1} & C_{h2} & \cdots  & C_{h,k-1} & C_{hk} & C_{h,k+1} & \cdots  & C_{ht} \\
+		 m_{h+1} & C_{h+1,1} & C_{h+1,2} & \cdots  & C_{h+1,k-1} & C_{h+1,k} & C_{h+1,k+1} & \cdots  & C_{h+1,t} \\
+		 & \vdots & \vdots  & \ddots & \vdots & \vdots & \vdots & \ddots  & \vdots  \\
+		m_r & C_{r1} & C_{r2} & \cdots  & C_{r,k-1} & C_{rk} & C_{r,k+1} & \cdots  & C_{rt}  \\
+		\CodeAfter
+		\tikz \node at ($(4-1)+(-1.02cm,0.68cm)$) {\vdots};
+		\tikz \node at ($(8-1)+(-1.02cm,0.68cm)$) {\vdots};
+	\end{pNiceMatrix}. \]
 	
 	其中 \( C_{ij}=A_{i1}B_{1j}+\cdots+A_{is}B_{sj} \). 那么 \( AB=C \). 也就是按元素定义的乘积完全等价于分块矩阵定义的乘积.
 \end{theorem}
@@ -1710,7 +1735,7 @@ n_s & B_{s1} & B_{s2} & \cdots  & B_{st}  \cr
 	那么同上可以证 \( A_{hx}B_{xk} \) 的 \( (u,v) \) 元就是 \( I_x \ (1 \leq x \leq s) \). 于是得到 \( (AB)_{pq}=C_{pq} \). 这就证明了结论.
 \end{proof}
 
-我们下面推广定义 \ref{1.3.3}，以二阶矩阵为例，讨论分块初等矩阵和分块初等变换. 我们暂时忽略倍法矩阵，因为我们暂时还不知道数域中的一个数 \( c \neq 0 \) 如何推广到矩阵上. 换言之，轻易地将 \( c \) 推广为一个任意的矩阵 \( C \in \F\n \) 会导致这种分块初等变换失去保持线性方程组同解性的特点，我们留到 \S 4 中讨论.
+我们下面推广定义 \ref{1.3.3}，以二阶矩阵为例，讨论分块初等矩阵和分块初等变换. 我们暂时忽略倍法矩阵，因为我们暂时还不知道数域中的一个数 \( c \neq 0 \) 如何推广到矩阵上. 换言之，轻易地将 \( c \) 推广为一个任意的矩阵 \( C \in \F\n \) 会导致这种分块初等变换失去保持线性方程组同解性的特点，我们留到 \S 2 中讨论.
 
 \begin{definition}[二阶分块初等变换]
 	\begin{enumerate}[(A)]
@@ -1847,7 +1872,7 @@ n_s & B_{s1} & B_{s2} & \cdots  & B_{st}  \cr
 	我们知道左乘初等矩阵就对应一种初等变换，也就是对应一种逆操作，得到的结果是单位阵，相当于恒等变换. 完美符合预期.
 \end{remark}
 
-\begin{example}
+\begin{example} \label{1.4.4}
 	求
 	\[ A^n=\begin{bmatrix}
 		\bm{0} & E_4 \\ 1 & \bm{0}
@@ -1955,6 +1980,56 @@ n_s & B_{s1} & B_{s2} & \cdots  & B_{st}  \cr
 	这样的矩阵乘法没有意义!  注意 \( {\color{blue}1} \neq {\color{blue} 4} \) 以及 \( {\color{red}4} \neq {\color{red} 1} \).}}
 \end{solution}
 
+我们可以推广例 \ref{1.4.4} 至下面的例题.
+
+\begin{example}
+    设 \( A \in \F\n \)，\( A \) 的每一行每一列都仅有一个元素非零，且为 \( \pm 1 \). 证明: 存在正整数 \( k \) 使得 \( A^k=E \).	
+\end{example}
+
+\begin{proof}
+	(\textbf{法一})\ 考虑 \( A=(p_1\varepsilon_{i_1}, p_2 \varepsilon_{i_2},\cdots, p_n \varepsilon_{i_n}) \)，其中 \( (i_1,\cdots,i_n) \) 为 \( (1,\cdots,n) \) 的一个排列，\( p_1,\cdots,p_n \in \{-1,1\} \). 定义 \( \sigma: \{1,\cdots,n\} \to \{1,\cdots,n\}, \; k \mapsto i_k \). 那么 
+	\[ A^k=(p_1^k \varepsilon_{\sigma^k(1)}, \cdots, p_n^k \varepsilon_{\sigma^k(n)}). \]
+	
+	称形如 \( (j_1,\cdots,j_m) \) 的置换为一个长度为 \( m \) 的循环，其中 \( \{j_1,\cdots,j_m\} \subseteq \{1,\cdots,n\} \) 且两两不同. 它的作用是实现 \( j_1 \to j_2 \to \cdots \to j_m \to j_1 \) 的轮换，而保持 \( \{1,\cdots,n\}-\{j_1,\cdots,j_m\} \) 不动. 下面说明 \( \sigma \) 可以分解为若干无交置换的乘积. 
+	
+	取 \( 1 \to \sigma(1) \to \sigma^2(1) \to \cdots \to \sigma^k(1) \to \cdots \). 若 \( \sigma(1),\sigma^2(1),\cdots,\sigma^{k-1}(1),\sigma^k(1) \neq 1 \) 都成立，那么 \( \sigma(1),\sigma^2(1),\cdots,\sigma^{k-1}(1),\sigma^k(1) \) 必定两两不同，否则存在 \( \sigma^i(1)=\sigma^j(1) \ (i<j) \)，由于 \( \sigma \) 给出集合 \( \{1,\cdots,n\} \) 的双射，那么 \( \sigma^{j-i}(1)=1 \) 矛盾. 因为集合元素有限，那么首次出现 \( \sigma^k(1)=1 \) 的幂次 \( k \leq n+1 \). 
+	
+	如果 \( k=n+1 \)，那么 \(  \sigma \) 只能分解为一个无交循环，若 \( k<n+1 \)，那么取 
+	\[ \ell \in \{1,2,\cdots,n\}-\{ \sigma(1),\sigma^2(1),\cdots,\sigma^{k-1}(1),1 \}, \]
+	
+	类似上面的讨论，得到循环 \( \ell \to \sigma(\ell) \to \cdots \to \sigma^{k'}(\ell)=\ell \). 
+	
+	断言 \( \{\sigma(1),\sigma^2(1),\cdots,\sigma^{k-1}(1),1 \} \cap \{ \sigma(\ell),\sigma^2(\ell),\cdots,\sigma^{k'-1}(\ell),\ell \}= \emptyset \). 否则，若存在 \( \sigma^{t_1}(1)=\sigma^{t_2}(\ell) \)，那么必定存在正整数 \( N \) 使得 \( t_1+Nk>t_2 \). 这意味着 \(  \sigma^{t_1+Nk}(1)=\sigma^{t_1}(1)=\sigma^{t_2}(\ell) \). 再由 \( \sigma \) 为单射，说明 
+	\[ \sigma^{t_1-t_2+Nk}(1)=\ell \in \{ \sigma(1),\sigma^2(1),\cdots,\sigma^{k-1}(1),1 \}. \] 
+	
+	这与 \( \ell \) 的取法矛盾，依次类推，由于 \( \{1,\cdots,n\} \) 为有限集，那么上述过程必定在有限步终止. 
+	
+	设 \( \sigma=\tau_1\tau_2 \cdots \tau_s \) 为两两无交的循环分解，每个循环的长度为 \( m_1,\cdots,m_s \). 取 \( k_1=[m_1,\cdots,m_s] \) 为最小公倍数，那么 \( \sigma^{2k_1}=\sigma^{k_1}=\mathrm{id} \)，换言之 \( A^{2k_1}=(p_1^{2k_1}\varepsilon_1,\cdots,p_n^{2k_1}\varepsilon_n)=(\varepsilon_1,\cdots,\varepsilon_n)=E_n \).
+	
+	\vspace{1ex}
+	
+	(\textbf{法二})\ 这个证明需要可逆矩阵的知识. 设
+	\[ G:=\{ A \in \F\n \mid A=(p_1\varepsilon_{i_1}, p_2 \varepsilon_{i_2},\cdots, p_n \varepsilon_{i_n}), \; (i_1,\cdots,i_n) \text{为 \( (1,\cdots,n) \) 的一个排列}, \; p_1,\cdots,p_n \in \{-1,1\} \}. \]
+	
+	任取 \( A \in G \) 都存在可逆矩阵 \( P,Q \in \F\n \)，使得
+	\[ A=P\diag\{ E_r,-E_{n-r}\}Q=:PJQ. \]
+	
+	其中 \( P,Q \) 为若干互换矩阵的乘积，称为置换矩阵. 反之，能写成上述矩阵分解的也一定落在 \( G \) 内. 下面验证 \( G \) 对乘法封闭. 任取 \( A_1=P_1J_1Q_1, A_2=P_2J_2Q_2 \in G \)，那么
+	
+	\[ A_1A_2=(P_1J_1Q_1)(P_2J_2Q_2)=P_1Q_1(Q_1^{-1}J_1Q_1)(P_2J_2P_2^{-1})P_2Q_2. \]
+	
+    下面只需要断言 \( Q_1^{-1}J_1Q_1, \; P_2J_2P_2^{-1} \) 为主对角线元素全为 \( \pm 1 \) 的对角阵即可. 两者推理是类似的，只考虑其中之一. 不妨设 \( Q_1=E(j_1,j_2)E(j_3,j_4) \cdots E(j_{2s-1},j_{2s}) \)，其中 \( \{j_1,\cdots,j_{2s}\} \subseteq \{1,\cdots,n\} \) 且允许重复. 那么
+	
+	\begin{align*}
+		Q_1^{-1}J_1Q_1 &=[E(j_{2s-1},j_{2s}) \cdots E(j_3,j_4)E(j_1,j_2)]J_1[E(j_1,j_2)E(j_3,j_4) \cdots E(j_{2s-1},j_{2s})], \\
+		&=E(j_{2s-1},j_{2s}) \cdots [E(j_3,j_4)[E(j_1,j_2)J_1E(j_1,j_2)]E(j_3,j_4]) \cdots E(j_{2s-1},j_{2s}).
+	\end{align*}
+	
+	注意到 \( E(j_1,j_2)J_1E(j_1,j_2) \) 就是将 \( J_1 \) 的 \( j_1, j_2 \) 行互换后，再将 \( j_1,j_2 \) 列互换，也就是直接将 \( J_1 \) 的 \( (j_1,j_1) \) 元和 \( (j_2,j_2) \) 元对换. 经过 \( s \) 次这样的操作后，\( P_2^{-1}J_1P_2 \) 只是将 \( J_1 \) 的对角元素进行了若干次互换，但还是主对角线元素全为 \( \pm 1 \) 的对角阵. 那么 \( (Q_1^{-1}J_1Q_1)(P_2J_2P_2^{-1}) \) 也就仍为对角阵. 那么就存在置换矩阵 \( P_3,Q_3 \)，和 \( J_3=\diag\{ E_t,-E_{n-t}\} \) 使得 \( (Q_1^{-1}J_1Q_1)(P_2J_2P_2^{-1})=P_3J_3Q_3 \). 进而 \( A_1A_2= (P_1Q_1P_3) J_3 (P_2Q_2Q_3) \in G \).
+	
+	另一方面，\( |G|=n \cdot n!< \infty \). 而乘法封闭性保证了 \( \{A,A^2,\cdots,A^k,\cdots\} \subseteq G \). 也就存在 \( k_1,k_2 \in \mathbb{N}^* \) 使得 \( A^{k_1}=A^{k_2} \). 不妨 \( k_1<k_2 \)，又 \( A \) 可逆，只能 \( A^{k_2-k_1}=E_n \). 事实上，这里 \( G \) 为 \( \text{GL}_n(\F) \) 的子群，但不是正规子群.
+\end{proof}
+
 
 \begin{example}
 	求 Jordan 块 \( J(\lambda,n) \) 的 \( n \) 次幂，即
@@ -2018,7 +2093,7 @@ n_s & B_{s1} & B_{s2} & \cdots  & B_{st}  \cr
 	将 \( B \) 按照 \( A \) 的分块模式分块为 \( B=(B_{ij})_{m \times m} \). 那么 \( AB=BA \Leftrightarrow a_iE_{r_i}B_{ij}=B_{ij}(a_jE_{r_j}) \) 成立. 又 \( a_i \neq a_j \ (i \neq j) \). 故只能 \( B_{ij}=O \ (i \neq j) \).
 \end{proof}
 
-\begin{corollary}	\label{1.4.9}
+\begin{corollary}	\label{1.4.10}
 	设 \( A=\diag\{ A_1,A_2,\cdots,A_m\} \)，若对任意 \( i \neq j \) 都有矩阵方程 \( A_iX-XA_j=O \) 仅有零解，证明：与 \( A \) 可交换的必定为同型分块对角矩阵 \( B=\diag\{B_1,B_2,\cdots,B_m\} \).
 
 \end{corollary}
@@ -2029,7 +2104,7 @@ n_s & B_{s1} & B_{s2} & \cdots  & B_{st}  \cr
 
 
 
-推论 \ref{1.4.9} 要求矩阵方程 \( A_iX-XA_j=O \) 仅有零解这个条件是很难验证的，我们要等到高等代数 II 才能给出一个它比较好验证的等价条件.
+推论 \ref{1.4.10} 要求矩阵方程 \( A_iX-XA_j=O \) 仅有零解这个条件是很难验证的，我们要等到高等代数 II 才能给出一个它比较好验证的等价条件.
 
 在 \S 1 我们主要研究了线性方程组有解的判定，解的算法以及初步刻画了解的结构. 在研究这一点的过程中，我们一方面引出了域的概念，并进而讨论了一种要求更低的代数结构 -- 环，认识了整环的特征；另一方面，从初等变换和线性替换出发，给出了矩阵乘法的概念，并研究了高阶矩阵的一种简便乘法运算方式: 分块矩阵运算. 如果说分块矩阵中每个矩阵都是 \( n \) 阶的，其实也可以将其看成矩阵环上的矩阵环，不过这一点，其实对理解知识没有很大帮助.
 
