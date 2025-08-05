@@ -154,7 +154,8 @@
 \newcommand{\T}{^{\text{T}}}
 \newcommand{\Her}{^{\text{H}}}
 \newcommand{\F}{\mathbb{F}}
-\newcommand{\gf}{\text{GL}_n(\mathbb{F})}
+\newcommand{\gfn}{\text{GL}_n(\mathbb{F})}
+\newcommand{\gfm}{\text{GL}_m(\mathbb{F})}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Q}{\mathbb{Q}}
@@ -290,9 +291,9 @@
 \end{example}
 
 \begin{example}
-	记 \( \gf:=\{ A \in \F\n \mid \exists \ B \in \F\n, \; AB=BA=E_n \} \)，也就是 \( \F\n \) 中的可逆矩阵全体. 那么 \( (\gf,\cdot) \) 在配备通常矩阵的乘法下为一个群，但是由于对于 \( n \geq 2 \)，矩阵乘法一般不具备交换律，那么是一个非 Abel 群. 当 \( n=1 \) 时，显然 \( \text{GL}_1(\mathbb{F})= \F^* \)，那么 \( (\text{GL}_1(\mathbb{F}),\cdot) \) 为一个 Abel 群. 
+	记 \( \gfn:=\{ A \in \F\n \mid \exists \ B \in \F\n, \; AB=BA=E_n \} \)，也就是 \( \F\n \) 中的可逆矩阵全体. 那么 \( (\gfn,\cdot) \) 在配备通常矩阵的乘法下为一个群，但是由于对于 \( n \geq 2 \)，矩阵乘法一般不具备交换律，那么是一个非 Abel 群. 当 \( n=1 \) 时，显然 \( \text{GL}_1(\mathbb{F})= \F^* \)，那么 \( (\text{GL}_1(\mathbb{F}),\cdot) \) 为一个 Abel 群. 
 	
-	一般称 \( (\gf,\cdot) \) 为域 \( \F \) 上的 \( n \) 级一般线性群. 注意 \( (\gf,+) \) 不是一个群，因为例 \ref{2.1.5} 告诉我们可逆矩阵全体对加法不封闭，因此不构成二元运算.
+	一般称 \( (\gfn,\cdot) \) 为域 \( \F \) 上的 \( n \) 级一般线性群. 注意 \( (\gfn,+) \) 不是一个群，因为例 \ref{2.1.5} 告诉我们可逆矩阵全体对加法不封闭，因此不构成二元运算.
 \end{example}
 
 \begin{property}[群的性质]
@@ -327,7 +328,7 @@
 为了进一步研究可逆矩阵的判定条件，我们先对可逆矩阵有一个初步刻画.
 
 \begin{proposition}[可逆的必要条件]\label{2.1.12}
-	设 \( A \in \gf \)，即定义 \ref{2.1.1}，存在矩阵 \( B \in \F\n \)，使得 \( BA=AB=E_n \)，其中 \( B \) 当然也是可逆的. 那么
+	设 \( A \in \gfn \)，即定义 \ref{2.1.1}，存在矩阵 \( B \in \F\n \)，使得 \( BA=AB=E_n \)，其中 \( B \) 当然也是可逆的. 那么
 	\begin{enumerate}[(1)]
 		\item 线性方程组 \( AX=O \) 仅有零解;
 		\item \( A \) 的简化行阶梯形矩阵为 \( E_n \) 或者简化行阶梯形矩阵的非零行数目 \( r(A)=n \);
@@ -347,7 +348,7 @@
 \end{proof}
 
 \begin{corollary}	\label{2.1.13}
-	设 \( A \in \F\n \)，那么 \( A \in \gf \) 的充分必要条件为 \( A \) 可以表示为初等矩阵的乘积.
+	设 \( A \in \F\n \)，那么 \( A \in \gfn \) 的充分必要条件为 \( A \) 可以表示为初等矩阵的乘积.
 
 \end{corollary}
 
@@ -707,7 +708,7 @@ a_{31} & a_{32} & a_{33}
 有了性质 \ref{2.2.2} 我们可以得出下面两个重要的命题，进而体会行列式的工具性: 刻画可逆矩阵的充要条件以及给出一类线性方程组的公式解.
 
 \begin{definition}[伴随矩阵]\label{2.2.6}
-	设 \( A \in \F\n \)，定义矩阵 \( A \) 的古典伴随矩阵为 \( A^*:=(A_{ji}) \)，即按正常行列顺序排列 \( a_{ij} \) 的代数余子式，而后转置. 
+	设 \( A \in \F\n \ (n \geq 2) \)，定义矩阵 \( A \) 的古典伴随矩阵为 \( A^*:=(A_{ji}) \)，即按正常行列顺序排列 \( a_{ij} \) 的代数余子式，而后转置. 当 \( n=1 \) 时，规定 \( A^*=(1) \)，这符合我们先前对零阶行列式规定为 1 的定义.
 	
 \end{definition}
 
@@ -860,7 +861,7 @@ a_{31} & a_{32} & a_{33}
 \begin{proposition}[可逆矩阵的判定，充分必要条件]	\label{2.2.13}
 	设 \( A \in \F\n \)，那么下列叙述等价:
 	\begin{enumerate}[(1)]
-		\item \( A \in \gf \)，即定义 \ref{2.1.1}，存在矩阵 \( B \in \F\n \)，使得 \( BA=AB=E_n \);
+		\item \( A \in \gfn \)，即定义 \ref{2.1.1}，存在矩阵 \( B \in \F\n \)，使得 \( BA=AB=E_n \);
 		\item \( \det A \neq 0 \);
 		\item 存在矩阵 \( B \in \F\n \)，使得 \( AB=E_n \) 或者 \( BA=E_n \);
 		\item 线性方程组 \( AX=O \) 仅有零解;
@@ -921,7 +922,7 @@ a_{31} & a_{32} & a_{33}
 	最后一个等号由行列式按第 \( i \) 列展开得到，即性质 \ref{2.2.2} (5).
 \end{proof}
 
-虽然说 Crmaer 法则成功给出了线性方程组的公式解，不过这一定理的理论性意义大于它实际操作的意义，因为 \( n \) 阶行列式实在太过复杂，我们在数值计算中多采用 Guass-Jordan 消元法或者后面介绍的 LU 分解.
+虽然说 Cramer 法则成功给出了线性方程组的公式解，不过这一定理的理论性意义大于它实际操作的意义，因为 \( n \) 阶行列式实在太过复杂，我们在数值计算中多采用 Guass-Jordan 消元法或者后面介绍的 PLU 分解.
 
 到此为止，可以说关于本节开始之前所提出的问题，都获得了圆满的回答. 剩下的部分，则是对我们新定义的行列式提供几个例子练习，以及给出它的一种几何含义便于我们进一步理解它存在的意义.
 
@@ -1043,10 +1044,18 @@ a_{31} & a_{32} & a_{33}
 \end{solution}
 
 \begin{remark} \label{2.2.19}
-	例 \ref{2.2.18} 中当所有 \( a_i \neq 0 \) 时，法一和法二的结果必然相同，这就是组合问题中的“算两次”原理. 当存在 \( a_i =0 \) 时，法二仍然适用，而法一则需要利用多元函数的连续性进行延拓，也就是我们在 \( V_1:=\{ (a_1,\cdots,a_n) \in \F^n \mid a_1,\cdots,a_n \neq 0 \} \) 这个 \( \F^n \) 的子空间中已经求出了行列式，而行列式 \( \det A \) 又可以看成关于 \( a_1,\cdots,a_n \) 的多元多项式，自然在空间的每个点都连续. 接下来为了利用 \( (\det A)|_{V_1} \) 来求出 \( (\det A)|_{\mathbb{F}^n\textbackslash V_1} \) 的值，可以选择类似 \( \ell: a_1=\cdots=a_r, a_{r+1} \neq 0, a_n \neq 0 \) 这样的路径取极限得到 \( f(0,\cdots,0,a_{r+1},\cdots,a_n) \) 的值. 
+	例 \ref{2.2.18} 中当所有 \( a_i \neq 0 \) 时，法一和法二的结果必然相同，这就是组合问题中的“算两次”原理. 当存在 \( a_i =0 \) 时，法二仍然适用，但法一失效了. 事实上，注意到 \( \det A \) 的计算结果必定为关于 \( a_1,\cdots,a_n \) 的多元多项式，记
+	\[ f(a_0,\cdots,a_n)=\prod_{k=0}^{n} a_i-\sum_{i=1}^{n} b_ic_i \prod_{j \neq i}^{} a_j. \]
 	
-	不过这里的 \( \F \subseteq \mathbb{R} \) 是需要的，因为我们数学分析只建立在 \( \mathbb{R} \) 上，后续一旦用到连续性延拓，都默认 \( \F \subseteq \mathbb{R} \). 对 \( \F =\C \) 的情况要用到多复变函数中的唯一性定理，此处略去.
+	令 \( g(a_1,\cdots,a_n)=a_1\cdots a_n \). 当 \( g(a_1,\cdots,a_n) \neq 0 \) 时总有 \( f(a_1,\cdots,a_n)-\det A=0 \). 那么
+	\[ g(a_1,\cdots,a_n)[f(a_1,\cdots,a_n)-\det A]=0 \] 
+	
+	恒成立，利用多元多项式环的整性，得到 \( f(a_1,\cdots,a_n)-\det A \) 必定为零多项式. 从而完成延拓. 
+	
+	如果这里 \( \F \) 为数域，那么我们可以采用分析的方法来处理，不妨 \( \F=\R \). 考虑利用多元函数的连续性进行延拓. 我们已经在 \( V_1:=\{ (a_1,\cdots,a_n) \in \R^n \mid a_1,\cdots,a_n \neq 0 \} \) 这个 \( \R^n \) 的子空间中已经求出了行列式，而行列式 \( \det A \) 又可以看成关于 \( a_1,\cdots,a_n \) 的多元多项式，自然在空间的每个点都连续. 接下来为了利用 \( (\det A)|_{V_1} \) 来求出 \( (\det A)|_{\mathbb{F}^n\textbackslash V_1} \) 的值，可以选择类似 \( \ell: a_1=\cdots=a_r, a_{r+1}, \cdots, a_n \neq 0 \) 这样的路径取极限得到 \( f(0,\cdots,0,a_{r+1},\cdots,a_n) \) 的值. 对 \( \F =\C \) 的情况要用到多复变函数中的唯一性定理，此处略去.
 \end{remark}
+
+\vspace{1ex}
 
 利用例 \ref{2.2.18}，我们可以计算很多种行列式，下面举出一些例子.
 
@@ -1084,9 +1093,7 @@ a_{31} & a_{32} & a_{33}
 	这里 \( x-a \) 可能为零，一种方式是先设 \( x \neq a \)，然后用例 \ref{2.2.18} 的法一得到
 	\[ \det A= \left( 1+ \sum_{i=1}^{n}\frac{a}{x-a} \right) \prod_{i=1}^{n} (x-a)= (x-a)^n+na(x-a)^{n-1}=[x+(n-1)a](x-a)^n=:f(x). \]
 	
-	又 \( \det A \) 展开必定为一个关于 \( x \) 的多项式，那么在 \( x=0 \) 处连续. 自然当 \( x=a \) 时，\( \det A=\lim\limits_{x \to 0} f(x)=f(0)=0 \). 这种方法未来在介绍摄动法时还会遇到. 本解法另一种思路就是直接用 \ref{2.2.18} 的法二的结论即可. 
-	
-	也可以注意到 \( x=a \) 时，这个矩阵明显每行成比例，秩为一，那么不可逆，行列式为零. 不过我们对于秩还没有学习到这一观点，在此不叙.
+	接下来用类似注 \ref{2.2.19} 的方法延拓. 或者直接用 \ref{2.2.18} 的法二的结论即可. 还可以注意到 \( x=a \) 时，这个矩阵明显每行成比例，秩为一，那么不可逆，行列式为零. 不过我们对于秩还没有学习到这一观点，在此不叙.
 	
 	\vspace{1ex}
 	
@@ -2482,14 +2489,14 @@ x_3 & y_3 & z_3
 \begin{solution}
 	将所有元素 \( \text{mod} \ 3 \)，也就是构造环同态 \( \varphi: \mathbb{Z} \to \mathbb{Z}_3, \; k \mapsto [k] \)，得到
 	\[ \det [A]=\begin{vmatrix}
-		* & 1 & \cdots & 1 & 1 \\
-		-1 & * & \cdots & 1 & 1 \\
+		0 & 1 & \cdots & 1 & 1 \\
+		-1 & 0 & \cdots & 1 & 1 \\
 		\vdots & \vdots & \ddots & \vdots & \vdots \\
-		-1 & -1 & \cdots & * & 1 \\
-		-1 & -1 & \cdots & -1 & *
+		-1 & -1 & \cdots & 0 & 1 \\
+		-1 & -1 & \cdots & -1 & 0
 	\end{vmatrix}.  \]
 	
-	这是一个奇数阶反对称行列式，那么 \( \det [A]=\det (-[A]\T)= -\det [A]\T= -\det [A] \). 在 \( \mathbb{Z}_3 \) 中 \( 2\det [A]=0 \) 蕴含 \( \det [A]=0 \). 回到 \( \mathbb{Z} \) 中就是 \( 3 \mid \det A \).
+	对角元为 \( 3 \mid  i(i+1)(i+2) \)，全为零，或者由 Fermat 小定理知 \( i^3 \equiv i \pmod 3 \). 因此这是一个奇数阶反对称行列式，那么 \( \det [A]=\det (-[A]\T)= -\det [A]\T= -\det [A] \). 在 \( \mathbb{Z}_3 \) 中 \( 2\det [A]=0 \) 蕴含 \( \det [A]=0 \). 回到 \( \mathbb{Z} \) 中就是 \( 3 \mid \det A \).
 \end{solution}
 
 
@@ -2831,10 +2838,10 @@ Cauchy\(-\)Binet 公式是对命题 \ref{2.2.9} 在非方阵情形的推广.
 
 \subsubsection{初等变换求逆}
 
-在前面我们已经知道 Guass-Jordan 消元法可以将一个可逆矩阵仅通过初等行变换变为它的简化行阶梯形矩阵 \( E_n \)，也就是对给定 \( A \in \gf \)，存在 \(  P \in \gf \)，使得 \( PA=E_n \leadsto A^{-1}=P \). 考虑如下的初等行变换
+在前面我们已经知道 Guass-Jordan 消元法可以将一个可逆矩阵仅通过初等行变换变为它的简化行阶梯形矩阵 \( E_n \)，也就是对给定 \( A \in \gfn \)，存在 \(  P \in \gfn \)，使得 \( PA=E_n \leadsto A^{-1}=P \). 考虑如下的初等行变换
 \[ (A,E_n) \leadsto P(A,E_n)=(E_n,P)=(E_n,A^{-1}). \]
 
-让问题又回到了先前关于  Guass-Jordan 消元法这一算法的讨论. 这个算法的操作复杂度仅有 \( n^3 \)，效率大大提升. 命题 \ref{2.2.13} 同时还说明了一个可逆矩阵也可以仅通过初等列变换变为它的简化行阶梯形矩阵 \( E_n \). 存在 \( Q \in \gf \)，使得 \( AQ=E_n \leadsto A^{-1}=Q \). 下面的初等列变换也是可行的，
+让问题又回到了先前关于  Guass-Jordan 消元法这一算法的讨论. 这个算法的操作复杂度仅有 \( n^3 \)，效率大大提升. 命题 \ref{2.2.13} 同时还说明了一个可逆矩阵也可以仅通过初等列变换变为它的简化行阶梯形矩阵 \( E_n \). 存在 \( Q \in \gfn \)，使得 \( AQ=E_n \leadsto A^{-1}=Q \). 下面的初等列变换也是可行的，
 \[ \begin{pmatrix}
 	A \\ E_n
 \end{pmatrix} \leadsto \begin{pmatrix}
@@ -2845,7 +2852,7 @@ E_n \\ Q
 E_n \\ A^{-1}
 \end{pmatrix}. \]
 
-这种方法还可以推广到解线性方程组和矩阵方程上. 设 \( A \in \gf, \; B \in \F\nm \)，那么矩阵方程 \( AX=B \) 有唯一解 \( X=A^{-1}B \). 对应到如下的初等行变换
+这种方法还可以推广到解线性方程组和矩阵方程上. 设 \( A \in \gfn, \; B \in \F\nm \)，那么矩阵方程 \( AX=B \) 有唯一解 \( X=A^{-1}B \). 对应到如下的初等行变换
 \[ (A,B) \leadsto P(A,B)=(E_n,PB)=(E_n,A^{-1}B). \]
 
 特别取 \( m=1 \)，那么矩阵方程就变成我们在定理 \ref{2.2.15} 所讨论的线性方程组，显然这种方法比起 Cramer 法则更有实用性. 如果矩阵方程的形式变为 \( XA=B \leadsto X=BA^{-1} \)，就对应初等列变换 
@@ -2859,7 +2866,7 @@ A \\ B
 	E_n \\ BA^{-1}
 \end{pmatrix}. \]
 
-结合上述两种方法，就可以求解方程 \( AXB=C, \; A,B \in \gf \). 下面看一个复杂一些的例子.
+结合上述两种方法，就可以求解方程 \( AXB=C, \; A,B \in \gfn \). 下面看一个复杂一些的例子.
 
 \begin{example}
 	求循环矩阵 \( A \) 的逆矩阵 \( A^{-1} \):
@@ -3008,34 +3015,34 @@ A \\ B
 \subsubsection{抽象型求逆问题}
 
 一类在这个部分常碰到的判断逆矩阵的问题，往往是给出一个多项式 \( f(\lambda) \in \F[\lambda]\) 零化矩阵 \( A \)，即 \( f(A)=O \). 再要求证明 \( g(A) \) 可逆，其中 \( g(\lambda) \in \F[\lambda] \). 一种比较通用的方法是 \( g(A) \) 可逆当且仅当 \( (f(\lambda),g(\lambda))=1 \). 但是我们还没学习过互素，于是我们常常需要找到 \( u(\lambda), v(\lambda) \in \F[\lambda] \) 使得等式 \( u(\lambda)f(\lambda)+v(\lambda)g(\lambda)=1 \) 成立，进而
-\[ u(A)f(A)+v(A)g(A)=v(A)g(A)=E. \]
+\[ u(A)f(A)+v(A)g(A)=v(A)g(A)=E_n. \]
 
 由命题 \ref{2.2.13} (3) 立即得到 \( g(A) \) 是可逆的. 问题在于，这个 \( u(\lambda), v(\lambda) \) 如何找? 目前我们可以选择待定系数的方法，或者观察，或者根据系数简单配凑一下. 
 
 \begin{example} \label{2.5.2}
-	设 \(  A \in \F\n \) 满足 \( A^2-A-2E=O \)，则 \( A-3E \) 可逆并求其逆.
+	设 \(  A \in \F\n \) 满足 \( A^2-A-2E_n=O \)，则 \( A-3E_n \) 可逆并求其逆.
 \end{example}
 
-\begin{solution}
+\begin{proof}
 	(\textbf{法一})\ 令 \( f(\lambda)=\lambda^2-\lambda-2, \; g(\lambda)=\lambda-3 \). 明显先给 \( g(\lambda) \) 乘一个 \( \lambda+c \)，其中 \( c \in \F \) 待定，这样两者都是二次的，作差可以出来常数. 那么
 	\[ (\lambda^2-\lambda-2)-(\lambda+c)(\lambda-3)=(\lambda^2-\lambda-2)-[\lambda^2+(c-3)\lambda-3c]=(2-c)\lambda+3c-2. \]
 	
 	取 \( c=2 \)，那么
-	\[ (\lambda^2-\lambda-2)-(\lambda+2)(\lambda-3)=4. \leadsto (A^2-A-2E)-(A+2E)(A-3E)=-(A+2E)(A-3E)=4E. \]
+	\[ (\lambda^2-\lambda-2)-(\lambda+2)(\lambda-3)=4. \leadsto (A^2-A-2E_n)-(A+2E_n)(A-3E_n)=-(A+2E_n)(A-3E_n)=4E_n. \]
 	
-	于是 \( A-3E \) 可逆，且 \( (A-3E)^{-1}=(-1/4)(A+2E) \).
+	于是 \( A-3E_n \) 可逆，且 \( (A-3E)^{-1}=(-1/4)(A+2E_n) \).
 	
 	\vspace{1ex}
 	
-	(\textbf{法二})\ 考虑直接在零化多项式中强行引入 \( A-3E \)，那么 \( A^2 \) 需要配一个 \( -3A \)，剩下的 \( +3A-A=2A \) 需要配一个 \( -6E \)，最后剩下 \( 6E-2E=4E \). 也就是
-	\[ A^2-A-2E=(A^2-3A)+(2A-6E)+4E=(A-3E)(A+2E)+4E=O. \]
+	(\textbf{法二})\ 考虑直接在零化多项式中强行引入 \( A-3E_n \)，那么 \( A^2 \) 需要配一个 \( -3A \)，剩下的 \( +3A-A=2A \) 需要配一个 \( -6E_n \)，最后剩下 \( 6E_n-2E_n=4E_n \). 也就是
+	\[ A^2-A-2E_n=(A^2-3A)+(2A-6E_n)+4E_n=(A-3E_n)(A+2E_n)+4E_n=O. \]
 	
 	后续同法一.
 	\vspace{1ex}
 	
-	(\textbf{法三})\ 令 \( t=\lambda-3 \)，那么 \( f(\lambda)=h(t)=(t+3)^2-(t+3)-2=t^2+5t+4 \). 也就是 \( B=A-3E \) 适合 \( B^2+5B+4E=O \). 注意到这个零化多项式的常数项非零，那么
-	\[ B(B+5E)=-4E \leadsto B^{-1}=-\frac{1}{4}(B+5E)=-\frac{1}{4}(A+2E). \] 
-\end{solution}
+	(\textbf{法三})\ 令 \( t=\lambda-3 \)，那么 \( f(\lambda)=h(t)=(t+3)^2-(t+3)-2=t^2+5t+4 \). 也就是 \( B=A-3E_n \) 适合 \( B^2+5B+4E_n=O \). 注意到这个零化多项式的常数项非零，那么
+	\[ B(B+5E_n)=-4E_n \leadsto B^{-1}=-\frac{1}{4}(B+5E_n)=-\frac{1}{4}(A+2E_n). \] 
+\end{proof}
 
 \begin{corollary}
 	设 \(  A \in \F\n \) 满足 \( a_nA^n+\cdots+a_1A+a_0E_n=O \) 且 \( a_i \in \F, \; a_n,a_0 \neq 0 \)，那么 \( A \) 可逆.
@@ -3046,45 +3053,408 @@ A \\ B
 \end{proof}
 
 \begin{example}
-	设 \(  A \in \F\n \) 满足 \( A^3=2E \)，则 \( B:=A^2-A+E \) 可逆并求其逆.
+	设 \(  A \in \F\n \) 满足 \( A^3=2E_n \)，则 \( B:=A^2-A+E_n \) 可逆并求其逆.
 \end{example}
 
-\begin{solution}
-     给 \( A^3 \) 配一个 \( -A^2+A \)，余下的二次项 \( A^2 \) 配一个 \( -A+E \)，没有余下一次项，因为 \( A-A=O \). 那么
-     \[ A^3-2E=A(A^2-A+E)+(A^2-A+E)-3E=O. \]
+\begin{proof}
+     给 \( A^3 \) 配一个 \( -A^2+A \)，余下的二次项 \( A^2 \) 配一个 \( -A+E_n \)，没有余下一次项，因为 \( A-A=O \). 那么
+     \[ A^3-2E_n=A(A^2-A+E_n)+(A^2-A+E_n)-3E_n=O. \]
      
-     那么 \( B^{-1}=(1/3) (A+E) \).
+     那么 \( B^{-1}=(1/3) (A+E_n) \).
 	
-\end{solution}
+\end{proof}
 
 \begin{example}
-	设 \(  A \in \F\n \) 满足 \( A^k=O \ (k \geq 2) \)，则 \( B:=A^{k-1}+A^{k-2}+\cdots+A+E \) 可逆并求其逆.
+	设 \(  A \in \F\n \) 满足 \( A^k=O \ (k \geq 2) \)，则 \( B:=A^{k-1}+A^{k-2}+\cdots+A+E_n \) 可逆并求其逆.
 \end{example}
 
-\begin{solution}
-	考虑 \( A^k-E=(A-E)B=-E \) 即可.
-\end{solution}
+\begin{proof}
+	考虑 \( A^k-E_n=(A-E)B=-E_n \) 即可.
+\end{proof}
 
 
-对于多个矩阵的问题，观察就变得很重要了.
+对于多个矩阵的问题，观察就变得很重要了，凑因子法还是主要使用的方法. 
 
 \begin{example}
-	设 \( A,B, A+B \in \gf \)，求证 \( A^{-1}+B^{-1} \) 也可逆，并求 \( (A^{-1}+B^{-1})^{-1} \).
+	设 \( A,B,C \in \F\n \) 且 \( B=E_n+AB, \; C=A+CA \)，求证: \( B-C=E_n \).
 \end{example}
+
+\begin{proof}
+	由于 \( (E_n-A)B=E_n \)，故 \( (E_n-A)^{-1}=B \). 再由 \( C(E_n-A)=A \)，那么 \( C=A(E_n-A)^{-1}=AB=B-E_n \).
+\end{proof}
+
+
+\begin{example} \label{2.5.7}
+	设 \( kl \ne 1 \)，\( A, B \in \F\n \) 满足 \( AB + kA + lB + E_n = O \). 证明:
+	\begin{enumerate}[(1)]
+		\item \( A + lE_n \) 可逆并求其逆;
+		\item \( AB = BA \).
+	\end{enumerate}
+\end{example}
+
+\begin{proof}
+	(1) \( (A+lE_n)(B+kE_n)=(kl-1)E_n \). 而 \( kl \neq 1 \)，故 \( (A+lE_n)^{-1}=(kl-1)^{-1}(B+kE_n) \). (2) 由于可逆矩阵可交换，那么 \( (B+kE_n)(A+lE_n)=(A+lE_n)(B+kE_n)=(kl-1)E_n \)，这蕴含 \( AB=BA \).
+\end{proof}
+
+\begin{practice}
+	设 \( A,B \in \F\n \) 且 \( AB=A+B \)，那么 \( A-E_n \) 可逆且 \( AB=BA \). 
+\end{practice}
+
+\begin{proof}
+	完全类似例 \ref{2.5.7}，注意到 \( (A-E_n)(B-E_n)=E_n \) 即可.
+\end{proof}
+
+\begin{example} \label{2.5.8}
+	设 \( A,B, A+B \in \gfn \)，求证:
+	\begin{enumerate}[(1)]
+		\item \( A^{-1}+B^{-1} \) 也可逆，并求 \( (A^{-1}+B^{-1})^{-1} \);
+		\item \( (A+B)^{-1}=A^{-1}-A^{-1}(A^{-1}+B^{-1})^{-1} A^{-1} \).
+	\end{enumerate}
+\end{example}
+
+\begin{proof}
+	(1) 留意恒等式 \( A(A^{-1}+B^{-1})B=A+B \)，两边同取行列式知 \( \det (A^{-1}+B^{-1}) \neq 0 \)，因此可逆，且 \( A^{-1}+B^{-1}=A^{-1}(A+B)B^{-1} \). 利用穿脱法则，即性质 \ref{2.1.2} ，可知 \( (A^{-1}+B^{-1})^{-1}=B(A+B)^{-1}A \). (2) 由逆元的唯一性，只需要验证 \( B^{-1}(A^{-1}+B^{-1})^{-1}A^{-1}=A^{-1}-A^{-1}(A^{-1}+B^{-1})^{-1} A^{-1} \). 移项后就是 \( [(A^{-1}+B^{-1})(A^{-1}+B^{-1})^{-1}]A^{-1}=A^{-1} \)，这显然成立.
+\end{proof}
 
 \begin{corollary}
-	设 \( A,B, A^{-1}+B \in \gf \)，求证 \( A+B^{-1} \) 也可逆，且 \( (A+B^{-1})^{-1}= \).
+	设 \( A,B, A^{-1}+B \in \gfn \)，那么 \( A+B^{-1} \) 也可逆，且 \( (A+B^{-1})^{-1}=B(A^{-1}+B)^{-1}A^{-1} \). 用例 \ref{2.5.8} 的结论即可.
 \end{corollary}
 
-\begin{example}
-	设 \( A,B,C \in \F\n \) 且 \( B=E+AB, \; C=A+CA \)，求证: \( B-C=E \).
+\begin{example}[华罗庚等式, Hua Identity]
+	设 \( A, B, AB - E \in \gfn \).
+	\begin{enumerate}[(1)]
+		\item 证明：\( A - B^{-1} \) 与 \( (A - B^{-1})^{-1} - A^{-1} \) 均可逆;
+		\item 求 \( \left( (A - B^{-1})^{-1} - A^{-1} \right)^{-1} \).
+	\end{enumerate}
 \end{example}
 
-\begin{example}
-	设 \( A,B \in \F\n \) 且 \( AB=A+B \)，求证: \( A-E \) 可逆且 \( AB=BA \).
+\begin{proof}
+	(1) 留意 \( (A-B^{-1})B=AB-E, \; (A-B^{-1})[(A - B^{-1})^{-1} - A^{-1}]A=A-A+B^{-1}=B^{-1} \). 两边同时取行列式即可说明可逆性. (2) 易得 \( (A - B^{-1})^{-1} - A^{-1}=(A - B^{-1})^{-1}(AB)^{-1}=(ABA-A)^{-1} \). 那么
+	\[ \left( (A - B^{-1})^{-1} - A^{-1} \right)^{-1}=ABA-A. \]
+\end{proof}
+
+\begin{example}[Jacobson Lemma, Desert Island Formula] \label{2.5.11}
+	设 \( A,B \in \F\n \)，若 \( E_n-AB \) 可逆，证明 \( E_n-BA \) 也可逆并求 \( (E_n-BA)^{-1} \).
 \end{example}
+
+\begin{proof}
+	(\textbf{法一})\ 初等变换法，考虑分块矩阵初等变换
+	\[ \begin{bmatrix}
+		E_n & O \\
+		-B & E_n
+	\end{bmatrix}\begin{bmatrix}
+	E_n & A \\
+	B & E_n
+	\end{bmatrix}=\begin{bmatrix}
+	E_n & A \\
+	O & E_n-BA
+	\end{bmatrix}, \; \begin{bmatrix}
+	E_n & A \\
+	B & E_n
+	\end{bmatrix}\begin{bmatrix}
+	E_n & O \\
+	-B & E_n
+	\end{bmatrix}=\begin{bmatrix}
+	E_n-AB & A \\
+	O & E_n
+	\end{bmatrix}. \]
+	
+	那么利用命题 \ref{2.2.9}，引理 \ref{2.2.8}，同时取行列式得到
+	\[ E_n-AB \in \gfn \Leftrightarrow \begin{bmatrix}
+		E_n & A \\
+		B & E_n
+	\end{bmatrix} \in \text{GL}_{2n}(\F) \Leftrightarrow E_n-BA \in \gfn. \]
+	
+	下面求 \( (E_n-BA)^{-1} \)，由于
+	\[ \begin{bmatrix}
+		E_n & O \\
+		-B & E_n
+	\end{bmatrix}\begin{bmatrix}
+		E_n & A \\
+		B & E_n
+	\end{bmatrix}\begin{bmatrix}
+	E_n & -A \\
+	O & E_n
+	\end{bmatrix}=\begin{bmatrix}
+	E_n & O \\
+	O & E_n-BA
+	\end{bmatrix}. \]
+	
+	两边同时取逆矩阵得到
+	\begin{equation}
+		\begin{bmatrix}
+			E_n & -A \\
+			O & E_n
+		\end{bmatrix}^{-1}\begin{bmatrix}
+			E_n & A \\
+			B & E_n
+		\end{bmatrix}^{-1}\begin{bmatrix}
+			E_n & O \\
+			-B & E_n
+		\end{bmatrix}^{-1}=\begin{bmatrix}
+			E_n & A \\
+			O & E_n
+		\end{bmatrix}\begin{bmatrix}
+			E_n & A \\
+			B & E_n
+		\end{bmatrix}^{-1}\begin{bmatrix}
+			E_n & O \\
+			B & E_n
+		\end{bmatrix}=\begin{bmatrix}
+			E_n & O \\
+			O & (E_n-BA)^{-1}
+		\end{bmatrix}. 
+		\label{equ2.5.1}
+	\end{equation}
+
+	
+	另一方面，
+	\[ \begin{bmatrix}
+		E_n & -A \\
+		O & E_n
+	\end{bmatrix}\begin{bmatrix}
+		E_n & A \\
+		B & E_n
+	\end{bmatrix}\begin{bmatrix}
+		E_n & O \\
+		-B & E_n
+	\end{bmatrix}=\begin{bmatrix}
+		E_n-AB & O \\
+		O & E_n
+	\end{bmatrix}, \]
+	
+	可以解出
+	\[ \begin{bmatrix}
+		E_n & A \\
+		B & E_n
+	\end{bmatrix}^{-1}=\begin{bmatrix}
+	E_n & O \\
+	-B & E_n
+	\end{bmatrix}\begin{bmatrix}
+	(E_n-AB)^{-1} & O \\
+	O & E_n
+	\end{bmatrix}\begin{bmatrix}
+	E_n & -A \\
+	O & E_n
+	\end{bmatrix}=\begin{bmatrix}
+	(E_n-AB)^{-1} & -(E_n-AB)^{-1}A \\
+	-B(E_n-AB)^{-1}  & B(E_n-AB)^{-1}A+E_n
+\end{bmatrix}. \]
+
+那么带回式 (\ref{equ2.5.1}) 中有
+
+\[ \begin{bmatrix}
+	E_n & O \\
+	O & (E_n-BA)^{-1}
+\end{bmatrix}=\begin{bmatrix}
+E & O \\
+O & E_n+B(E_n-AB)^{-1}A
+\end{bmatrix}. \]
+
+于是
+\[ (E_n-BA)^{-1}=E_n+B(E_n-AB)^{-1}A. \] 
+
+其实这里最后的计算有些复杂，\((1,1) \) 元的计算过程为 \( (E_n-AB)^{-1}-AB(E_n-AB)^{-1}=(E_n-AB)(E_n-AB)^{-1}=E_n \); \( (1,2) \) 元的计算过程为 \(  -(E_n-AB)^{-1}A+AB(E_n-AB)^{-1}A+A=-(E_n-AB)(E_n-AB)^{-1}A+A=-A+A=O \); \( (2,1) \) 元的计算过程为 \( -B(E_n-AB)^{-1}+B+B(E_n-AB)^{-1}AB=-B(E_n-AB)^{-1}(E_n-AB)+B=-B+B=O \). 
+
+\vspace{1ex}
+
+(\textbf{法二})\ 如果说一开始就让我们验证 \( (E_n-BA)^{-1}=E_n+B(E_n-AB)^{-1}A \)，那么是容易的，因为
+\begin{align*}
+	(E_n+B(E_n-AB)^{-1}A)(E_n-BA) &= E_n+B(E_n-AB)^{-1}{\color{red}E_n}A-BA+B(E_n-AB)^{-1}{\color{red}AB}A, \\
+	&=E_n-BA+B(E_n-AB)^{-1}(E_n-AB)A, \\
+	&=E_n-BA+BA=E_n.
+\end{align*}
+
+那么由命题 \ref{2.2.13}，\( E_n-BA \) 可逆，且逆矩阵已经求出. 不过没有人能观察到这一点. 在数学分析中我们熟知
+\[ 1+x+x^2+\cdots+x^n+\cdots= \lim\limits_{n \to \infty} \frac{1-x^n}{1-x} \to \frac{1}{1-x}, \; |x|<1. \]
+
+这个幂级数的收敛域为 \( |x|<1 \). 不过假设我们忘记了这一点，偷偷用这个等式“形式”上展开
+\[ (E_n-BA)^{-1}=E_n+BA+BABA+BABABA+\cdots=E_n+B(E_n+AB+ABAB+\cdots)A=E_n+B(E_n-AB)^{-1}A. \]
+
+接下来验证这个结果，真的成立! 无懈可击，因为我们就是在用可逆矩阵的定义和矩阵运算逐步验证的! 虽然我们观察这个结果的过程是不合法的. 卡普兰斯基曾经这样评论: 利用这个技巧，即使你被扔到沙漠岛上, 所有的书和文章都丢了, 你仍然可以成功地发现公式.
+
+
+\vspace{1ex}
+
+(\textbf{法三})\ 当然了，你可以像前面一样去凑因子，只不过这题有点困难. 由于 
+\[ B(E_n-AB)=(E_n-BA)B \leadsto B=(E_n-BA)B(E_n-AB)^{-1}. \]
+
+那么
+\[ E_n=E_n-BA+{\color{red}B}A=(E_n-BA)+{\color{red}(E_n-BA)B(E_n-AB)^{-1}}A=(E_n-BA)[E_n+B(E_n-AB)^{-1}A]. \]
+
+我觉得这个证明几乎完全想不到.
+
+\vspace{1ex}
+
+(\textbf{法四})\ 再给一种凑因子的思路. 设 \( E_n-AB \) 的逆矩阵为 \( C \)，那么 \( (E_n-AB)C=C-ABC=E_n \). 左乘 \( B \) 并右乘 \( A \) 得到 \( {\color{red}BCA}-BA{\color{red} BCA}=BA=(E_n-BA)BCA \). 那么 \( E_n-BA+(E_n-BA)BCA=E_n \). 左端合并同类项即可. 
+
+\end{proof}
+
+\begin{corollary}
+	设 \( A,B \in \F\n \)，若 \( E_n+AB \) 可逆，那么 \( E_n+BA \) 可逆且 \( (E_n+BA)^{-1}=E_n-B(E_n+AB)^{-1}A \).
+\end{corollary}
+
+\begin{proof}
+	把例 \ref{2.5.11} 中的 \( -B \) 换成 \( B \) 即可.
+\end{proof}
+
+\begin{corollary} \label{2.5.13}
+	设 \( A \in \F\nm, B \in \F\mn \)，若 \( E_n \pm AB \) 可逆，那么 \( E_m \pm BA \) 且 \( (E_m \pm BA)^{-1}=E_m \mp B(E_n \pm AB)^{-1}A \).
+\end{corollary}
+
+\begin{proof}
+	照搬例 \ref{2.5.11} 中的任何一个证明都是可行的，只需要稍微注意一下有的步骤的 \( E_n \) 可能需要改成 \( E_m\). 
+\end{proof}
+
+\begin{corollary}
+	设 \( R \) 为含幺环，若 \( a,b \in R \) 满足 \( 1_R -ab \) 可逆，那么 \( 1_R-ba \) 也可逆，且 
+	\[ (1_R-ba)^{-1}=1_R+b(1-ab)^{-1}a. \]
+\end{corollary}
+
+\begin{proof}
+	完全类似例 \ref{2.5.11} 中的法二，三，四. 法一不能使用，因为一般的环中没有行列式的概念，只能按定义验证可逆.
+\end{proof}
+
+下面两个公式可以看成例 \ref{2.5.11} 和推论 \ref{2.5.13} 的应用.
+
+\begin{example}[Sherman-Morrison Formula] \label{2.5.15}
+	设 \( A  \in \gfn \)，\( \alpha, \beta \in \F\n \)，且 \( 1 + \beta\T A^{-1} \alpha \neq 0 \)，那么
+	\[
+	(A + \alpha \beta\T)^{-1} = A^{-1} - \frac{1}{1 + \beta\T A^{-1} \alpha} A^{-1} \alpha \beta\T A^{-1}.
+	\]
+\end{example}
+
+\begin{proof}
+	(\textbf{法一})\ 直接按定义验证即可. 
+	\begin{align*}
+		& \quad \left( A^{-1} - \frac{1}{1 + \beta\T A^{-1} \alpha} A^{-1} \alpha \beta\T A^{-1} \right)(A + \alpha \beta\T) \\
+		&=E_n+A^{-1}\alpha\beta\T- \frac{1}{1 + \beta\T A^{-1} \alpha} (A^{-1}\alpha \beta\T+A^{-1}\alpha \beta\T A^{-1}\alpha \beta\T ), \\
+		&=E_n+A^{-1}\alpha\beta\T- \frac{1}{1 + \beta\T A^{-1} \alpha} (A^{-1}\alpha \beta\T+A^{-1}\alpha{\color{red} (\beta\T A^{-1}\alpha)} \beta\T ), \\
+		&=E_n+A^{-1}\alpha\beta\T- \frac{1 + \beta\T A^{-1} \alpha}{1 + \beta\T A^{-1} \alpha} A^{-1}\alpha \beta\T=E_n.
+	\end{align*}
+	
+	(\textbf{法二})\ 由穿脱法则 \( (A+\alpha \beta\T)^{-1}=(E_n+A^{-1}\alpha \beta\T)^{-1} A^{-1} \). 注意到 \( E_1+\beta\T A^{-1}\alpha \neq 0 \)，也就是作为一阶方阵可逆，那么 由推论 \ref{2.5.13}，
+	\[ (E_n+A^{-1}\alpha \beta\T)^{-1}=E_n-A^{-1}\alpha(1+\beta\T A^{-1}\alpha)^{-1}\beta\T. \]
+	
+	进而
+	\[ (A+\alpha \beta\T)^{-1}=A^{-1}-\frac{1}{1+\beta\T A^{-1}\alpha} A^{-1}\alpha\beta\T A^{-1}. \] 
+	
+	(\textbf{法三})\ 当然了，你也可以将本例看成例 \ref{2.5.16} 取 \( C=(1) \) 的特殊情形.
+\end{proof}
+
+
+\begin{example}[Sherman-Morrison-Woodbury Formula] \label{2.5.16}
+	 设 \( A \in \gfn \) 以及 \( C \in \gfm \)，再给出 \( B \in \F\nm \) 和 \( D \in \F\mn \) 使得 \( C^{-1} + D A^{-1} B \) 可逆. 那么 \( A + B C D \) 也可逆，且
+	\[
+	(A + BCD)^{-1} = A^{-1} - A^{-1} B \left( C^{-1} + D A^{-1} B \right)^{-1} D A^{-1}.
+	\]
+\end{example}
+
+\begin{proof}
+	完全类似例 \ref{2.5.15}，证明留给读者.
+\end{proof}
+
 
 \subsubsection{摄动法和伴随矩阵的性质}
 
+在定义 \ref{2.2.6} 和命题 \ref{2.2.7}，我们已经明确伴随矩阵最重要的性质 \( AA^*=A^*A=(\det A)E_n \). 进一步，当 \( A \) 可逆时，有 \( A^{-1}=(\det A)^{-1}A^* \). 在本节我们希望用这两点研究矩阵取伴随运算与矩阵其他运算的相容性，以及我们看到 \( A^{-1}=(\det A)^{-1}A^* \) 需要基于可逆的性质，用其推出的其他性质理应也要基于可逆的前提，但有时候这些性质又具有普适性. 为证明这一点，就用到摄动法的技巧.
+
+\begin{lemma} \label{2.5.17}
+	设 \( \F \) 为无限域，\( A \in \F\n \). 证明: 存在无穷多个 \( t \in \F \) 使得 \( tE_n+A \) 可逆.
+\end{lemma}
+
+\begin{proof}
+	用定义 \ref{2.3.35} 可知 \( \det (tE_n+A) \) 可以表示为关于 \( t \) 的 \( n \) 次非零多项式. 那么 \( \det (tE_n+A) \) 在 \( \F \) 上至多有 \( n \) 个互异根，但 \( \F \) 为无限域，于是存在无穷多个 \( t \in \F \) 使得 \( \det(tE_n+A) \neq 0 \)，结论即证.
+\end{proof}
+
+\begin{proposition} \label{2.5.18}
+	设 \( \F \) 为无限域，设 \( A,B \in \F\n \)，那么 \( (AB)^*=B^*A^* \).
+\end{proposition}
+
+\begin{proof}
+	(\textbf{法一})\ 用摄动法，当 \( A,B \) 均可逆时，自然 \( (AB)^*=\det(AB)(AB)^{-1}=[(\det B) B^{-1}][(\det A) A^{-1}]=B^* A^* \). 当 \( A,B \) 之一不可逆时，不妨 \( A \) 不可逆. 那么由存在无穷多个 \( t \in \F \)，使得 \( A+tE_n \) 可逆，那么 \( [(A+tE_n)B]^*=B^*(A+tE_n)^* \). 注意带两边矩阵元素都是关于 \( t \) 的不超过 \( n-1 \) 次多项式，但是在无穷个数处取值相同，那么作为 \( t \) 的多项式必然相等，对 \( t=0 \) 也必然成立. 当 \( A,B \) 均不可逆时，摄动其中一个矩阵，回到讨论过的情形.
+	
+	\vspace{1ex}
+	
+	(\textbf{法二})\ 多元多项式法，当 \( A,B \) 之一不可逆时，不妨 \( A \) 不可逆. 令
+	\[ g(a_{11},a_{12},\cdots,a_{nn})=\det A, \; f(a_{11},a_{12},\cdots,a_{nn})=[(AB)^*-B^*A^*]_{ij}. \] 
+	
+	那么当 \( g(a_{11},a_{12},\cdots,a_{nn}) \neq 0 \) 时总有 \( f(a_{11},a_{12},\cdots,a_{nn})=0 \)，这说明 \( fg \) 恒为零多项式，再由多元多项式环的整性得到 \( f \equiv 0 \)，即 \( (AB)^*_{ij}=(B^*A^*)_{ij} \). 该证明可以去掉 \( \F \) 为无限域的条件.
+	
+	\vspace{1ex}
+	
+	(\textbf{法三})\ 定义法，设 \( A=(a_{ij}), \; A^*=(A_{ji}), \; B=(b_{ij}), \; B^*=(B_{ji}), \; C^*:=(AB)^*=(C_{ji}) \). \( A,B,C \) 的 \( (i,j) \) 元素的余子式分别为 \( M_{ij},N_{ij},P_{ij} \). 那么
+	\[ P_{ij}=\begin{bmatrix}
+		a_{11} & a_{12} & \cdots & a_{1n} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		a_{i-1,1} & a_{i-1,2} & \cdots & a_{i-1,n} \\
+		a_{i+1,1} & a_{i+1,2} & \cdots & a_{i+1,n} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		a_{n1} & a_{n2} & \cdots & a_{nn} 
+	\end{bmatrix}\begin{bmatrix}
+	b_{11} & \cdots & b_{1,j-1} & b_{1,j+1} & \cdots & b_{1n} \\
+	b_{21} & \cdots & b_{2,j-1} & b_{2,j+1} & \cdots & b_{2n} \\
+	\vdots & \ddots & \vdots & \vdots  & \ddots & \vdots \\
+    b_{n1} & \cdots & b_{n,j-1} & b_{n,j+1} & \cdots & b_{nn}
+	\end{bmatrix}. \] 
+	
+	利用 Cauchy\(-\)Binet 公式，即定理 \ref{2.4.5}，可知
+	\[ P_{ij}=\sum_{k=1}^{n} M_{ik}N_{kj}. \]
+	
+	于是
+	\[ \text{\(C^*\) 的 \( (j,i) \) 元}=  C_{ij}=(-1)^{i+j}P_{ij}=\sum_{k=1}^{n} (-1)^{i+k}M_{ik} \cdot (-1)^{k+j}N_{kj}=\sum_{k=1}^{n} A_{ik}B_{kj}=\sum_{k=1}^{n} \text{\(B^*\) 的 \( (j,k) \) 元} \times \text{\(A^*\) 的 \( (k,i) \) 元}.  \]
+	
+	即 \( (AB)^*=B^*A^* \). 该证明可以去掉 \( \F \) 为无限域的条件.
+\end{proof}
+
+\begin{remark}
+	从注 \ref{2.2.19} 和命题 \ref{2.5.18} 中可以看到，多元多项式的整性相较于摄动法应用范围更广，不过对于我们一般研究的 \( \F \) 为数域的情形，显然两者都是可以采用的.
+\end{remark}
+
+\begin{corollary}
+	设 \( k \in \mathbb{N}^* \)，那么 \( (A^k)^*=(A^*)^k \).
+\end{corollary}
+
+\begin{proof}
+	直接应用命题 \ref{2.5.18} 即可.
+\end{proof}
+
+\begin{corollary}
+	设 \( A \in \gfn \)，那么 \( (A^*)^{-1}=(A^{-1})^* \).
+\end{corollary}
+
+\begin{proof}
+	应用命题 \ref{2.5.18}，留意 \( (A^{-1})^*(A^*)=(AA^{-1})^*=E_n \).
+\end{proof}
+
+\begin{practice}
+	设 \( \F \) 为无限域，\( A \in \F\n \)，那么
+	\begin{enumerate}[(1)]
+		\item \( \det (A^*)=(\det A)^{n-1} \);
+		\item 当 \( n>2 \) 时有 \( (A^*)^*=(\det A)^{n-2} A \); 当 \( n=2 \) 时，\( (A^*)^*=A \).
+	\end{enumerate}
+\end{practice}
+
+\begin{proof}
+	我们只验证 \( A \) 可逆的情形，对 \( A \) 不可逆的情形模仿命题 \ref{2.5.18} 的法一和法二即可. (1) 由于 \( A^*A=(\det A)E_n \)，那么 \( \det (A^*) \det A= (\det A)^{n} \). (2) 当 \( n>2 \) 时，应用命题 \ref{2.5.18}，注意到 \( (A^*A)^*=A^*(A^*)^*=[(\det A)E_n]^*=(\det A)^{n-1}E_n \). 当 \( A \) 可逆时，\( A^* \) 也可逆，那么 \( (A^*)^{-1}=(\det A)^{-1} A \)，于是
+	\[ (A^*)^*=(\det A)^{n-1}(\det A)^{-1} A. \]
+	
+	当 \( n=2 \) 时，直接验证定义即可.
+\end{proof}
+
+最后我们探讨伴随矩阵的反问题. 对于任意给定的 \( B \in \F\n \)，是否存在 \( A \in \F\n \)，使得 \( A^*=B \)? 更一般的讨论我们需要后续的知识，我们先研究 \( A^* \) 可逆的情形，我们知道这等价于 \( A \) 可逆.
+
+\begin{theorem}
+	设 \( B \in \F\n \)，那么
+	\begin{enumerate}[(1)]
+		\item 若 \( n=2 \)，那么存在唯一的 \( A \in \F^{2 \times 2} \)，使得 \( A^*=B \);
+		\item 对 \( n>2 \) 以及 \( B \in \gfn \)，此时满足  \( A^*=B \) 的 \( A \) 形如 \( A=(\sqrt[n-1]{\det B}) \; B^{-1} \in \F\n \) ，这样的 \( A \) 的个数等于 \( f(x)=x^{n-1}-\det B \) 在 \( \F \) 上根的个数.
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	(1) 利用 \( (A^*)^*=A=B^* \). (2) 利用
+	\[ A=(\det A)^{2-n} (A^*)^*= (\det A)^{2-n} B^*= (\det A)^{2-n}(\det B) B^{-1}=  (\det B)^{\frac{2-n}{n-1}}(\det B) B^{-1}= (\det B)^{\frac{1}{n-1}} B^{-1}. \]
+\end{proof}
 
 \end{document}
