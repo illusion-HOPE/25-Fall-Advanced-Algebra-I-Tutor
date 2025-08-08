@@ -1044,8 +1044,8 @@ a_{31} & a_{32} & a_{33}
 \end{solution}
 
 \begin{remark} \label{2.2.19}
-	例 \ref{2.2.18} 中当所有 \( a_i \neq 0 \) 时，法一和法二的结果必然相同，这就是组合问题中的“算两次”原理. 当存在 \( a_i =0 \) 时，法二仍然适用，但法一失效了. 事实上，注意到 \( \det A \) 的计算结果必定为关于 \( a_1,\cdots,a_n \) 的多元多项式，记
-	\[ f(a_0,\cdots,a_n)=\prod_{k=0}^{n} a_i-\sum_{i=1}^{n} b_ic_i \prod_{j \neq i}^{} a_j. \]
+	例 \ref{2.2.18} 中当所有 \( a_i \neq 0 \ (1 \leq i \leq n) \) 时，法一和法二的结果必然相同，这就是组合问题中的“算两次”原理. 当存在 \( a_i =0 \) 时，法二仍然适用，但法一失效了. 事实上，注意到 \( \det A \) 的计算结果必定为关于 \( a_1,\cdots,a_n \) 的多元多项式，记
+	\[ f(a_1,\cdots,a_n)=\prod_{k=0}^{n} a_i-\sum_{i=1}^{n} b_ic_i \prod_{j \neq i}^{} a_j. \]
 	
 	令 \( g(a_1,\cdots,a_n)=a_1\cdots a_n \). 当 \( g(a_1,\cdots,a_n) \neq 0 \) 时总有 \( f(a_1,\cdots,a_n)-\det A=0 \). 那么
 	\[ g(a_1,\cdots,a_n)[f(a_1,\cdots,a_n)-\det A]=0 \] 
@@ -1091,9 +1091,9 @@ a_{31} & a_{32} & a_{33}
 	\end{bmatrix}. \]
 	
 	这里 \( x-a \) 可能为零，一种方式是先设 \( x \neq a \)，然后用例 \ref{2.2.18} 的法一得到
-	\[ \det A= \left( 1+ \sum_{i=1}^{n}\frac{a}{x-a} \right) \prod_{i=1}^{n} (x-a)= (x-a)^n+na(x-a)^{n-1}=[x+(n-1)a](x-a)^n=:f(x). \]
+	\[ \det A= \left( 1+ \sum_{i=1}^{n}\frac{a}{x-a} \right) \prod_{i=1}^{n} (x-a)= (x-a)^n+na(x-a)^{n-1}=[x+(n-1)a](x-a)^{n-1}=:f(x). \]
 	
-	接下来用类似注 \ref{2.2.19} 的方法延拓. 或者直接用 \ref{2.2.18} 的法二的结论即可. 还可以注意到 \( x=a \) 时，这个矩阵明显每行成比例，秩为一，那么不可逆，行列式为零. 不过我们对于秩还没有学习到这一观点，在此不叙.
+	接下来用类似注 \ref{2.2.19} 的方法延拓，令 \( g(x)=x-a\)，那么 \( g(x)[f(x)-\det A]=0 \) 恒成立，但 \( g(x) \neq 0 \)，而 \( \F[x] \) 为整环，只能 \( f(x)=\det A \) 恒成立. 或者直接用 \ref{2.2.18} 的法二的结论即可. 还可以注意到 \( x=a \) 时，这个矩阵明显每行成比例，秩为一，那么不可逆，行列式为零. 不过我们对于秩还没有学习到这一观点，在此不叙.
 	
 	\vspace{1ex}
 	
@@ -1427,19 +1427,19 @@ a_{31} & a_{32} & a_{33}
 \begin{example}
 	设 \( \Omega \subseteq \F\n \) 为非空集合，\( \Omega \) 满足存在某个正整数 \( m \in \mathbb{N}^* \)，对任意 \( A,B \in \Omega \) 都有 \( (AB)^{m}=BA \in \Omega \). 那么
 	\begin{enumerate}[(1)]
-		\item 对任意 \( A \in \Omega \) 都有 \( \det A=0 \) 或者当 \( \det A \neq 0 \) 时有 \( (\det A)^{m-1}=1  \);
-		\item 对任意 \( A,B \in \Omega \) 都有 \( AB=BA \).
+		\item 对任意 \( A,B \in \Omega \) 都有 \( AB=BA \);
+		\item 对任意 \( A \in \Omega \) 都有 \( \det A=0 \) 或者当 \( \det A \neq 0 \) 时有 \( (\det A)^{m-1}=1  \).
 	\end{enumerate}
 \end{example}
 
 \begin{proof}
-	\( m=1 \) 是显然的. 此时题设直接给出 (2)，且对任意 \( \det A \neq 0 \)，都成立 \( (\det A)^{0}=1 \). 下设 \( m \geq 2 \). 任取 \( A,B \in \Omega \) 都有 \( (AB)^m=BA \in \Omega \) 以及 \( (BA)^m=AB \in \Omega \). 那么自然 \( (AB)^k, (BA)^k \in \Omega \ (k \geq 2) \)，(1) 任取 \( A \in \Omega \)，\( (A^2)^{m}=A^{2m}=A^2 \). 利用命题 \ref{2.2.9}，即 \( (\det A)^{2m}=(\det A)^2 \)，移项得到 \( (\det A)^2 [(\det A)^{m-1}-1]=0 \). 而域中没有零因子，得到 \( \det A=0 \) 或者 \( (\det A)^{m-1}=1 \). (2) 下面这个等式是关键的，\( (AB)^m=[(AB)^{m-1}(AB)]=[(AB)(AB)^{m-1}]^m=(AB)^{m^2} \). 那么 \( BA=(AB)^m=(AB)^{m^2}=[(AB)^m]^m=(BA)^m=AB \).
+	\( m=1 \) 是显然的. 此时题设直接给出 (1)，且对任意 \( \det A \neq 0 \)，都成立 \( (\det A)^{0}=1 \). 下设 \( m \geq 2 \). 任取 \( A,B \in \Omega \) 都有 \( (AB)^m=BA \in \Omega \) 以及 \( (BA)^m=AB \in \Omega \). 那么自然 \( (AB)^k, (BA)^k \in \Omega \ (k \geq 2) \)，(1) 下面这个等式是关键的，\( (AB)^m=[(AB)^{m-1}(AB)]=[(AB)(AB)^{m-1}]^m=(AB)^{m^2} \). 那么 \( BA=(AB)^m=(AB)^{m^2}=[(AB)^m]^m=(BA)^m=AB \). (2) 若可以取到 \( A \in \Omega, \; \det A \neq 0 \)，那么 \( A \) 可逆，也即 \( (A^2)^{m}=A^{2m}=A^2 \leadsto A^{2m-2}=E_n \in \Omega \). 回到题设，任取 \( A \in \Omega \) 都有 \( (AE_n)^m=A^m=A \). 利用命题 \ref{2.2.9}，即 \( (\det A)^{m}=\det A \)，移项得到 \( \det A [(\det A)^{m-1}-1]=0 \). 而 \( \det A \neq 0 \) 且域 \( \F \) 中没有零因子，只好 \( (\det A)^{m-1}=1 \). 
 \end{proof}
 
 \subsection{几何动机: 有向体积}
 \label{2.3}
 
-下面我们将开始探究行列式的几何意义，具体而言，行列式的几何意义是两个线性空间之间的线性映射带来的体积伸缩量. 到最后你可以发现书本上行列式的组合展开式就自然而然出现了，
+下面我们将开始探究行列式的几何意义，具体而言，行列式的几何意义是两个同构的线性空间之间的线性映射带来的体积伸缩量. 我们从基的定向开始，将有向体积映射抽象为一般的交错形式，到最后，书本上行列式的组合展开式就自然而然出现了，
 
 \subsubsection{基的定向}\label{Sec 2.3.1}
 
@@ -1788,7 +1788,7 @@ x_3 & y_3 & z_3
 为了推广有向体积，那么首先得明确什么是高维的平行六面体. 任给向量组 \( (u_1,u_2,\cdots,u_n) \in \R^n \)，记其张成的几何对象为
 \[ \lozenge(u_1,\cdots,u_n)= \left\{ \sum_{i=1}^{n} t_iu_i \ \bigg| \ t_i \in [0,1] \right\}. \]
 
-类似一个平面在 \( \R^3 \) 中的体积为零，一条直线在 \( \R^2 \) 中的面积为零，当 \( u_1,\cdots,u_n \in \R^n \) 线性相关时，它就是至多只有 \( n-1 \) 个自由度的几何对象，自然规定 \( \lozenge(u_1,\cdots,u_n)=0 \). 于是定义
+类似一个平面在 \( \R^3 \) 中的体积为零，一条直线在 \( \R^2 \) 中的面积为零，当 \( u_1,\cdots,u_n \in \R^n \) 线性相关时，它就是至多只有 \( n-1 \) 个自由度的几何对象，自然规定 \( \lozenge(u_1,\cdots,u_n) \) 的体积为零. 于是定义
 
 \begin{definition}[有向体积]
 	设 \( \R^n \) 上已经有基的定向，定义映射 \( D: \R^n \to \R \) 如下
@@ -2214,7 +2214,7 @@ x_3 & y_3 & z_3
  
 \begin{proposition} \label{2.3.28}
 	给定正整数 \( (i_1,\cdots,i_n) \) 为 \( (1,\cdots,n) \) 的一个排列，记其逆序数为 \( \sigma_1 \). 现将其中的两个元素 \( i_p \) 和 \( i_q \ (1 \leq p<q \leq n) \) 对换，所得新排列 \( (i_1,\cdots,i_{p-1},i_q,i_{p+1},\cdots,i_{q-1},i_p,i_{q+1},\cdots,i_n) \) 的逆序数记为 \( \sigma_2 \). 那么 \( \sigma_1 \) 和 \( \sigma_2 \) 的奇偶性不同，换言之，
-	\[ (-1)^{\sigma_1}+(-1)^{\sigma_2}=1. \]
+	\[ (-1)^{\sigma_1}+(-1)^{\sigma_2}=0. \]
 \end{proposition}
 
 \begin{proof}
@@ -2499,7 +2499,18 @@ x_3 & y_3 & z_3
 	对角元为 \( 3 \mid  i(i+1)(i+2) \)，全为零，或者由 Fermat 小定理知 \( i^3 \equiv i \pmod 3 \). 因此这是一个奇数阶反对称行列式，那么 \( \det [A]=\det (-[A]\T)= -\det [A]\T= -\det [A] \). 在 \( \mathbb{Z}_3 \) 中 \( 2\det [A]=0 \) 蕴含 \( \det [A]=0 \). 回到 \( \mathbb{Z} \) 中就是 \( 3 \mid \det A \).
 \end{solution}
 
+行列式的映射定义的一种用途就是给出了命题 \ref{2.2.9} 非常简洁的证明. 我们再次叙述这个命题.
 
+\begin{proposition}[同态性]
+	用定义 \ref{2.3.34} 验证: 若 \( A,B \in \F\n \)，那么 \( \det(AB)=(\det A)(\det B) \).
+\end{proposition}
+
+\begin{proof}
+	在定理 \ref{2.3.32} 和定义 \ref{2.3.35} 中我们已经说明了，对 \( A=(\alpha_1,\cdots,\alpha_n) \)，\( \det A=:D_{\bm{e}} \) 是一个关于 \( \alpha_1,\cdots,\alpha_n \) 的 \( n \) 元交错形式，且 \( D_{\bm{e}}(\bm{e}_1,\cdots,\bm{e}_n)=1 \). 考虑矩阵 \( A \) 诱导出的交错形式 \( D_{\bm{e}}^*(\beta_1,\cdots,\beta_n)=D_{\bm{e}}(A\beta_1,\cdots,A\beta_n) \). 由定义 \ref{2.3.34} 知道 \( D_{\bm{e}}^*=(\det A)D_{\bm{e}} \). 现在设 \( B=(\beta_1,\cdots,\beta_n) \)，那么
+	\[ D_{\bm{e}}^*(\beta_1,\cdots,\beta_n)=D_{\bm{e}}[A(\beta_1,\cdots,\beta_n)]=D_{\bm{e}}(AB)=\det(AB)= (\det A)D_{\bm{e}}(\beta_1,\cdots,\beta_n)=(\det A)(\det B). \]
+	
+	从映射的观点来看，\( AB \) 在某个体积伸缩上的作用恰好等于先作用 \( B \) 的伸缩比例与 \( A \) 的伸缩比例的乘积，符合直觉.
+\end{proof}
 
 \subsection{间奏: 行列式的其他性质}
 

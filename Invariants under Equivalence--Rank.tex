@@ -466,7 +466,7 @@ O & O
 	由定义\(-\)命题 \ref{3.1.3} 可知 \( r(A)=r \).
 \end{proof}
 
-\begin{remark}
+\begin{remark} \label{3.1.12}
 	从命题 \ref{3.1.6} 或者定义\(-\)命题 \ref{3.1.9} 中我们轻易读取出秩的粗略范围 \( 0 \leq r(A) \leq \min\{\text{column}(A), \text{row}(A) \} \). 这是不言而喻的. 另一方面，由于转置不改变行列式的值，那么 \( r(A)=r(A\T) \).
 \end{remark}
 
@@ -768,7 +768,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 
 下面的 Frobenius 不等式是对 Sylvester 不等式的推广，Sylvester 不等式就是 Frobenius 不等式在 \( B=E_m \) 的情况.
 
-\begin{proposition}[Frobenius]
+\begin{proposition}[Frobenius] \label{3.1.18}
 	设 \( A \in \F\nm, \; B \in \F^{m \times t}, \; C \in \F^{t \times p} \)，那么 \( r(ABC) \geq r(AB)+r(BC)-n(B) \). 
 \end{proposition}
 
@@ -869,21 +869,25 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 
 \begin{example}
 	设 \( A, B \in \F\n \)，求证：\( r(AB) = r(BA) \) 的充要条件是  
-	\[ r\left( \begin{bmatrix} E & A \\ B & O \end{bmatrix} \right) = r\left( \begin{bmatrix} E & B \\ A & O \end{bmatrix} \right). \]
+	\[ r\begin{bmatrix} E_n & A \\ B & O \end{bmatrix} = r\begin{bmatrix} E_n & B \\ A & O \end{bmatrix}. \]
 \end{example}
 
 \begin{proof}
+	可以进行如下的初等变换
+	\[ \begin{bmatrix} E_n & A \\ B & O \end{bmatrix} \leadsto \begin{bmatrix} E_n & A \\ O & -AB \end{bmatrix} \leadsto  \begin{bmatrix} E_n & O \\ O & AB \end{bmatrix}, \;  \begin{bmatrix} E_n & B \\ A & O \end{bmatrix} \leadsto \begin{bmatrix} E_n & O \\ O & BA \end{bmatrix}. \]
 	
+	那么由推论 \ref{3.1.10} 和命题 \ref{3.1.14} 得到
+	\[ r\begin{bmatrix} E_n & A \\ B & O \end{bmatrix} = r\begin{bmatrix} E_n & B \\ A & O \end{bmatrix} \Leftrightarrow r\begin{bmatrix} E_n & O \\ O & AB \end{bmatrix} = r\begin{bmatrix} E_n & O \\ O & BA \end{bmatrix} \Leftrightarrow n+r(AB)=n+r(BA). \]
 \end{proof}
 
 
 
-\begin{example}
+\begin{example} \label{3.1.22}
 	设 \(  A \in \F\n \). 证明:
 	\begin{enumerate}[(1)]
-		\item \( A^2=A \) 的充要条件为 \( r(A)+r(A-E)=n \);
-		\item \( A^2=E \) 的充要条件为 \( r(A+E)+r(A-E)=n \);
-		\item \( A^3=E \) 的充要条件为 \( r(A-E)+r(A^2+A+E)=n \);
+		\item \( A^2=A \) 的充要条件为 \( r(A)+r(A-E_n)=n \);
+		\item \( A^2=E_n \) 的充要条件为 \( r(A+E_n)+r(A-E_n)=n \);
+		\item \( A^3=E_n \) 的充要条件为 \( r(A-E_n)+r(A^2+A+E_n)=n \);
 		\item \( \cdots \)
 	\end{enumerate}
 	
@@ -891,31 +895,158 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{example}
 
 \begin{proof}
+	(1) (\textbf{法一}) \ 初等变换法.
+	\[ \begin{bmatrix}
+		A & O \\ O & A-E_n 
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	A & O \\ A-(A-E_n) & A-E_n 
+	\end{bmatrix}=\begin{bmatrix}
+	A & O \\ E_n & A-E_n 
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	O & A^2-A \\ E_n & A-E_n 
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	O & A^2-A \\ E_n & O 
+	\end{bmatrix}. \]
 	
+	于是由命题 \ref{3.1.14} 得到 \( r(A^2-A)+n=0+n=r(A)+r(A-E_n) \). 你需要注意到上述初等变换最重要的操作就是第一步将分块矩阵的 \( (2,1)\) 元弄出了一个 \( A-(A-E_n)=E_n \)!
+	
+	\vspace{1ex}
+	
+	(\textbf{法二}) \ 秩不等式法.由 \( A(A-E_n)=O \) 以及 Sylvester 不等式，即命题 \ref{3.1.16} 知 \( r(A)+r(A-E_n) \leq n \). 另一方面由命题 \ref{3.1.20} 知 \( r(A)+r(A-E_n) \geq r[A-(A-E_n)]=r(E_n)=n \).
+	
+	\vspace{1ex}
+	
+	(2)(3) 留作练习. (3) 的法一需要你利用 \( (A^2+A+E_n)-(A-E_n)(A+2E_n)=3E_n \). 法二需要结合命题 \ref{3.1.13} 和命题 \ref{3.1.20} 得到
+	\[ r(A^2+A+E_n)+r(A-E_n) \geq r(A^2+A+E_n)+r[(A-E_n)(A+2E_n)] \geq r(3E_n)=n. \]
 \end{proof}
 
-\begin{example}
+\begin{example} \label{3.1.23}
 	设 \( A \in \gfn, \; B \in \F\mn, \; C \in \F\nm \). 求证  
 	\( r(BA^{-1}C + E_m) < m \) 的充要条件是 \( r(A + CB) < n \).
 \end{example}
 
 \begin{proof}
-	
+	只需要证明 \( r(BA^{-1}C+E_m)-m=r(A+CB)-n \Leftrightarrow r(BA^{-1}C+E_m)+r(E_n)=r(A+CB)+r(E_m) \). 作如下的初等变换
+	\[ \begin{bmatrix}
+		A+CB & O \\
+		O & E_m
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	A+CB & C \\
+	O & E_m
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	A & C \\
+	-B & E_m
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	E_n & A^{-1}C \\
+	-B & E_m
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	E_n & A^{-1}C \\
+	O & E_m+BA^{-1}C
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	E_n & O \\
+	O & E_m+BA^{-1}C
+	\end{bmatrix}. \]
 \end{proof}
 
+\begin{practice}
+	设 \( A \in \gfn, \; B \in \F\mn, \; C \in \F\nm \). 求证  
+	\( BA^{-1}C + E_m \) 可逆的充要条件是 \( A + CB \) 可逆.
+\end{practice}
 
-\begin{example}
-	设 \(  A, B \in \F\n \) 满足 \( A + B = E \). 求证 \( r(A) + r(B) = n \) 的充要条件是  
+\begin{proof}
+	(\textbf{法一}) \ 直接照搬例 \ref{3.1.23} 的证明.
+	
+	\vspace{1ex}
+	
+	(\textbf{法二}) \ 我们考虑 \( \det(BA^{-1}C + E_m) \neq 0 \Leftrightarrow \det(A + CB) \neq 0 \). 而初等变换只会将行列式乘以某个非零常数倍. 由例 \ref{3.1.23} 的证明即证.
+\end{proof}
+
+\begin{example} \label{3.1.24}
+	设 \(  A, B \in \F\n \) 满足 \( A + B = E_n \). 求证: \( r(A) + r(B) = n \) 的充要条件是  
 	\( A^2 = A, B^2 = B \) 且 \( AB = BA = O \).
 \end{example}
 
 \begin{proof}
+	作如下的初等变换,
+	\[ \begin{bmatrix}
+		O & O & O \\
+		O & A & O \\
+		O & O & B
+	\end{bmatrix} \leadsto  \begin{bmatrix}
+	O & O & O \\
+	A & A & O \\
+	B & O & B
+	\end{bmatrix} \leadsto  \begin{bmatrix}
+	E_n & A & B \\
+	A & A & O \\
+	B & O & B
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	E_n & O & O \\
+	O & A-A^2 & -AB \\
+	O & -BA & B-B^2
+	\end{bmatrix}. \]
 	
+	那么
+	\[ r(A) + r(B) = r(E_n) \Leftrightarrow r\begin{bmatrix}
+		A-A^2 & -AB \\
+		-BA & B-B^2
+	\end{bmatrix}=0 \Leftrightarrow A^2 = A, B^2 = B, \; AB = BA = O. \]
 \end{proof}
 
-主对角元严格行占优方阵必定可逆是一个经典的结论，它的想法就来自 Guass-Jordan 消元法. 当然，使用线性方程组理论可以给出一个漂亮的证明.
+下面的例子是对例 \ref{3.1.24} 的推广. 其实本题还可以在个数上进行推广，思路上没有很大的差别，留作练习. 另外这个题还有一个比较自然的几何方法，我们会在线性变换章节讲解.
 
-\begin{lemma}
+
+\begin{example} \label{3.1.25}
+	设 \(  A, B, C \in \F\n \) 满足 \( C^2=C, \; A + B = C \). 求证: \( r(A) + r(B) = r(C) \) 的充要条件是  
+	\( A^2 = A, B^2 = B \) 且 \( AB = BA = O \).
+\end{example}
+
+\begin{proof}
+	由例 \ref{3.1.22} 知道 \( r(C)+r(C-E_n)=n \). 那么 \( r(A) + r(B) = r(C) \Leftrightarrow r(A)+r(B)+r(E_n-C)=n \). 接下来作如下的初等变换,
+	\[ \begin{bmatrix}
+		E_n-C & O & O \\
+		O & A & O \\
+		O & O & B
+	\end{bmatrix} \leadsto  \begin{bmatrix}
+		E_n-C & O & O \\
+		A & A & O \\
+		B & O & B
+	\end{bmatrix} \leadsto  \begin{bmatrix}
+		E_n & A & B \\
+		A & A & O \\
+		B & O & B
+	\end{bmatrix} \leadsto \begin{bmatrix}
+		E_n & O & O \\
+		O & A-A^2 & -AB \\
+		O & -BA & B-B^2
+	\end{bmatrix}. \]
+	
+	那么
+	\[  r(A)+r(B)+r(E_n-C)=n \Leftrightarrow r\begin{bmatrix}
+		A-A^2 & -AB \\
+		-BA & B-B^2
+	\end{bmatrix}=0 \Leftrightarrow A^2 = A, B^2 = B, \; AB = BA = O. \]
+\end{proof}
+
+
+\begin{practice}
+	设 \(  A_1,\cdots,A_s, C \in \F\n \) 满足 \( C^2=C, \; A_1+\cdots+A_s= C \). 求证: \( r(A_1) + \cdots+ r(A_s) = r(C) \) 的充要条件是  
+	\( A_i^2=A_i \ (1 \leq i \leq s) \) 且 \( A_iA_j = A_jA_i = O \ (1 \leq i \neq j \leq s)\).
+\end{practice}
+
+\begin{proof}
+	对如下分块矩阵作类似例 \ref{3.1.25} 的初等变换即可.
+	\[ \begin{bmatrix}
+		E_n-C & O & \cdots & O \\
+		O & A_1 & \cdots & O \\
+		\vdots & \vdots & \ddots & \vdots \\
+		O & O & \cdots & A_s
+	\end{bmatrix}_{(s+1)n \times (s+1)n} \]
+\end{proof}
+
+主对角元严格行占优方阵必定可逆是一个经典的结论，它的想法就来自 Guass\(-\)Jordan 消元法. 当然，使用线性方程组理论可以给出一个漂亮的证明.
+
+\begin{lemma} \label{3.1.26}
 	设 \( A = (a_{ij}) \in \F\n \) 主对角元严格行占优，即对于任意的 \( 1 \leq i \leq n \)，均有
 	\[
 	|a_{ii}| > \sum_{j=1, j \neq i}^{n} |a_{ij}|.
@@ -925,12 +1056,36 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{lemma}
 
 \begin{proof}
+	(\textbf{法一})\ 由严格大于号知道主对角线上的元素必定非零，\( n=1 \) 时结论显然成立，假设结论对 \( n-1 \) 阶的情形成立，\( n \) 阶时，考虑如下的分块矩阵初等变换
+	\[ \begin{bmatrix}
+		a_{11} & \alpha\T \\ \beta & A_{n-1}
+	\end{bmatrix} \leadsto \begin{bmatrix}
+		a_{11} & \alpha\T \\ \bm{0} & \widetilde{A}_{n-1}
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	a_{11} & \bm{0} \\ \bm{0} & \widetilde{A}_{n-1}
+	\end{bmatrix}. \]
 	
+	其中 \( \alpha\T=(a_{12},\cdots,a_{1n}), \; \beta=(a_{21},\cdots,a_{n1})\T, \; \widetilde{A}_{n-1}:=A_{n-1}-(a_{11}^{-1})\beta\alpha\T \). 由命题 \ref{3.1.14} 知 \( r(A)=n \Leftrightarrow r(\widetilde{A}_{n-1})=n-1\). 由归纳假设，往证其仍然主对角严格行占优. 由于 \( \widetilde{A}_{n-1} \) 的 \( (i,j) \) 元为 \( a_{ij}-a_{i1}a_{1j}/a_{11} \). 那么验证
+	
+	\begin{align*}
+		\left| a_{ii}-\frac{a_{i1}a_{1i}}{a_{11}} \right| & \geq \left| |a_{ii}|- \left| \frac{a_{i1}a_{1i}}{a_{11}} \right|\right|= |a_{ii}|- \left| \frac{a_{i1}a_{1i}}{a_{11}} \right|. \\[2ex]
+		\sum_{j \neq 1,i}^{} \left| a_{ij}-\frac{a_{i1}a_{1j}}{a_{11}} \right| & \leq \sum_{j \neq 1,i}^{} \left| a_{ij}\right|+ \sum_{j \neq 1,i}^{} \left| \frac{a_{i1}a_{1j}}{a_{11}} \right| \\
+		&< |a_{ii}|-|a_{i1}|+ \left( \sum_{j \neq 1,i}^{} |a_{1j}| \right) \cdot \frac{|a_{i1}|}{|a_{11}|} \\
+		&< |a_{ii}|-|a_{i1}|+ (|a_{11}|-|a_{1i}|)\cdot \frac{|a_{i1}|}{|a_{11}|}= |a_{ii}|- \left| \frac{a_{i1}a_{1i}}{a_{11}} \right|.
+	\end{align*}
+	
+	(\textbf{法二})\ 若 \( A \) 不可逆，那么 \( AX=O \) 有非零解 \( X=(x_1,\cdots,x_n)\T \). 记 \( |x_i|=\max\{ |x_1|,\cdots,|x_n|\}>0 \). 那么
+	\[ \sum_{j=1}^{n} a_{ij}x_j= \sum_{j \neq i}^{} a_{ij}x_j+ a_{ii}x_i=0. \]
+	
+	但
+	\[ \left| \sum_{j \neq i}^{} a_{ij}x_j \right| \leq \sum_{j \neq i}^{} |a_{ij}x_j| < |x_i||a_{ii}|. \]
+	
+	导出矛盾.
 \end{proof}
 
 
 \begin{example}
-	设 \( A = (a_{ij}) \in \F\n \) 满足以下条件
+	设 \( A = (a_{ij}) \in \F\n \) 满足以下条件：
 	\begin{enumerate}[(i)]
 		\item \( a_{ii} > 0 \)，\( i = 1, 2, \cdots, n \);
 		\item \( a_{ij} < 0 \)，\( i \neq j \);
@@ -941,22 +1096,76 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{example}
 
 \begin{proof}
-	
-\end{proof}
-
-
-下面的问题大多基于前面有关秩不等式的研究，如何熟练运用已知的不等式，需要多练习.
-
-\begin{example}
-	设 \( A \in \F\mn \)，求证方程 \( AX = E_m \) 有解的充要条件是 \( r(A) = m \).
-\end{example}
-
-\begin{proof}
-	
+	一方面，求 \( \det A \)，将第 \( 2 \sim n \) 行元素都加到第 1 行，行列式不变，但第一行元素全为零，则 \( \det A=0 \)，推知 \( r(A) \leq n-1 \). 另一方面，取 \( A \) 的 \( n-1 \) 阶顺序主子式，由题设知该顺序主子式严格对角行占优，利用引理 \ref{3.1.26} 得知该 \( n-1 \) 阶子式非零，由定义\(-\)命题 \ref{3.1.9} 知 \( r(A) \geq n-1 \). 只好 \( r(A)=n-1 \).
 \end{proof}
 
 
 \begin{example} \label{3.1.28}
+	设 \( A \in \F\mn \)，求证: 方程 \( AX = E_m \) 有解的充要条件是 \( r(A) = m \).
+\end{example}
+
+\begin{proof}
+	(\textbf{法一)} \ 充分性，由 \( r(A)=m \) 以及注 \ref{3.1.12} 可知 \( m \leq n \) 且由定义\(-\) 命题 \ref{3.1.3} 存在 \( P \in \gfm \) 使得 \( A=P(E_m,O) \). 接下来取 \( X=(E_m,K)\T P^{-1}, \; K \in \F^{m \times (n-m)} \)，就能使 \( AX=E_m \). 必要性，由 \( AX = E_m \) 有解，那么 \( AX=\varepsilon_i \ (1 \leq i \leq m ) \) 均有解，即 \( r(A)=r(A,\varepsilon_i) \). 设 \( r(A)=r < m \) 以及 \( P \in \gfm, \; Q \in \gfn  \) 使得 \( PAQ=\diag\{E_r,O\} \). 对分块矩阵 \( (A,\varepsilon_i) \) 作如下初等变换
+	\[ P(AQ,\varepsilon_i)=(PAQ,P\varepsilon_i)= \begin{pmatrix}
+		E_r & O & \beta_{i1} \\
+		O & O & \beta_{i2}
+	\end{pmatrix}. \] 
+	
+	那么
+	\[ r(A,\varepsilon_i)=r\begin{pmatrix}
+		E_r & O & \beta_{i1} \\
+		O & O & \beta_{i2}
+	\end{pmatrix}=r\begin{pmatrix}
+		E_r & O & \bm{0} \\
+		O & O & \beta_{i2}
+	\end{pmatrix}=r+r(\beta_{i2})=r(A)=r. \]
+	
+	于是 \( \beta_{i2}=\bm{0} \) 对任意 \( 1 \leq i \leq m \) 都成立. 这说明
+	\[ P\varepsilon_i=\begin{bmatrix}
+		\beta_{i1} \\ \bm{0}
+	\end{bmatrix} \leadsto PE_m=P=\begin{bmatrix}
+	 \beta_{11} & \cdots & \beta_{m1} \\
+	 \bm{0} & \cdots & \bm{0}
+	\end{bmatrix}. \]
+	
+	但这个矩阵显然不可逆，矛盾.
+    
+    \vspace{1ex}
+    
+    (\textbf{法二)}\ 给出必要性的令一证法，由于 \( m=r(E_m) \leq r(A) \leq m \)，即证. 
+\end{proof}
+
+例 \ref{3.1.28} 事实上给出了列满秩矩阵的一种等价刻画，更详细的讨论我们留到小节 \S \ref{2.4}.
+
+\begin{practice}
+	设 \( A \in \F\mn, \; B \in \F^{m \times t} \)，求证: 方程 \( AX = B \) 有解的充要条件是 \( r(A) = r(A,B) \).
+\end{practice}
+
+\begin{proof}
+   设 \( B=(B_1,\cdots,B_t) \). 那么 \( AX=B \) 有解等价于 \( AX=B_i \ (1 \leq i \leq t) \) 有解，等价于对每一个 \( 1 \leq i \leq t \) 都有 \( r(A)=r(A,B_i) \). 设 \( r(A)=r \) 以及 \( P \in \gfm, \; Q \in \gfn  \) 使得 \( PAQ=\diag\{E_r,O\} \). 对分块矩阵 \( (A,B_i) \) 作如下初等变换
+   	\[ P(AQ,B_i)=(PAQ,P\varepsilon_i)= \begin{pmatrix}
+   		E_r & O & \beta_{i1} \\
+   		O & O & \beta_{i2}
+   	\end{pmatrix}. \] 
+   
+   那么
+   \[ r(A,B_i)=r\begin{pmatrix}
+   	E_r & O & \beta_{i1} \\
+   	O & O & \beta_{i2}
+   \end{pmatrix}=r\begin{pmatrix}
+   	E_r & O & \bm{0} \\
+   	O & O & \beta_{i2}
+   \end{pmatrix}=r+r(\beta_{i2})=r(A)=r. \]
+   
+   于是 \( \beta_{i2}=\bm{0} \) 对任意 \( 1 \leq i \leq t \) 都成立. 令 \( L=(\beta_{11},\cdots,\beta_{t1})\)，那么
+   \[ P(AQ,B) = \begin{pmatrix}
+   	E_r & O_{r \times (n-r)} & L_{r \times t} \\
+   	O & O & O
+   \end{pmatrix} \leadsto r(A,B)=r[P(AQ,B)]=r=r(A). \]
+   
+   反之，若 \( r(A,B)=r(A) \)，证明是类似的. 本题最优的证明将会由向量组的极大线性无关组给出.
+\end{proof}
+\begin{example} \label{3.1.29}
 	设 \(  A \in \F\mn, \; B \in \F^{n \times k} \). 
 	\begin{enumerate}[(1)]
 		\item 若 \( r(AB)=r(A) \)，那么对任意 \( C \in \F^{t \times m} \) 都有 \( r(CAB)=r(CA) \);
@@ -965,10 +1174,10 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{example}
 
 \begin{proof}
-	
+	(1) 一方面，由 Frobenius 不等式，即命题 \ref{3.1.18} 知 \( r(CAB) \geq r(CA)+r(AB)-r(A)=r(CA) \). 另一方面，由命题 \ref{3.1.13} 知 \( r(CAB) \leq r(CA) \). (2) 留作练习.
 \end{proof}
 
-下面的例子是对例 \ref{3.1.28} 的推广.
+下面的例子是例 \ref{3.1.29} 的应用.
 
 \begin{example}
 	设 \(  P_i,Q_i \in \F\n \ (1 \leq i \leq s) \) 满足任意的 \( 1 \leq i,j \leq s \) 都有 \( P_iQ_j=Q_jP_i \). 
@@ -981,16 +1190,192 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{example}
 
 \begin{proof}
-	
+	(1) 对 \( s \) 用归纳法，当 \( s=1 \) 时即为题设. 设当 \( s-1 \) 时命题成立，说明 \( r(\hat{P} \hat{Q})=r(\hat{Q}\hat{P})=r(\hat{P}) \). 记 \( \hat{P}:=P_1\cdots P_{s-1}, \; \hat{Q}:=Q_1 \cdots Q_{s-1} \). 利用交换性，\( P_1\cdots P_s Q_1\cdots Q_s=\hat{P}\hat{Q}P_sQ_s \). 由例 \ref{3.1.29} 知 
+	\[ r(\hat{P}\hat{Q}P_sQ_s)=r(\hat{P}\hat{Q}P_s)=r(\hat{Q}\hat{P}P_s)=r(\hat{P}P_s)=r(P_1\cdots P_s). \]
+   (2) 模仿 (1) 的证明，留作练习.
 \end{proof}
 
-\subsection{相抵标准型的应用}
+\subsection{相抵标准形的应用}
 
+相抵标准形主要有两类用途，一种是利用某些问题在相抵关系下的不变性，也就是说明原问题不关心矩阵的长相，只关心它在哪一个相抵关系下的等价类中，于是可以直接将原矩阵设为它的相抵标准形; 另一类是通过相抵标准形给出某些特定条件下的矩阵分解. 
+
+在最后，我们会讨论一类特殊的矩阵相抵情况，就是行满秩和列满秩矩阵，对方阵而言，行满秩，列满秩和可逆三个概念是等价的. 在第四章中，这一点翻译成几何语言就是，一个线性变换是单射等价于满射，也等价于双射(可逆).
 
 \subsubsection{利用代表元处理问题的方法}
 
+\begin{example}
+	设 \( A,B \in \F\n \) 满足对任意 \( C \in \F\n \) 都有 \( \det(A+C)=\det(B+C) \)，证明: \( A=B \).
+\end{example}
 
-\subsubsection{秩一矩阵和降阶公式}
+\begin{proof}
+	取 \( C \mapsto C-B \) 不影响 \( C \) 的任意性以及 \( L:=A-B \)，问题转化为 \( \det C=\det (C+L) \) 对任意  \( C \in \F\n \) 成立，往证 \( L=O \). 
+	(\textbf{法一}) \ 设 \( r(L)=r, \; P,Q \in \gfn \) 使得 \( PLQ=\diag\{E_r,O\} \). 取 \( L \mapsto PLQ, \; C \mapsto PCQ \) 还是不影响 \( C \) 的任意性. 只需要证明，对任意 \( C \in \F\n \) 使得
+	\[ \det \left( \begin{bmatrix}
+		E_r & O \\ O & O
+	\end{bmatrix}+C\right)=\det C \Rightarrow r=0. \]
+	
+	否则 \( r>0 \)，取 \( C=\diag\{O,E_{n-r}\} \)，那么 \( 1 \neq 0 \)，推出矛盾.
+	
+	\vspace{1ex}
+	
+	(\textbf{法二})\ 对阶数用归纳法. 当 \( n=1 \) 时命题显然成立，假设对 \( n-1 \) 时命题成立，对阶数为 \( n \) 的情况，设 \( l=(l_{ij}) \). 选定 \( (p,q) \) 元，取 \( C=(c_{ij}) \) 使得
+	\[ c_{ij}=\left\{ \begin{array}{lr}
+		0, & i=p, \; 1 \leq j \leq n, j \neq q, \\
+		0, & j=q, \; 1 \leq i \leq n, i \neq p, \\
+		x, & i=p, \; j=q, \\
+		\text{任意选取}, & \text{otherwise}.
+	\end{array}\right. \]
+	
+	设 \( C, \; L \) 的 \( (p,q) \) 元的余子式对应的矩阵为 \( C_{pq}, \; L_{pq} \). 那么上面的选取保证了 \( C_{pq} \in \F^{(n-1) \times (n-1)} \) 是任取的. 由 \( \det(C+L)=\det C \)，两边对比 \( x \) 的系数得到 \( \det(C_{pq}+L_{pq})=\det C_{pq} \). 于是由归纳假设知 \( L_{pq}=O \). 对任意的 \( i,j \) 总能选取 \( p \neq i, \; q \neq j \) 使得 \( l_{ij} \) 落在 \( L_{pq} \) 中，也就是 \( l_{ij}=0 \).
+	
+	\vspace{1ex}
+	
+	(\textbf{法三})\ 对阶数用归纳法. 当 \( n=1 \) 时命题显然成立，假设对 \( n-1 \) 时命题成立，对阶数为 \( n \) 的情况，设 \( C, \; L \) 的 \( (p,q) \) 元的余子式对应的矩阵为 \( C_{pq}, \; L_{pq} \). 取 \( D=C+E_{pq} \)，其中 \( C \in \F\n \) 还是任取的. 那么
+	\[ \det(C+E_{pq}+L)=\det (C+E_{pq}). \]
+	
+	对两个行列式的第 \( q \) 列拆分，容易得到
+	\[ \det(C+L)+(-1)^{p+q}\det(C_{pq}+L_{pq})=\det C+(-1)^{p+q} \det(C_{pq}). \]
+	
+	于是 \( \det(C_{pq}+L_{pq})=\det(C_{pq}) \). 再由归纳假设知 \( L_{pq}=O \). 对任意的 \( i,j \) 总能选取 \( p \neq i, \; q \neq j \) 使得 \( l_{ij} \) 落在 \( L_{pq} \) 中，也就是 \( l_{ij}=0 \).
+	
+	\vspace{1ex}
+	
+	(\textbf{法四})\ 直接考虑原问题. 也就是 \( \det(a_{ij}+c_{ij})=\det(a_{ij}+c_{ij}) \). 取定列排列 \( (j_1,\cdots,j_n) \) 在行列式的展开式中的对应项
+	\[ \sum_{p_i \in \{0,1\}}^{} (a_{1,j_1}^{p_1}\cdots a_{n,j_n}^{p_n})(c_{1,j_1}^{1-p_1}\cdots c_{n,j_n}^{1-p_n})=\sum_{p_i \in \{0,1\}}^{} (b_{1,j_1}^{p_1}\cdots b_{n,j_n}^{p_n})(c_{1,j_1}^{1-p_1}\cdots c_{n,j_n}^{1-p_n}). \]
+	
+	注意到 \( C \) 是任取的，两边视作 \( c_{1,j_1},\cdots, c_{n,j_n} \) 的多元多项式，那么对应项系数必然一致. 取 \( p_k=1, \; p_i=0 \ (i \neq k) \) 可以推出 \( a_{k,j_k}=b_{k,j_k} \). 遍历 \( 1 \leq k \leq n \) 以及 \( (j_1,\cdots,j_n) \) 为任意排列即可得出 \( a_{ij}=b_{ij} \).
+\end{proof}
+
+\begin{example}
+	设 \( A \in \F\n \)，证明: \( A \) 不可逆的充分必要条件为存在非零方阵 \( B \in \F\n \) 使得 \( AB=BA=O \).
+\end{example}
+
+\begin{proof}
+	事实上，如果结论只要求 \( AB=O \)，我们在 \S 2 已经证明过. 当时使用的是简化行阶梯形矩阵，而现在我们有了更强的武器: 相抵标准形. 注意到原问题在相抵关系 \( A \mapsto PAQ, \; B \mapsto Q^{-1}BP^{-1} \) 下不变. 那么不妨一开始就设 \( A \) 为其相抵标准形 \( \diag\{E_r,O\} \). 先证充分性，若 \( A \) 可逆，那么 \( r=n \) 意味着 \( A=E_n \)，于是 \( E_nB=BE_n=O \) 说明 \( B \) 不可能非零. 再证必要性，若 \( r<n \)，取 \( B=\diag\{O,E_{n-r}\} \) 即满足题意.
+	当然，你也可以不用问题在相抵关系下的不变性，直接考虑矩阵分解 \( A=P\diag\{E_r,O\} Q \). 和上面的方法虽然没有什么不同，但是观点是完全不一样的.
+\end{proof}
+
+
+\begin{example} \label{3.2.3}
+	设 \( A \in \F\nm \)，证明: 存在 \( B \in \F\mn \) 使得 \( ABA=A, \; BAB=B \). 并说明这样的 \( B \) 不唯一.
+\end{example}
+
+\begin{proof}
+	注意到原问题在相抵关系 \( A \mapsto PAQ, \; B \mapsto Q^{-1}BP^{-1} \) 下不变. 不妨设 \( r(A)=r \)，那么一开始设 \( A \) 为其相抵标准形 \( \diag\{E_r,O\} \). 取
+	\[ B=\begin{bmatrix}
+		B_{11} & B_{12} \\
+		B_{21} & B_{22} 
+	\end{bmatrix} \leadsto B_{11}=E_r, \; \begin{bmatrix}
+	E_r+B_{12}B_{21} & B_{12}+B_{12}B_{22} \\
+	O & O 
+	\end{bmatrix}=\begin{bmatrix}
+	E_r & B_{12} \\
+	B_{21} & B_{22} 
+	\end{bmatrix}. \]
+	
+	那么 \( B_{21}, \; B_{22}=O \)，而 \( B_{12} \in \F^{r \times (n-r)} \) 是任意的.
+\end{proof}
+
+例 \ref{3.2.3} 事实上刻画了矩阵的广义逆，其中 \( B \) 的唯一性需要一些额外的条件，参考小节 \S \ref{2.6}
+
+\begin{example}
+	设 \( A \in \F^{m \times s} \) 且 \( r(A)=r \)，证明：对任意 \( n \in \mathbb{N}^* \) 都存在 \( B \in \F^{s \times n} \) 满足 \( r(B)=\min\{s-r,n\} \)，使得对任意 \( C \in \F^{n \times k} \) 均有 \( ABC=O \).
+\end{example}
+
+\begin{proof}
+	即证 \( AB=O \). 否则，若 \( AB \neq O \)，必定存在某一列非零向量，不妨记为第 \( j \) 列，取 \( C \) 的每一列都为 \( \varepsilon_j \) 就有 \( ABC=O \). 注意到 \( AB=O \) 在相抵关系 \( A \mapsto PAQ, \; B \mapsto Q^{-1}BP^{-1} \) 下不变. 那么一开始设 \( A \) 为其相抵标准形 \( \diag\{E_r,O\} \). 取
+	\[ B=\left\{ \begin{array}{ll}
+		\begin{bmatrix}
+			O_{r \times (s-r)} & O_{r \times n-(s-r)} \\
+			E_{s-r} & O_{(s-r) \times n-(s-r)}
+		\end{bmatrix}, & n>s-r, \\[4ex]
+		\begin{bmatrix}
+			O_{r \times n} \\
+			E_n \\
+			O_{s-(r+n)}
+		\end{bmatrix}, & 1 \leq n \leq s-r.
+	\end{array}\right. \]
+	
+	即可.
+\end{proof}
+
+\begin{example} \label{3.2.5}
+	设 \( A \in \F\n \) 且 \( r(A)=r \)，证明：存在可逆矩阵 \( P \in \gfn \) 以及幂等矩阵 \( B \in \F\n, \; B^2=B \)， 使得 \( A=PB \)，其中 \( r(B)=r \).
+\end{example}
+
+\begin{proof}
+	由 \( r(A)=r \)，那么存在 \( U,V \in \gfn \)，使得 
+	\[ A=U\begin{bmatrix}
+		E_r & O \\ O & O
+	\end{bmatrix}V=(UV)V^{-1}\begin{bmatrix}
+	E_r & O \\ O & O
+	\end{bmatrix}V. \]
+	
+	令 \( P=UV, \; B=V^{-1}\diag\{E_r,O\}V \) 即可. 这里其实有 \( B^n=B \) 对任意 \( n \in \mathbb{N}^* \) 成立.
+\end{proof}
+
+\begin{example} \label{3.2.6}
+	设 \( A \in \F\n \)，证明：存在可逆矩阵 \( P \in \gfn \) 以及对称矩阵 \( B \in \F\n \) 使得 \( A=PB \). 换言之，任意一个矩阵可以经过有限次初等行变换化为对称矩阵.
+\end{example}
+
+\begin{proof}
+	设 \( r(A)=r \)，那么存在 \( U,V \in \gfn \)，使得 
+	\[ A=U\begin{bmatrix}
+		E_r & O \\ O & O
+	\end{bmatrix}V=[U(V\T)^{-1}]V\T\begin{bmatrix}
+		E_r & O \\ O & O
+	\end{bmatrix}V. \]
+	
+	令 \( P=UV, \; B=V\T \diag\{E_r,O\}V \) 即可. 
+\end{proof}
+
+\begin{practice}
+	将例 \ref{3.2.5} 和例 \ref{3.2.6} 中的分解 \( A=PB \) 改成 \( A=BP \).
+\end{practice}
+
+\begin{remark}
+	例 \ref{3.2.6} 中的对称矩阵不可以改为反对称矩阵，容易验证 2 阶反对称矩阵秩为 0 或者 2. 也就是必定形如
+	\[ \begin{bmatrix}
+		0 & 1 \\ 1 & 0
+	\end{bmatrix}, \; \begin{bmatrix}
+	0 & -1 \\ -1 & 0
+	\end{bmatrix}. \]
+	
+	那么 \( \diag\{1,0\} \) 就无法通过初等行变换变为上述两个矩阵，因为秩必然不同.
+\end{remark}
+
+\begin{example} \label{3.2.8}
+	设 \( A \in \F\n \)，且  \( r(A)=r \). 证明：存在 \( r \) 个秩为 1 的矩阵 \( A_1,\cdots,A_r \in \gfn \) 使得 \( A=A_1+\cdots+A_r \).
+\end{example}
+
+\begin{proof}
+	存在 \( U,V \in \gfn \)，使得 
+	\[ A=U\begin{bmatrix}
+		E_r & O \\ O & O
+	\end{bmatrix}V=U(\varepsilon_1\varepsilon_1\T+\cdots+\varepsilon_r\varepsilon_r\T)V=\sum_{i=1}^{r} (U\varepsilon_i\varepsilon_i\T V). \]
+	
+	注意到 \( r(U\varepsilon_i\varepsilon_i\T V)=r(\varepsilon_i\varepsilon_i\T)=1 \)，结束证明.
+\end{proof}
+
+\begin{example} \label{3.2.9}
+	设 \( A, \; B \in \F\n \) 证明：\( r(A)+r(B) \leq n \) 的充分必要条件为存在 \( C \in \gfn \) 使得 \( ACB=O \).
+\end{example}
+
+\begin{proof}
+	充分性. 由 Sylvester 不等式，即命题 \ref{3.1.16} 知 \( n \geq r(AC)+r(B)=r(A)+r(B) \). 必要性. 设 \( r(A)=r, \; r(B)=s \). 注意到题目在相抵关系 \( A \mapsto PAQ, \; B \mapsto UBV, \; C \mapsto Q^{-1}CU^{-1} \) 下不变. 不妨设 
+	\[ A= \begin{bmatrix}
+		E_r &  \\ & O 
+	\end{bmatrix}, \; B=\begin{bmatrix}
+	 O &  \\ & & E_s
+	\end{bmatrix}.  \]
+	
+	取 \( C=E_n \) 即可.
+\end{proof}
+
+
+
+
+\subsubsection{秩 1 矩阵和降阶公式}
 
 \begin{theorem}[秩和行列式的降阶公式 I]
 	设 \( A \in \F\n, \; D \in \F^{m \times m} \) 以及 \( B \in \F\nm, \; C \in \F\mn \)，考察分块矩阵
@@ -1045,11 +1430,18 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \subsubsection{一些计算实例 III}
 
 
-\subsubsection{行满秩和列满秩矩阵}
 
+\subsubsection{矩阵的满秩分解} \label{2.4}
 
-\subsubsection{矩阵的满秩分解}
+\begin{example} 
+	设 \( A, \; B \in \F\n \)，若存在 \( U,V \in \F\n \) 使得 \( A=BU, \; B=AV \). 那么存在 \( P \in \gfn \) 使得 \( A=BP \).
+\end{example}
 
+\begin{proof}
+	
+\end{proof}
+
+\subsubsection{Moore\(-\)Penrose 广义逆} \label{2.6}
 
 
 \subsection{特殊的相抵关系: 合同与相似}
