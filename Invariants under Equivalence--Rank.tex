@@ -27,6 +27,13 @@
 \usepackage{subfigure} 
 \usepackage{tkz-fct}
 \usetikzlibrary{calc,intersections,through,backgrounds,3d}
+\usetikzlibrary{shapes,arrows}
+\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,draw=black,fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,draw=black,fill=blue!30]
+\tikzstyle{process} = [rectangle,minimum width=4cm,minimum height=1cm,text centered,text width =4cm,draw=black,fill=red!30]
+\tikzstyle{decision} = [diamond,minimum width=3cm,minimum height=1cm,text centered,draw=black,fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
 \usepackage{tkz-euclide}
 \usepackage{tikz-3dplot}
 \usepackage{pgfplots}
@@ -48,11 +55,8 @@
 
 
 \usepackage{amsthm}
-% 设定颜色（假设你在别处定义了 \color{main} 等）
 \usepackage{xcolor}
 \usepackage{etoolbox}
-% 定义定理风格
-\usepackage{amsthm}
 \newtheoremstyle{defstyle}
 {0.3cm}{0.3cm}{\fangsong}{-1cm}{\bfseries\color{main}}{}{0.5em}
 {\indent 【\thmname{#1} \thmnumber{#2}】\ifthenelse{\equal{#3}{}}{}{~\thmnote{(#3)}}}
@@ -163,7 +167,9 @@
 \newcommand{\n}{^{n \times n}}
 \newcommand{\mn}{^{m \times n}}
 \newcommand{\nm}{^{n \times m}}
-\newcommand{\tz}{\mathrm{char} \;}
+\newcommand{\leinv}{_\text{L}^{-1}}
+\newcommand{\riinv}{_\text{R}^{-1}}
+\newcommand{\tz}{\mathrm{char} \;} 
 \newcommand{\tr}{\mathrm{tr}}
 \newcommand{\diag}{\mathrm{diag}}
 \newcommand{\bmxi}{\bm{\xi}}
@@ -223,7 +229,7 @@
 
 本节我们回到 \S 1 中留下的问题，我们对矩阵秩的定义还停留在简化行阶梯形矩阵，但我们已经发现这个定义有点太严格了，即使两个矩阵不能通过初等行变换互相得到，也可能有相同的秩. 沿着这条线索，我们同时采用两种初等变换对矩阵打洞化简，也就是我们本节所研究的相抵关系. 
 
-\subsection{相抵关系及其全系不变量}
+\subsection{相抵关系及其全系不变量} \label{sec3.1}
 
 \subsubsection{相抵标准型}
 
@@ -352,7 +358,7 @@ O & O
 	O & O
 	\end{bmatrix}. \]
 	
-	留意到 \( Q \) 的前 \( r \) 行必定线性无关. 那么对分块矩阵 \( (Q_{11},Q_{12})=(\alpha_1\T,\cdots,\alpha_r\T)\T \) 实行 Guass-Jordan 消元法不可能出现零行，若第 \( i \) 行被打为零行，意味着存在不全为零的数 \( c_1,\cdots,c_r \in \F \)，使得
+	留意到 \( Q \) 的前 \( r \) 行必定线性无关. 那么对分块矩阵 \( (Q_{11},Q_{12})=(\alpha_1\T,\cdots,\alpha_r\T)\T \) 实行 Guass\(-\)Jordan 消元法不可能出现零行，若第 \( i \) 行被打为零行，意味着存在不全为零的数 \( c_1,\cdots,c_r \in \F \)，使得
 	\[ c_1\alpha_1+\cdots+c_r\alpha_r=\bm{0}. \]
 	
 	因为零行的出现只能由倍法变换和消法变换导致，这就相当于行向量的线性组合. 但这说明 \( Q \) 的前 \( r \) 行线性相关，矛盾. 故 \( P_1A \) 的简化行阶梯形矩阵的非零行数目也是 \( r \). 反之，若 \( A \) 的简化行阶梯形矩阵的非零行数目是 \( r \)，那么必定可以再经过列初等变换化到 \( \diag\{E_r,O \} \).  也就说明了定义的等价性.
@@ -399,28 +405,6 @@ O & O
 
 \begin{proof}
 	\( r(A)=r(B) \) 当且仅当 \( A,B \) 有相同的相抵标准形，不妨设为 \( \Lambda \). 也就存在 \( P_1,P_2 \in \gfn, \; Q_1,Q_2 \in \gfm \) 使得 \( P_1AQ_1=P_2BQ_2=\Lambda \). 则 \( P_2^{-1}P_1AQ_1Q_2^{-1}=B \leadsto A \simeq B \). 或者也可以直接由 \( A \simeq \Lambda \simeq B \)，结合命题 \ref{3.1.4} 的传递性得到.
-\end{proof}
-
-为了具体求出使得一个矩阵 \( A \in \F\nm \) 相抵到其相抵标准形的过渡矩阵 \( P,Q \)，不一定要繁琐地记录每一步所用的初等变换和初等矩阵，下面给出了一种方便的算法.
-
-\begin{practice} \label{3.1}
-	设 \( A \in \F\nm \) 以及 \( r(A)=r\)，那么作如下的分块初等变换
-	\[ \begin{bmatrix}
-		A & E_n \\
-		E_m & O
-	\end{bmatrix} \leadsto \begin{bmatrix}
-	\begin{pmatrix}
-		E_r & O \\
-		O & O
-	\end{pmatrix} & P \\
-	Q & O
-	\end{bmatrix}, \]
-	
-	验证 \( P \in \gfn, \; Q \in \gfm \) 以及 \( PAQ=\diag\{E_r,O\} \). 
-\end{practice}
-
-\begin{proof}
-	只需要注意对 \( A \) 作初等变换涉及大矩阵的行列范围即可.
 \end{proof}
 
 
@@ -474,7 +458,7 @@ O & O
 	
 	设 \( A=(\alpha_1,\cdots,\alpha_m) \). 对 \( \alpha_1,\cdots,\alpha_r \) 取它们的前 \( r \) 部分分量构成的缩短向量 \( \widetilde{\alpha}_1, \cdots, \widetilde{\alpha}_r \). 由于 \( A \) 的 \( r \) 阶顺序主子式非零，即对应的矩阵可逆，那么 \( \widetilde{\alpha}_1, \cdots, \widetilde{\alpha}_r  \) 线性无关. 考察 \( c_1\alpha_1+\cdots+c_r\alpha_r=\bm{0} \)，取这个等式的前 \( r \) 分量即 \( c_1\widetilde{\alpha}_1,+\cdots+c_r\widetilde{\alpha}_r=\bm{0} \). 那么只能 \( c_1=\cdots=c_r=0 \). 我们断言 \( \alpha_{r+1},\cdots,\alpha_m \) 可以被 \( \alpha_1,\cdots,\alpha_r \) 线性表出，否则，存在 \( \alpha_t \ (r+1 \leq t \leq m) \) 不能被  \( \alpha_1,\cdots,\alpha_r \) 线性表出，那么 \( \alpha_1,\cdots,\alpha_r,\alpha_t \) 线性无关. 取包含 \( r \) 阶顺序主子式以及第 \( t \) 列构成的加边 \( r+1 \) 阶子式，显然这个子式对应的矩阵可逆，那么子式的值非零，与题设矛盾.
 	
-	现在对 \( A \) 的列执行 Guass-Jordan 消元法，那么 \( (r+1) \sim m \) 列会被 \( 1 \sim r \) 列的线性组合打成 \( \bm{0} \). 由于 \( A \) 左上方的 \( r \) 阶矩阵块可逆，因为 \( r \) 阶顺序主子式非零，那么列初等变换会直接将这个矩阵变为 \( E_r \)，也就是存在 \( Q \in \gfm \)，使得
+	现在对 \( A \) 的列执行 Guass\(-\)Jordan 消元法，那么 \( (r+1) \sim m \) 列会被 \( 1 \sim r \) 列的线性组合打成 \( \bm{0} \). 由于 \( A \) 左上方的 \( r \) 阶矩阵块可逆，因为 \( r \) 阶顺序主子式非零，那么列初等变换会直接将这个矩阵变为 \( E_r \)，也就是存在 \( Q \in \gfm \)，使得
 	\[ AQ=\begin{bmatrix}
 		E_r & O \\
 		A_1 & O
@@ -490,9 +474,135 @@ O & O
 \end{proof}
 
 \begin{remark} \label{3.1.12}
-	从命题 \ref{3.1.6} 或者定义\(-\)命题 \ref{3.1.9} 中我们轻易读取出秩的粗略范围 \( 0 \leq r(A) \leq \min\{\text{column}(A), \text{row}(A) \} \). 这是不言而喻的. 另一方面，由于转置不改变行列式的值，那么 \( r(A)=r(A\T) \).
+	从命题 \ref{3.1.6} 或者定义\(-\)命题 \ref{3.1.9} 中我们轻易读取出秩的粗略范围. 若 \( A \in \F\nm \)，那么 \( 0 \leq r(A) \leq \min\{m,n\} \). 若 \( r(A)=n \)，称 \( A \) 为行满秩的; 若 \( r(A)=m \)，称 \( A \) 为列满秩的. 另一方面，由于转置不改变行列式的值，那么 \( r(A)=r(A\T) \).
 \end{remark}
 
+为了具体求出使得一个矩阵 \( A \in \F\nm \) 相抵到其相抵标准形的过渡矩阵 \( P,Q \)，不一定要繁琐地记录每一步所用的初等变换和初等矩阵，下面给出了一种方便的算法.
+
+\begin{practice} \label{prac3.1}
+	设 \( A \in \F\nm \) 以及 \( r(A)=r\)，那么对如下分块矩阵的前 \( n \) 行和前 \( m \) 列进行初等变换可以得到
+	\[ \begin{bmatrix}
+		A & E_n \\
+		E_m & O
+	\end{bmatrix} \leadsto \begin{bmatrix}
+		\begin{pmatrix}
+			E_r & O \\
+			O & O
+		\end{pmatrix} & P \\
+		Q & O
+	\end{bmatrix}, \]
+	
+	验证 \( P \in \gfn, \; Q \in \gfm \) 以及 \( PAQ=\diag\{E_r,O\} \). 
+\end{practice}
+
+\begin{proof}
+	只需要注意对 \( A \) 作初等变换涉及大矩阵的行列范围即可.
+\end{proof}
+
+\begin{practice} \label{prac3.2}
+	尝试求出过渡矩阵 \( P \in \text{GL}_3(\F) ,Q \in \text{GL}_4(\F) \)，将下列矩阵相抵到其相抵标准形:
+	\[ A=\begin{bmatrix}
+		2 & 0 & -1 & 3 \\
+		1 & 2 & -2 & 4 \\
+		0 & 1 & 3 & -1
+	\end{bmatrix}. \]
+\end{practice}
+
+\begin{solution}
+	用练习 \ref{prac3.1}，作分块矩阵
+	\[ \begin{bNiceMatrix}[right-margin=2pt]
+		2 & 0 & -1 & 3 & \Vdots & 1 & 0 & 0 \\
+		1 & 2 & -2 & 4 &  & 0 & 1 & 0 \\
+		0 & 1 & 3 & -1 &  & 0 & 0 & 1 \\
+		\Cdots & & & & & & & \Cdots \\
+		1 & 0 & 0 & 0 &  &  &   &   \\
+		0 & 1 & 0 & 0 &  &  &   &   \\
+		0 & 0 & 1 & 0 &  &  &   &   \\
+		0 & 0 & 0 & 1 & \Vdots  &  &   &   
+	\end{bNiceMatrix} \leadsto  \begin{bNiceMatrix}[right-margin=2pt]
+		1 & 0 & -1/2 & 3/2 & \Vdots & 1/2 & 0 & 0 \\
+		0 & 1 & -3/4 & 5/4 &  & -1/4 & 1/2 & 0 \\
+		0 & 0 & 1 & -3/5 &  & 1/15 & -2/15 & 4/15 \\
+		\Cdots & & & & & & & \Cdots \\
+		1 & 0 & 0 & 0 &  &  &   &   \\
+		0 & 1 & 0 & 0 &  &  &   &   \\
+		0 & 0 & 1 & 0 &  &  &   &   \\
+		0 & 0 & 0 & 1 & \Vdots  &  &   &   
+	\end{bNiceMatrix}. \]
+	\[ \leadsto \begin{bNiceMatrix}[right-margin=2pt]
+		1 & 0 & 0 & 0 & \Vdots & 1/2 & 0 & 0 \\
+		0 & 1 & 0 & 0 &  & -1/4 & 1/2 & 0 \\
+		0 & 0 & 1 & 0 &  & 1/15 & -2/15 & 4/15  \\
+		\Cdots & & & & & & & \Cdots \\
+		1 & 0 & 1/2 & -6/5 &  &  &   &   \\
+		0 & 1 & 3/4 & -4/5 &  &  &   &   \\
+		0 & 0 & 1 & 3/5 &  &  &   &   \\
+		0 & 0 & 0 & 1 & \Vdots  &  &   &   
+	\end{bNiceMatrix}. \]
+	
+	那么
+	\[
+	\begin{bmatrix}
+		1/2 & 0 & 0 \\
+		-1/4 & 1/2 & 0 \\
+		1/15 & -2/15 & 4/15
+	\end{bmatrix}
+	\begin{bmatrix}
+		2 & 0 & -1 & 3 \\
+		1 & 2 & -2 & 4 \\
+		0 & 1 & 3 & -1
+	\end{bmatrix}
+	\begin{bmatrix}
+		1 & 0 & 1/2 & -6/5 \\
+		0 & 1 & 3/4 & -4/5 \\
+		0 & 0 & 1 & 3/5 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix}=(E_3,O).
+	\]
+	
+	另一种思路，从上述的第二个矩阵开始换一种方式打洞，
+	\[ \leadsto \begin{bNiceMatrix}[right-margin=2pt]
+		1 & 0 & 0 & 6/5 & \Vdots & 8/15 & -1/15 & 2/15 \\
+		0 & 1 & 0 & 4/5 &  & -1/5 & 2/5 & 1/5 \\
+		0 & 0 & 1 & -3/5 &  & 1/15 & -2/15 & 4/15 \\
+		\Cdots & & & & & & & \Cdots \\
+		1 & 0 & 0 & 0 &  &  &   &   \\
+		0 & 1 & 0 & 0 &  &  &   &   \\
+		0 & 0 & 1 & 0 &  &  &   &   \\
+		0 & 0 & 0 & 1 & \Vdots  &  &   &   
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}[right-margin=2pt]
+		1 & 0 & 0 & 0 & \Vdots & 8/15 & -1/15 & 2/15 \\
+		0 & 1 & 0 & 0 &  & -1/5 & 2/5 & 1/5 \\
+		0 & 0 & 1 & 0 &  & 1/15 & -2/15 & 4/15 \\
+		\Cdots & & & & & & & \Cdots \\
+		1 & 0 & 0 & -6/5 &  &  &   &   \\
+		0 & 1 & 0 & -4/5 &  &  &   &   \\
+		0 & 0 & 1 & 3/5 &  &  &   &   \\
+		0 & 0 & 0 & 1 & \Vdots  &  &   &   
+	\end{bNiceMatrix}. \]
+	
+	那么
+	\[
+	\begin{bmatrix}
+		8/15 & -1/15 & 2/15 \\
+		-1/5 &  2/5  & 1/5 \\
+		1/15 & -2/15 & 4/15
+	\end{bmatrix}
+	\begin{bmatrix}
+		2 & 0 & -1 & 3 \\
+		1 & 2 & -2 & 4 \\
+		0 & 1 & 3 & -1
+	\end{bmatrix}
+	\begin{bmatrix}
+		1 & 0 & 0 & -6/5 \\
+		0 & 1 & 0 & -4/5 \\
+		0 & 0 & 1 & 3/5 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix}=(E_3,O).
+	\]
+	
+	这也就说明了 \( P,Q \) 的选取是不唯一的.
+\end{solution}
 
 \subsubsection{秩不等式}
 
@@ -545,7 +655,7 @@ O & O
 	
 	\vspace{1ex}
 	
-	(\textbf{法三})\ 可以看成法一的细化. 设 \( r(A)=r, r(B)=s \). 那么存在 \( P \in \gfn, \; Q, U \in \gfm, \; V \in \text{GL}_t(\F) \) 使得
+	(\textbf{法三})\ 下面的叙述可以看成法一的细化. 设 \( r(A)=r, r(B)=s \). 那么存在 \( P \in \gfn, \; Q, U \in \gfm, \; V \in \text{GL}_t(\F) \) 使得
 	\[
 	A = P
 	\begin{bmatrix}
@@ -853,10 +963,10 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{proposition}
 
 \begin{proof}
-	(\textbf{法一})\ 先证明 \( r(A\pm B) \leq r(A)+r(B)  \). 设 \( r(A)=r, \; r(B)=s \). 那么存在 \( P_1,P_2 \in \gfn, \; Q_1,Q_2 \in \gfm \) 使得 \( A=P_1\diag\{E_r,O\}Q, \; B=P_2\diag\{E_s,O\}Q_2 \). 于是
-	\[ A \pm B= (P_1,P_2)\diag\{E_r,O,\pm E_s,O\}(Q_1,Q_2)\T. \]
+	(\textbf{法一})\ 先证明 \( r(A\pm B) \leq r(A)+r(B)  \). 设 \( r(A)=r, \; r(B)=s \). 那么存在 \( P_1,P_2 \in \gfn, \; Q_1,Q_2 \in \gfm \) 使得 \( A=P_1\diag\{E_r,O\}Q_1, \; B=P_2\diag\{E_s,O\}Q_2 \). 于是
+	\[ A \pm B= (P_1,P_2)\diag\{E_r,O,\pm E_s,O\}(Q_1\T,Q_2\T)\T. \]
 	
-	利用命题 \ref{3.1.13} 得到 \( r(A \pm B) \leq r+s \). 另一方面，不妨设 \( r>s \)，那么 \( r(A-B)+r(B) \geq r(A-B+B)=r(A) \)，也就是 \( r(A-B) \geq r(A)-r(B)=|r(A)-r(B)| \). 另一方面，注意 \( r(B)=r(-B) \)，那么 \( r(A+B) \geq r(A)-r(-B) \)，代入即可.
+	这是一般矩阵乘积的形式，利用命题 \ref{3.1.13} 得到 \( r(A \pm B) \leq r+s \). 另一方面，不妨设 \( r>s \)，那么 \( r(A-B)+r(B) \geq r(A-B+B)=r(A) \)，也就是 \( r(A-B) \geq r(A)-r(B)=|r(A)-r(B)| \). 另一方面，注意 \( r(B)=r(-B) \)，那么 \( r(A+B) \geq r(A)-r(-B) \)，代入即可.
 	
 	(\textbf{法二})\ 给出 \( r(A\pm B) \leq r(A)+r(B)  \) 的另一种证明. 注意到 \( A \pm B \) 所有的子式也都是分块矩阵
 	\[ \begin{bmatrix}
@@ -886,7 +996,9 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{proof}
 
 
-\subsubsection{秩问题浅谈}
+\subsubsection{处理秩问题的代数方法}
+
+在本节，我们重点把握矩阵的秩有关问题的代数方法：主要是利用已知的秩不等式和初等变换法. 在后续章节，我们会更侧重讲解几何方法：向量组的极大线性无关组(对应像空间)和线性方程组的基础解系理论(对应核空间).
 
 下面的例子基本离不开初等变换法. 这是一种需要你务必掌握的方法，再怎么强调都不为过.
 
@@ -907,7 +1019,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 
 
 \begin{example} \label{3.1.22}
-	设 \(  A \in \F\n \). 证明:
+	设 \(  A \in \F\n \) 以及 \( \tz\F=0 \). 证明:
 	\begin{enumerate}[(1)]
 		\item \( A^2=A \) 的充要条件为 \( r(A)+r(A-E_n)=n \);
 		\item \( A^2=E_n \) 的充要条件为 \( r(A+E_n)+r(A-E_n)=n \);
@@ -936,12 +1048,14 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	
 	\vspace{1ex}
 	
-	(\textbf{法二}) \ 秩不等式法.由 \( A(A-E_n)=O \) 以及 Sylvester 不等式，即命题 \ref{3.1.16} 知 \( r(A)+r(A-E_n) \leq n \). 另一方面由命题 \ref{3.1.20} 知 \( r(A)+r(A-E_n) \geq r[A-(A-E_n)]=r(E_n)=n \).
+	(\textbf{法二}) \ 秩不等式法. 一方面，由 \( A(A-E_n)=O \) 以及 Sylvester 不等式，即命题 \ref{3.1.16} 知 \( r(A)+r(A-E_n) \leq n \). 另一方面，由命题 \ref{3.1.20} 知 \( r(A)+r(A-E_n) \geq r[A-(A-E_n)]=r(E_n)=n \).
 	
 	\vspace{1ex}
 	
-	(2)(3) 留作练习. (3) 的法一需要你利用 \( (A^2+A+E_n)-(A-E_n)(A+2E_n)=3E_n \). 法二需要结合命题 \ref{3.1.13} 和命题 \ref{3.1.20} 得到
+	(2)(3) 留作练习. (3) 如果选择初等变换法，需要利用 \( (A^2+A+E_n)-(A-E_n)(A+2E_n)=3E_n \). 如果选择秩不等式法，需要结合命题 \ref{3.1.13} 和命题 \ref{3.1.20} 得到
 	\[ r(A^2+A+E_n)+r(A-E_n) \geq r(A^2+A+E_n)+r[(A-E_n)(A+2E_n)] \geq r(3E_n)=n. \]
+	
+	必须强调对 (2) (3) 而言，讨论的基域的特征会影响结论的正确性. 例如若 \( \tz \F=2 \)，那么对 (2) 而言，\( A+E_n=A-E_n \). 取 \( n \) 为偶数，以及 \( A=\diag\{E_{n/2},O\} \)，就有 \( r(A+E_n)+r(A-E_n)=n \)，但是 \( A^2 \neq E_n \).
 \end{proof}
 
 \begin{example} \label{3.1.23}
@@ -1125,7 +1239,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 
 
 \begin{example} \label{3.1.28}
-	设 \( A \in \F\mn \)，求证: 方程 \( AX = E_m \) 有解的充要条件是 \( r(A) = m \).
+	设 \( A \in \F\mn \)，求证: 矩阵方程 \( AX = E_m \) 有解的充要条件是 \( r(A) = m \).
 \end{example}
 
 \begin{proof}
@@ -1156,13 +1270,13 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
     
     \vspace{1ex}
     
-    (\textbf{法二)}\ 给出必要性的令一证法，由于 \( m=r(E_m) \leq r(A) \leq m \)，即证. 
+    (\textbf{法二)}\ 给出必要性的另一证法，由于 \( m=r(E_m) \leq r(A) \leq m \)，即证. 
 \end{proof}
 
-例 \ref{3.1.28} 事实上给出了列满秩矩阵的一种等价刻画，更详细的讨论我们留到小节 \S \ref{2.4}.
+例 \ref{3.1.28} 事实上给出了列满秩矩阵的一种等价刻画，更详细的讨论我们留到小节 \S \ref{sec3.2.4}.
 
 \begin{practice}
-	设 \( A \in \F\mn, \; B \in \F^{m \times t} \)，求证: 方程 \( AX = B \) 有解的充要条件是 \( r(A) = r(A,B) \).
+	设 \( A \in \F\mn, \; B \in \F^{m \times t} \)，求证: 矩阵方程 \( AX = B \) 有解的充要条件是 \( r(A) = r(A,B) \).
 \end{practice}
 
 \begin{proof}
@@ -1218,6 +1332,54 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	\[ r(\hat{P}\hat{Q}P_sQ_s)=r(\hat{P}\hat{Q}P_s)=r(\hat{Q}\hat{P}P_s)=r(\hat{P}P_s)=r(P_1\cdots P_s). \]
    (2) 模仿 (1) 的证明，留作练习.
 \end{proof}
+
+\begin{example} \label{3.1.31}
+	设 \( A \in \F\n \)，则
+	\begin{enumerate}[(1)]
+		\item 存在 \( k \in \mathbb{N}^* \) 且 \( k \leq n \) 使得 \( r(A^k)=r(A^{k+1}) \);
+		\item 取满足 (1) 最小的 \( k \)，对任意 \( n \in \mathbb{N}^* \) 都有 \( r(A^k)=r(A^{k+n}) \). 也就是
+		\[ r(A)>r(A^2)>\cdots>r(A^{k-1})=r(A^k)=r(A^{k+1})=\cdots r(A^{k+n})=\cdots \]
+	\end{enumerate}
+\end{example}
+
+\begin{proof}
+	(1) 由于 \( r(A^{k+1}) \leq r(A^k) \) 对任意 \( k \in \mathbb{N}^* \) 都成立，当 \( r(A)=n \) 时，\( A \) 可逆，那么取 \( k=1 \) 就已经成立. 下设 \( r(A) \leq n-1 \)，这说明序列 \( r(A), r(A^2),\cdots,r(A^{n+1}) \) 不是严格递减的，否则 \( r(A^{n+1}) \leq -1 \)，矛盾. 即说明 \( k \) 的存在性，且可以取到 \( k \leq n \). (2) 断言对任意 \( m \in \mathbb{N}^* \) 都有 \( r(A^{m+2}) \geq 2r(A^{m+1})-r(A^m) \). 作分块矩阵初等变换，
+	\[ \begin{bmatrix}
+		A^{m+2} & O \\
+		O & A^m
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	A^{m+2} & A^{m+1} \\
+	O & A^m
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	O & A^{m+1} \\
+	-A^{m+1} & A^m
+	\end{bmatrix} \leadsto \begin{bmatrix}
+	A^{m+1} & -A^m \\
+	O & A^{m+1} 
+	\end{bmatrix}. \]
+	
+	用命题 \ref{3.1.14} 即可. 那么 \( \{r(A^{m+1})-r(A^m)\} \) 为单调不增非负列. 一旦有 \( r(A^{k+1})=r(A^k) \)，就有 \( r(A^{m+1})=r(A^m) \ (m \geq k) \).
+\end{proof}
+
+
+在第四章线性映射我们会给出例 \ref{3.1.31} 的一个几何表述，即 Fitting 引理，但其实还不是很清晰，需要等到 Jordan 标准形理论才能彻底弄清楚例 \ref{3.1.31} 背后的含义.
+
+\begin{corollary}
+	设 \( A \in \F\n \) 为幂零矩阵，即存在 \( k \in \mathbb{N}^* \) 使得 \( A^k=O \) 且 \( A^{k-1} \neq O \)，则 \( k \leq n \).
+\end{corollary}
+
+\begin{proof}
+	注意到 \( r(A^{k-1})>r(A^k)=0=r(A^{k+1})=\cdots \) 于是由例 \ref{3.1.31} (1) 知 \( k \leq n \).
+\end{proof}
+
+\begin{practice}
+	设 \( A \in \F\n \) 为幂零矩阵，即存在 \( k \in \mathbb{N}^* \) 使得 \( A^k=O \) 且 \( A^{k-1} \neq O \). 若存在 \( q \in \mathbb{N}^* \) 使得 \( n=kq+1 \)，证明： \( r(A) \leq n-q-1 \).
+\end{practice}
+
+\begin{proof}
+	反证. 若 \( r(A)>n-q \). 由 Sylvester 不等式，即命题 \ref{3.1.16} 知道 \( r(A^2) \geq 2r(A)-n > n-2q \). 再用 Frobenius 不等式，即命题 \ref{3.1.18} 可推知 \( r(A^3) \geq 2r(A^2)-r(A) > 2(n-2q)-(n-q)=n-3q \). 以此类推，得到 \( r(A^k) \geq 2r(A^{k-1})-r(A^{k-2})> 2[n-(k-1)q]-[n-(k-2)q]=n-kq=1 \). 这与 \( A^k=O \) 矛盾. 
+\end{proof}
+
 
 \subsection{相抵标准形的应用}
 
@@ -1297,10 +1459,10 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	B_{21} & B_{22} 
 	\end{bmatrix}. \]
 	
-	那么 \( B_{21}, \; B_{22}=O \)，而 \( B_{12} \in \F^{r \times (n-r)} \) 是任意的.
+	那么取 \( B_{21}, \; B_{22}=O \) 即可，此时 \( B_{12} \in \F^{r \times (n-r)} \) 是任意的.
 \end{proof}
 
-例 \ref{3.2.3} 事实上刻画了矩阵的广义逆，其中 \( B \) 的唯一性需要一些额外的条件，参考小节 \S \ref{2.6}
+例 \ref{3.2.3} 事实上刻画了矩阵的自反减号逆的存在性，参考小节 \S \ref{sec3.3}.  \( B \) 的唯一性需要一些额外的条件，可以自行查找 Moore\(-\)Penrose 广义逆，由于该理论涉及到欧氏空间的正交补，需要后置讲解.
 
 \begin{example}
 	设 \( A \in \F^{m \times s} \) 且 \( r(A)=r \)，证明：对任意 \( n \in \mathbb{N}^* \) 都存在 \( B \in \F^{s \times n} \) 满足 \( r(B)=\min\{s-r,n\} \)，使得对任意 \( C \in \F^{n \times k} \) 均有 \( ABC=O \).
@@ -1357,7 +1519,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	将例 \ref{3.2.5} 和例 \ref{3.2.6} 中的分解 \( A=PB \) 改成 \( A=BP \).
 \end{practice}
 
-\begin{remark}
+\begin{remark} \label{3.2.7}
 	例 \ref{3.2.6} 中的对称矩阵不可以改为反对称矩阵，容易验证 2 阶反对称矩阵秩为 0 或者 2. 也就是必定形如
 	\[ \begin{bmatrix}
 		0 & 1 \\ 1 & 0
@@ -1436,7 +1598,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	的三行成比例，也就是可以用消法变换消去后两行，秩为 1. 考虑 \( A=E_3+\alpha\beta\T=:E_3+B, \; \alpha=(1,2,-1)\T, \; \beta=(1,-1,2)\T \). 那么
 	\[ A^n=E_3+C_n^1 B^1+ \cdots + C_n^n B^n=E_3+[\tr(B)]^{-1} \left\{\sum_{k=1}^{n} C_n^k [\tr(B)]^k \right\}B= E_3+ [\tr(B)]^{-1}[(1+\tr(B))^n-1]B. \]
 	
-	接下来代入题目数据. 当然，你可能会疑惑，有没有通用的方法呢，我怎么能够看出这个矩阵可以分解为 \( aE_n+\text{rank} 1 \) 的形式呢? 很遗憾，在目前所能求解的一般 \( n \) 次幂矩阵中，只有先前所述的 Jordan 块和这种类型的. 更一般的通法需要用到极小多项式或者 Jordan 标准形理论，留给高等代数 II.
+	接下来代入题目数据. 当然，你可能会疑惑这里是否有通用的方法，这个矩阵可以分解为 \( aE_n+\text{rank} 1 \) 的形式确实不容易观察. 很遗憾，在目前所能求解的一般 \( n \) 次幂矩阵中，只有先前所述的 Jordan 块和这种类型的. 更一般的通法需要用到极小多项式或者 Jordan 标准形理论，留给高等代数 II.
 	
 \end{proof}
 
@@ -1498,7 +1660,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	证明和上述没什么区别.
 \end{proof}
 
-\begin{practice} \label{prac3.6}
+\begin{practice} \label{prac3.8}
 	设 \( A,B,D \in \F\n, \; C \in \gfn \)，考察分块矩阵
 	\[ M:=\begin{bmatrix}
 		A & B \\ C & D
@@ -1526,7 +1688,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{proof}
 
 \begin{practice}
-	去掉练习 \ref{prac3.6} 中 \( C \) 可逆的条件，并设 \( \F \) 为无限域，再次完成练习 \ref{prac3.6}.
+	去掉练习 \ref{prac3.8} 中 \( C \) 可逆的条件，并设 \( \F \) 为无限域，再次完成练习 \ref{prac3.8}.
 \end{practice}
 
 \begin{proof}
@@ -1719,7 +1881,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 		B\T & E_2
 	\end{bmatrix}, \]
 	
-	那么定理 \ref{3.2.13} (1) (2) 的条件均满足，就有 \( r(M)= r(E_n)+r(E_2-B\T B)=r(E_2)+r(E_n-BB\T)=2+r(A) \). 于是 \( r(A)=n-2+r(E_2-B\T B) \). 接下来断言 \( B\T B \neq E_2 \)，否则 \( (2,2) \) 元要求 \( n=1 \)，矛盾. 则 \( 1 \leq r(E_2-B\T B) \leq n \). 即 \( r(A) \geq n-1 \)，若 \( \det A=0 \)，只能 \( A \) 不可逆，且 \( r(A)=n-1 \). 
+	那么定理 \ref{3.2.13} (1) (2) 的条件均满足，就有 \( r(M)= r(E_n)+r(E_2-B\T B)=r(E_2)+r(E_n-BB\T)=2+r(A) \). 于是 \( r(A)=n-2+r(E_2-B\T B) \). 接下来断言 \( B\T B \neq E_2 \)，否则 \( B\T B-E_2 \) 的 \( (2,2) \) 元为零蕴含 \( n=1 \)，矛盾. 则 \( 1 \leq r(E_2-B\T B) \leq n \). 即 \( r(A) \geq n-1 \)，若 \( \det A=0 \)，只能 \( A \) 不可逆，且 \( r(A)=n-1 \). 
 \end{solution}
 
 
@@ -1748,7 +1910,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	那么 \( A=BC+2E_n \). 接下来模仿例 \ref{3.2.19} 即可.
 \end{solution}
 
-\subsubsection{矩阵的满秩分解} \label{2.4}
+\subsubsection{矩阵的满秩分解} \label{sec3.2.4}
 
 本小节的任务是尝试将可逆矩阵的概念推广到非方阵.
 
@@ -1756,14 +1918,14 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	设 \( A \in \F\nm \)，若存在 \( B \in \F\mn \) 使得 \( BA=E_m \)，则称 \( B \) 为 \( A \) 的左逆. 相应地，若存在 \( C \in \F\mn \)，使得 \( AC=E_n \)，则称 \( C \) 为 \( A \) 的右逆.
 \end{definition}
 
-我们已经知道非方阵矩阵空间中不可能有类似可逆矩阵的定义，换言之，就是下面的表述,
+我们已经知道非方阵不可能有类似可逆矩阵的定义，就是下面的表述.
 
 \begin{proposition}
-   设 \( A \in \F\nm \)，若 \( A \) 同时存在左逆和右逆，那么 \( A \) 的左逆和右逆必然相等，进而 \( n=m \)，此时 \( A \) 的左逆和右逆都为 \( A^{-1} \).
+   设 \( A \in \F\nm \)，若 \( A \) 同时存在左逆和右逆，那么 \( n=m \)，此时 \(  B=C=A^{-1} \).
 \end{proposition}
 
 \begin{proof}
-   沿用 \ref{3.2.20} 的记号，那么 \( B=BE_n=B(AC)=(BA)C=E_mC=C \). 也就是存在 \( B \in \F\mn \) 使得 \( BA=E_m, \; AB=E_n \). 这是不可能的，参考讲义 \S 2 中命题 2.1.11 的证明. 当 \( m=n \) 时，就回到可逆矩阵的定义.
+   沿用 \ref{3.2.20} 的记号，那么 \( B=B E_n=B(AC)=(B A)C=E_mC=C \). 也就是存在 \( B \in \F\mn \) 使得 \( BA=E_m, \; AB=E_n \). 对 \( m \neq n \) 的情形，这是不可能的，参考讲义 \S 2 中命题 2.1.11 的证明. 当 \( m=n \) 时，就回到可逆矩阵的定义.
 \end{proof}
 
 我们已经知道 \( A \in \F\n \) 为可逆矩阵的等价刻画是 \( r(A)=n \)，自然问对 \( A \in \F\nm \) 存在左逆或者右逆的等价刻画.
@@ -1814,7 +1976,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	 (3) \( \Rightarrow \) (1). 注意到  \( (E_m,K)PA=E_m \)，那么 \( (E_m,K)P \) 即为所求左逆，这里 \( K \in \F^{m \times (n-m)} \) 为任意矩阵，这也说明 \( A \) 的左逆未必唯一.
 \end{proof}
 
-注意到 \( A \in \F\nm \) 存在右逆等价于 \( A\T \in \F\mn \) 存在左逆，用 \ref{3.2.22} 立即得到
+注意到 \( A \in \F\nm \) 存在右逆等价于 \( A\T \in \F\mn \) 存在左逆，用性质  \ref{3.2.22} 立即得到
 
 \begin{property}[右逆的等价刻画] \label{3.2.23}
 	设 \( A \in \F\nm \)，则下列叙述等价:
@@ -1826,19 +1988,117 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	\end{enumerate}
 \end{property}
 
-\begin{corollary}[线性方程组的公式解]
-	设 \( A \in \F\nm \)，若 \( A \) 存在一个左逆 \( B \in \F\mn \)，那么任取 \( \beta \in \F^m \)，\( AX=\beta \) 有唯一解 \( X=B\beta \).
+\begin{corollary}[线性方程组的公式解] \label{3.2.24}
+	设 \( A \in \F\nm \)，若 \( A \) 存在一个左逆 \( B \in \F\mn \)，取 \( \beta \in \F^n \) 使得 \( AX=\beta \) 有解，那么 \( AX=\beta \) 有唯一解 \( X=B \beta \).
 \end{corollary}
 
 \begin{proof}
-	首先 \( X_0=B\beta \) 为一个解，其次任取 \( X \) 满足 \( AX=\beta \)，那么 \( A(X-X_0)=O \)，由性质 \ref{3.2.22} 知道 \( X=X_0 \). 练习 \ref{3.1} 已经给出了一种相抵标准形过渡矩阵 \( P,Q \) 的求法，那么由性质 \ref{3.2.22} 的证明，\( A \) 的一个左逆由
-	\[ \begin{bmatrix}
-		Q & O \\
-		O & E_{n-m}
-	\end{bmatrix}P \]
-	
-	给出. 这又给出了线性方程组在特殊情形下的公式解.
+	由题设可知存在 \( X_0 \in \F^m \) 满足 \( AX_0=\beta \)，两边同乘 \( B \) 得到 \( E_mX_0=X_0=B\beta \). 其次任取 \( X \in \F^m \) 满足 \( AX=\beta \)，那么 \( A(X-X_0)=O \)，由性质 \ref{3.2.22} 知道 \( X=X_0 \). 
 \end{proof}
+
+下面给出求左逆和右逆的算法. 设 \( A \in \F\nm \)，且 \( r(A)=m \)，那么 \( A \) 列满秩且存在左逆. 模仿练习 \ref{prac3.1}，作初等变换
+\[ (A,E_n) \leadsto \left[ \begin{pmatrix}
+	E_m \\ O
+\end{pmatrix}, P \right]. \]
+那么 \( (E_m,O)PA=E_m \). 说明 \( (E_m,O)P \) 给出 \( A \) 的一个左逆. 另一方面，若已经求出 \( P \in \gfn, \; Q \in \gfm \) 使得 \( PAQ=(E_m,O)\T \)，那么也可以接着性质 \ref{3.2.22} 的证明，得到
+\[ \begin{bmatrix}
+	E_m & O
+\end{bmatrix}\begin{bmatrix}
+Q & O \\
+O & E_{n-m}
+\end{bmatrix}PA=\begin{bmatrix}
+E_m & O
+\end{bmatrix}\begin{bmatrix}
+E_m \\ O
+\end{bmatrix}=E_m. \]
+
+说明
+
+\[ \begin{bmatrix}
+	E_m & O
+\end{bmatrix}\begin{bmatrix}
+	Q & O \\
+	O & E_{n-m}
+\end{bmatrix}P \]
+
+
+给出 \( A \) 的一个左逆. 特别地，取 \( \F=\R ( \text{or} \; \C) \)，还有如下命题，不过需要求解逆矩阵，在计算量上和上面的方法没有很大区别，但是表达式是很简洁的.
+
+\begin{practice} \label{prac3.12}
+	设 \( A \in \R\nm \)，那么 \( r(A)=m \) 当且仅当 \( A\T A \) 可逆，且 \( (A\T A)^{-1} A\T \) 给出 \( A \) 的一个左逆. 相应地， \( r(A)=m \) 当且仅当 \( AA\T  \) 可逆，且 \( A\T(AA\T)^{-1}  \) 给出 \( A \) 的一个右逆.
+\end{practice} 
+
+\begin{proof}
+	只证 \( r(A)=m \) 的结论. 
+	
+	若 \( r(A)=m \)，考虑线性方程组 \( A^TAX=O \)，欲证其只有零解. 若存在非零解 \( X_0 \in \R^m \)，那么 \( X_0\T A\T AX_0= (AX_0)\T (AX_0)=|AX_0|^2=0 \). {\color{red} 由于 \( AX_0 \in \R^n \)，每个分量均为实数，}那么只能 \( AX_0=O \). 但 \( r(A)=m \) 说明 \( AX=O \) 只有零解，矛盾. 由 \( (A^TA)^{-1}(A^TA)=E_m \)，说明 \( (A\T A)^{-1} A\T \) 给出 \( A \) 的一个左逆. 
+	
+	若 \( A\T A \) 可逆，那么 \( A\T AX=O \) 仅有零解. 又 \( AX=O \) 的解全为 \( A\T AX=O \) 的解，故 \( AX=O \) 也仅有零解，由性质 \ref{3.2.22} (4) 可知 \( r(A)=m \).
+\end{proof}
+
+\begin{practice} 
+	设 \( A \in \C\nm \)，那么 \( r(A)=m \) 当且仅当 \( A\Her A \) 可逆，且 \( (A\Her A)^{-1} A\Her \) 给出 \( A \) 的一个左逆. 相应地， \( r(A)=m \) 当且仅当 \( AA\Her  \) 可逆，且 \( A\Her(AA\Her)^{-1}  \) 给出 \( A \) 的一个右逆.
+\end{practice} 
+
+\begin{proof}
+	模仿练习 \ref{prac3.12}. 注意复数 \( z \in \C \) 的模满足 \( 0 \leq |z|^2=z\overline{z}=\overline{z}z  \)，等号成立当且仅当 \( z=0 \).
+\end{proof}
+
+\begin{practice}
+	在练习 \ref{prac3.2} 的基础上，求 \( A \) 的一个右逆.
+\end{practice}
+
+\begin{solution}
+	若 \( PAQ=(E_n,O) \)，那么模仿性质 \ref{3.2.22} 的证明可得
+	\[ AQ=(P^{-1},O)=(E_n,O)\begin{pmatrix}
+		P^{-1} & O \\
+		O & E_{m-n}
+	\end{pmatrix} \leadsto AQ\begin{pmatrix}
+	P & O \\
+	O & E_{m-n}
+	\end{pmatrix}\begin{pmatrix}
+	E_n  \\
+	O 
+	\end{pmatrix}=E_n. \]
+	
+	这就找出 \( A \) 的右逆表达式. 在练习 \ref{prac3.2} 中已经计算出
+	\[ P=\begin{bmatrix}
+		1/2 & 0 & 0 \\
+		-1/4 & 1/2 & 0 \\
+		1/15 & -2/15 & 4/15
+	\end{bmatrix}, \; Q=\begin{bmatrix}
+	1 & 0 & 1/2 & -6/5 \\
+	0 & 1 & 3/4 & -4/5 \\
+	0 & 0 & 1 & 3/5 \\
+	0 & 0 & 0 & 1
+	\end{bmatrix}. \]
+	
+	
+	那么 \( A \) 的一个右逆为
+	\[ \begin{bmatrix}
+		1 & 0 & 1/2 & -6/5 \\
+		0 & 1 & 3/4 & -4/5 \\
+		0 & 0 & 1 & 3/5 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix}\begin{bmatrix}
+	1/2 & 0 & 0 & 0 \\
+	-1/4 & 1/2 & 0 & 0 \\
+	1/15 & -2/15 & 4/15 & 0 \\
+	0 & 0 & 0 & 1
+	\end{bmatrix}\begin{bmatrix}
+	1 & 0 & 0 \\
+	0 & 1 & 0 \\
+    0 & 0 & 1 \\
+	0 & 0 & 0
+	\end{bmatrix}=\begin{bmatrix}
+	8/15 & -1/15 & 2/15 \\
+	-1/5 &  2/5  & 1/5 \\
+	1/15 & -2/15 & 4/15 \\
+	0    &  0    & 0
+	\end{bmatrix}. \]
+	
+	读者可以自行尝试用练习 \ref{prac3.12}.
+\end{solution}
 
 
 \begin{proposition}
@@ -1854,57 +2114,1441 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	(1) \( \Rightarrow \) (3). 否则，若 \( A \) 不可逆，只能 \( r(A)=m<n \). 由性质 \ref{3.2.22} (4) 的证明，这时候存在可以任意取的 \( K \)，故左逆必定不唯一. 另一方面，若 \( A \) 可逆，则左逆即为 \( A \) 的逆，而 \( \gfn \) 中逆元唯一，即证. (3) \( \Rightarrow \) (1). 显然. 同理可得 (2) \( \Leftrightarrow \) (3).
 \end{proof}
 
-下面介绍的矩阵满秩分解，从向量组的观点来看，就是在求 \( A \) 列向量组或者行向量组的极大线性无关组.
+虽然左逆和右逆不唯一，但是可以用一个通式来表达，我们会在推论 \ref{3.3.8} 介绍这一点. 下面给出矩阵的满秩分解，它将一个矩阵分解为列满秩和行满秩矩阵的乘积，从而方便我们利用前面的性质. 从向量组的观点来看，满秩分解就是在求 \( A \) 列向量组或者行向量组的极大线性无关组.
 
-\begin{theorem}[满秩分解]
+\begin{theorem}[满秩分解] \label{3.2.26}
 	设 \( A \in \F\mn \)，则
 	\begin{enumerate}[(1)]
 		\item \( r(A)=r \) 的充分必要条件为存在 \( B \in \F^{m \times r}, \; C \in \F^{r \times n} \) 使得 \( A=BC \)，其中 \( r(B)=r(C)=r \);
-		\item 给出满足 (1) 的两种分解 \( A=B_1C_1=B_2C_2 \)，那么存在可逆矩阵 \( P \in \F^{r \times r} \) 使得 \( B_2=B_1P, \; C_2=P^{-1}C_1 \).
+		\item 给出满足 (1) 的两种分解 \( A=B_1C_1=B_2C_2 \)，那么存在可逆矩阵 \( P \in \F^{r \times r} \) 使得 \( B_1=B_2P, \; C_1=P^{-1}C_2 \).
 	\end{enumerate}
 \end{theorem}
 
 \begin{proof}
+	(1) 充分性. 一方面. \( r= r(B) \geq r(A) \). 另一方面，取 \( B \) 的左逆 \( \hat{B} \)，那么 \( \hat{B}A=C \). 从中推知 \( r(A) \geq r(C)=r \). 必要性. 存在 \( P \in \gfm, \; Q \in \gfn \) 使得 \( A=P\diag\{E_r,O\}Q \). 取
+	\[ B=P\begin{bmatrix}
+		E_r \\ O
+	\end{bmatrix}, \; C=\begin{bmatrix}
+	E_r & O 
+	\end{bmatrix}Q. \]
 	
+	即可. (2) 取 \( B_2 \) 的左逆 \( \hat{B_2} \) 以及 \( C_2 \) 的右逆 \( \hat{C_2} \)，就有 \( \hat{B_2}B_1C_1\hat{C_2}=E_r \). 于是 \( \hat{B_2}B_1, C_1\hat{C_2} \in \text{GL}_r(\F) \). 记 \( \hat{B_2}B_1=P, \; C_1\hat{C_2}=P^{-1} \). 于是 \( B_1=B_1E_r=B_1C_1\hat{C_2}P=B_2C_2\hat{C_2}P=B_2E_rP=B_2P \). 同理可以验证 \( C_1=E_rC_1=P^{-1}\hat{B_2}B_1C_1=P^{-1}C_2 \).
 \end{proof}
 
 
 \begin{corollary}
-	设 \( A \in \F\mn \)，则 \( r(A)=r \) 的充分必要条件为两组线性无关的向量 \( \alpha_1,\cdots,\alpha_r \in \F^m \) 以及 \( \beta_1,\cdots,\beta_r \in \F^n \) 使得 
+	设 \( A \in \F\mn \)，则 \( r(A)=r \) 的充分必要条件为存在两组线性无关的向量 \( \alpha_1,\cdots,\alpha_r \in \F^m \) 以及 \( \beta_1,\cdots,\beta_r \in \F^n \) 使得 
 	\[ A=\alpha_1\beta_1\T+\cdots+\alpha_r \beta_r\T. \]
 \end{corollary}
 
 \begin{proof}
-	
+	我们只需要证明 \( \alpha_1,\cdots,\alpha_r \in \F^m \) 线性无关的充分必要条件为 \( B=(\alpha_1,\cdots,\alpha_r) \) 满足 \( r(B)=r \). 充分性. 考虑 \( \F-\)线性组合 \( c_1\alpha_1+\cdots+c_r\alpha_r=\bm{0} \). 由于 \( B \) 列满秩，那么存在 \( P \in \gfm \)，使得 \( PB=(P\alpha_1,\cdots,P\alpha_r)=(\varepsilon_1,\cdots,\varepsilon_r) \). 在前述的 \( \F-\)线性组合左端乘 \( P \) 有 \( c_1(P\alpha_1)+\cdots+c_r(P\alpha_r)=c_1\varepsilon_1+\cdots+v_r\varepsilon_r=\bm{0} \)，于是 \( c_1=\cdots=c_r=0 \). 必要性. 若 \( r(B)<r \)，对 \( B \) 的列执行 Guass\(-\)Jordan 消元法， 必然在简化列阶梯形中出现零列，也就是其中某个列向量可以被其他列线性表出，矛盾. 回到原命题，令 \( B=(\alpha_1,\cdots,\alpha_r), \; C=(\beta_1\T,\cdots,\beta_r\T)\T \)，就回到定理 \ref{3.2.26}.
 \end{proof}
-
 
 \begin{example} 
 	设 \( A, \; B \in \F\n \)，若存在 \( U,V \in \F\n \) 使得 \( A=BU, \; B=AV \). 那么存在 \( P \in \gfn \) 使得 \( A=BP \).
 \end{example}
 
 \begin{proof}
+	用命题 \ref{3.1.13} 易证 \( r(A)=r(B) \). 
+	
+	(\textbf{法一})\ 不妨设 \( r(A)=r \). 那么由定理 \ref{3.2.26} 知存在 \( C_1,C_2 \in \F^{n \times r}, \; D_1,D_2 \in \F^{r \times n} \) 使得 \( A=C_1D_1, \; B=C_2D_2 \) 且 \( r(C_i)=r(D_i)=r \). 现设 \( \hat{C}_i \) 为 \( C_i \) 的左逆，\( \hat{D}_i \) 为 \( D_i \) 的右逆. 由 \( C_1D_1=C_2D_2U \)，那么 \( (\hat{C}_1C_2)(D_2U\hat{D}_1)=E_r \)，蕴含 \( D_2U\hat{D}_1 \in \text{GL}_r(\F) \). 记 \( L:=D_2U\hat{D}_1 \)，那么 \( C_1=C_2L \). 另一方面，由于 \( r(L^{-1}D_2)=r(D_2)=r(D_1)=r \)，都是行满秩矩阵，且属于同一个相抵等价类，于是由性质 \ref{3.2.23} (3) 可以仅通过列初等变换相互得到，于是存在可逆矩阵 \( P \in \gfn \)，使得 \( L^{-1}D_2P=D_1 \). 这时，就有 \( A=C_1D_1=(C_2L)(L^{-1}D_2P)= (C_2D_2)P=BP \).	
+	
+	\vspace{1ex}
+	
+	(\textbf{法二})\ 若 \( U \) 可逆，已经证毕. 设 \( r(U)=r<n \). 注意到题目在相抵变换 \( U \mapsto XUY=\diag\{E_r,O\}, \; B \mapsto BX^{-1}, \; A \mapsto AY, \; V \mapsto Y^{-1}VX^{-1}, \; P \mapsto XPY \) 下不变，不妨一开始设 \( U \) 为其相抵标准形. 对 \( B,V \) 按照 \( U \) 的形式分块
+	\[ B=\begin{bmatrix}
+		B_{11} & B_{12} \\
+		B_{21} & B_{22}
+	\end{bmatrix}, \; V=\begin{bmatrix}
+	V_{11} & V_{12} \\
+	V_{21} & V_{22}
+	\end{bmatrix}. \]
+	
+	那么
+	\[ A=\begin{bmatrix}
+		B_{11} & B_{12} \\
+		B_{21} & B_{22}
+	\end{bmatrix}\begin{bmatrix}
+	E_r & O \\
+	O & O
+	\end{bmatrix}=\begin{bmatrix}
+	B_{11} & O \\
+	B_{21} & O
+	\end{bmatrix}. \]
+	
+	\[ \begin{bmatrix}
+		B_{11} & B_{12} \\
+		B_{21} & B_{22}
+	\end{bmatrix}=\begin{bmatrix}
+	B_{11} & O \\
+	B_{21} & O
+	\end{bmatrix}\begin{bmatrix}
+	V_{11} & V_{12} \\
+	V_{21} & V_{22}
+	\end{bmatrix}=\begin{bmatrix}
+	B_{11}V_{11} & B_{11}V_{12} \\
+	B_{21}V_{11} & B_{21}V_{12}
+	\end{bmatrix}. \]
+	
+	于是 \( B_{11}V_{12}=B_{12}, \; B_{21}V_{12}=B_{22} \). 现在，取可逆矩阵
+	\[ P=\begin{bmatrix}
+		E_r & -V_{12}  \\
+		& E_{n-r}
+	\end{bmatrix}, \leadsto A=\begin{bmatrix}
+	B_{11} & O \\
+	B_{21} & O
+	\end{bmatrix}=BP=\begin{bmatrix}
+	B_{11} & B_{12} \\
+	B_{21} & B_{22}
+	\end{bmatrix}\begin{bmatrix}
+	E & -V_{12}  \\
+	& E
+	\end{bmatrix}. \]
+	
 	
 \end{proof}
 
-\subsubsection{减号逆和 Moore\(-\)Penrose 广义逆} \label{2.6}
+
+\begin{example} 
+	设 \( A \in \F^{3 \times 2}, \; B \in \F^{2 \times 3} \)，若
+	\[ AB=\begin{bmatrix}
+	  8 & 0 & -4 \\
+	  -3/2 & 9 & -6 \\
+	  -2 & 0 & 1
+	\end{bmatrix}, \]
+	
+	求 \(  BA \).
+\end{example}
+
+\begin{solution}
+	令 \( C=AB \). 先求矩阵 \( C \) 的相抵标准形，以及所用的过渡矩阵 \( P,Q \). 
+	
+	\[ \begin{bNiceMatrix}
+	    8 & 0 & -4 & \Vdots & 1 & 0 & 0 \\
+	    -3/2 & 9 & -6 & &  0 & 1 & 0 \\
+	    -2 & 0 & 1 &  & 0 & 0 & 1 \\
+	    \Cdots &  &  & & & & \Cdots \\
+	    1 & 0 & 0 & & & & \\
+	    0 & 1 & 0 & & & & \\
+	    0 & 0 & 1 & \Vdots & & & \\
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}
+	1 & 0 & -1/2 & \Vdots & 1/8 & 0 & 0 \\
+	0 & 1 & -7/12 & &  1/48 & 1/9 & 0 \\
+	0 & 0 & 0 &  & 1/4 & 0 & 1 \\
+	\Cdots &  &  & & & & \Cdots \\
+	1 & 0 & 0 & & & & \\
+	0 & 1 & 0 & & & & \\
+	0 & 0 & 1 & \Vdots & & & \\
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}
+	1 & 0 & 0 & \Vdots & 1/8 & 0 & 0 \\
+	0 & 1 & 0 & &  1/48 & 1/9 & 0 \\
+	0 & 0 & 0 &  & 1/4 & 0 & 1 \\
+	\Cdots &  &  & & & & \Cdots \\
+	1 & 0 & 1/2 & & & & \\
+	0 & 1 & 7/12 & & & & \\
+	0 & 0 & 1 & \Vdots & & & \\
+	\end{bNiceMatrix}. \]
+	
+	也就是
+	\[ \begin{bmatrix}
+		1/8 & 0 & 0 \\
+		1/48 & 1/9 & 0 \\
+		1/4 & 0 & 1
+	\end{bmatrix} \begin{bmatrix}
+	8 & 0 & -4 \\
+	-3/2 & 9 & -6 \\
+	-2 & 0 & 1
+	\end{bmatrix} \begin{bmatrix}
+		1 & 0 & 1/2 \\
+		0 & 1 & 7/12 \\
+		0 & 0 & 1
+	\end{bmatrix}=:PCQ=\diag\{E_2,O\}. \]
+	
+	下面求 \( P^{-1}, \; Q^{-1} \).
+	\[ \begin{bNiceMatrix}
+	1/8 & 0 & 0 & \Vdots & 1 & 0 & 0 \\
+	1/48 & 1/9 & 0 & & 0 & 1 & 0 \\
+	1/4 & 0 & 1 & \Vdots & 0 & 0 & 1
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}
+	1 & 0 & 0 & \Vdots & 8 & 0 & 0 \\
+	0 & 1 & 0 & & -3/2 & 9 & 0 \\
+	0 & 0 & 1 & \Vdots & -2 & 0 & 1	\end{bNiceMatrix}, \]
+	
+	\[ \begin{bNiceMatrix}
+		1 & 0 & 1/2 & \Vdots & 1 & 0 & 0 \\
+		0 & 1 & 7/12 & & 0 & 1 & 0 \\
+		0 & 0 & 1 & \Vdots & 0 & 0 & 1
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}
+		1 & 0 & 0 & \Vdots & 1 & 0 & -1/2 \\
+		0 & 1 & 0 & & 0 & 1 & -7/12 \\
+		0 & 0 & 1 & \Vdots & 0 & 0 & 1	\end{bNiceMatrix}. \]
+		
+	那么
+	\[ \begin{bmatrix}
+		8 & 0 & -4 \\
+		-3/2 & 9 & -6 \\
+		-2 & 0 & 1
+	\end{bmatrix}= \begin{bmatrix}
+	8 & 0 & 0 \\
+	-3/2 & 9 & 0 \\
+	-2 & 0 & 1
+	\end{bmatrix}\begin{bmatrix}
+	1 & 0 & 0 \\
+	0 & 1 & 0 \\
+	0 & 0 & 0
+	\end{bmatrix}\begin{bmatrix}
+	1 & 0 & -1/2 \\
+	0 & 1 & -7/12 \\
+	0 & 0 & 1
+	\end{bmatrix}=\begin{bmatrix}
+	8 & 0  \\
+	-3/2 & 9  \\
+	-2 & 0 
+	\end{bmatrix}\begin{bmatrix}
+	1 & 0 & -1/2 \\
+	0 & 1 & -7/12 
+	\end{bmatrix}. \]
+	
+	这就给出了 \( C \) 的一个满秩分解. 另一方面，\( 2 \geq r(A),r(B) \geq r(C)=2 \)，说明 \( C=AB \) 也是一个满秩分解. 利用定理 \ref{3.2.26} (2) 知道存在 \( L \in \text{GL}_2(\F) \)，使得
+	\[ A=\begin{bmatrix}
+		8 & 0  \\
+		-3/2 & 9  \\
+		-2 & 0 
+	\end{bmatrix}L, \; B=L^{-1}\begin{bmatrix}
+	1 & 0 & -1/2 \\
+	0 & 1 & -7/12 
+	\end{bmatrix} \leadsto BA=L^{-1}\begin{bmatrix}
+	1 & 0 & -1/2 \\
+	0 & 1 & -7/12 
+	\end{bmatrix}\begin{bmatrix}
+	8 & 0  \\
+	-3/2 & 9  \\
+	-2 & 0 
+	\end{bmatrix}L=L^{-1}(9E_2)L=9E_2. \]
+\end{solution}
+
+\subsection{广义逆和线性方程组的公式解} \label{sec3.3}
+
+在 \S \ref{sec3.2.4} 中，我们通过引入列满秩矩阵的左逆和行满秩矩阵的右逆推广了线性方程组的公式解，得到推论 \ref{3.2.24}. 我们希望再进一步推广到一般的线性方程组上，仿照小节 \S \ref{sec3.2.4} 的思路，我们需要再次延拓 “可逆矩阵” 这一概念. 而每一步概念的延拓又和线性方程组密不可分.
+
+设 \( A \in \F\nm \)，为了叙述的方便，我们引入记号 \( \beta \in \text{range}(A) \)，若 \( \beta \) 可以被 \( A \) 的列向量线性表出，这等价于 \( AX=\beta \) 有解. 
+
+
+\subsubsection{减号逆和自反减号逆}
+
+
+设 \( G \in \F\mn \) 满足对任意 \( \beta \in \text{range}(A) \) 和线性方程组 \( AX=\beta \)，解都可以写成 \( X=G\beta \) 的形式，其中 \( G \) 仅依赖于矩阵 \( A \). 一般来说，线性方程组的解往往是不唯一的，因此 \( G \) 也是不唯一的，我们用 \( A\{1\} \) 来表示满足上述条件的 \( G \) 构成的集合. 下面探究 \( G \) 应该满足的条件.
+
+显然，若 \( A=(\alpha_1,\cdots,\alpha_n) \)，那么 \( \alpha_i \in \text{range}(A) \). 对任意 \( G \in A\{1\} \)，\( X=G\alpha_i \) 都是 \( AX=\alpha_i \) 的一个解，也就是 \( AG\alpha_i=\alpha_i \leadsto AG(\alpha_1,\cdots,\alpha_n)=(\alpha_1,\cdots,\alpha_n) \). 写回矩阵形式得到 \( AGA=A \). 这就是 \( A\{1\} \) 中元素所应该满足的必要条件. 事实上，这也是充分的.
+
+\begin{lemma} \label{3.3.1}
+	设 \( A \in \F\mn \) 以及 \( \beta \in \text{range}(A) \)，定义 \( A\{1\}:=\{G \in \F\nm \mid AGA=A \} \). 对 \( G \in \F\nm \)，\( X=G\beta \) 为 \( AX=\beta \) 的解的充分必要条件为 \( G \in A\{1\} \).
+\end{lemma}
+
+\begin{proof}
+	必要性已证. 下证充分性，设 \( X_0 \in \F^n \) 为 \( AX=\beta \) 的一个解，那么 \( (AGA)X_0=A(G\beta)=AX_0=\beta \) 说明 \( X=G\beta \) 为 \( AX=\beta \) 的解. 
+\end{proof}
+
+\begin{definition}[广义逆/减号逆/\(A\{1\}\)逆] \label{3.3.2}
+	在形式上对 \( AX=\beta \)，它的解为 \( X=G\beta \)，好像是左乘了 \( A \) 的 “逆” 得到的，记 \( A\{1\} \) 中的元素为 \( A \) 的广义逆，或者称作 \( A \) 的 \( \{1\} \) 逆，记作 \( A^{(1)} \); 也称为 \( A \) 的减号逆，记作 \( A^{-} \).
+\end{definition}
+
+下面我们判断 \( A\{1\} \) 的非空性，类似例 \ref{3.2.3}，我们利用相抵关系来处理. 设 \( r(A)=r \). 为简化问题的讨论，作相抵变换 \( A \mapsto PAQ=\diag\{E_r,O\}, \; G \mapsto Q^{-1}GP^{-1} \)，原条件的叙述不变，还有 \( AGA=A \). 对 \( G \) 分块，
+\[ G=\begin{bmatrix}
+	G_{11} & G_{12} \\
+	G_{21} & G_{22}
+\end{bmatrix}, \leadsto AGA=\begin{bmatrix}
+G_{11} & O \\
+O & O
+\end{bmatrix}=A, \leadsto G_{11}=E_r. \]
+
+\begin{theorem}[减号逆的构造 I] \label{3.3.3}
+	设 \( A \in \F\mn \)，以及 \( r(A)=r \). 那么存在 \( P \in \gfm, \; Q \in \gfn \) 使得 \( PAQ=\diag\{E_r,O\} \). 任取 \( A^{-} \in A\{1\} \)，必定可以写为如下形式
+	\[ A^{-}=Q\begin{bmatrix}
+		E_r & G_{12} \\
+		G_{21} & G_{22}
+	\end{bmatrix}P, \]
+	其中 \( G_{12} \in \F^{r \times (m-r)}, \; G_{21} \in \F^{(n-r) \times r}, \; G_{22} \in \F^{(n-r) \times (m-r)} \) 是任取的.
+\end{theorem}
+
+在前面的讨论中，我们发现求相抵标准形的过渡矩阵 \( P,Q \) 其实是很繁琐的，如果我们已经通过观察法已经得知了 \( A \) 的一个减号逆，就不必通过上面的手段来写出减号逆的通式了.
+
+\begin{proposition}[减号逆的构造 II]
+	设 \( A \in \F\mn \) 以及 \( A^{-} \in A\{1\} \)，那么
+	\[ A\{1\}=\{A^{-}+L-A^{-}ALAA^{-} \mid L \in \F\nm \}. \]
+\end{proposition}
+
+\begin{proof}
+	一方面，证明任意形如 \( A^{-}+L+A^{-}ALAA^{-}  \) 的矩阵为一个减号逆. 验证定义 \ref{3.3.2} 有 
+	\[ A(A^{-}+L-A^{-}ALAA^{-})A=A+ALA-ALA=A. \]
+	
+	另一方面，任取 \( \hat{A}^{-} \in A^{-} \)，取 \( L:=\hat{A}^{-}-A^{-} \)，那么 \( \hat{A}^{-}=A^{-}+L \). 注意到 \( A^{-}A(\hat{A}^{-}-A^{-})AA^{-}=A^{-}(A-A)A^{-}=O \). 也就是 \( \hat{A}^{-}=A^{-}+L-A^{-}ALAA^{-} \).
+\end{proof}
+
+有了减号逆后，我们可以改写引理 \ref{3.3.1}.
+
+\begin{practice}[相容性条件] \label{prac3.15}
+	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取 \( A^{-} \in A\{1\} \). 那么非齐次线性方程组 \( AX=\beta \) 有解的充分必要条件为 \( AA^{-}\beta=\beta \).
+\end{practice}
+
+\begin{proof}
+	充分性显然，必要性就是引理 \ref{3.3.1} 的充分性.
+\end{proof}
+
+我们知道，逆矩阵有对偶性质: 也就是 \( A \) 和 \( A^{-1} \) 互为逆矩阵. 一个自然的问题推广到减号逆上，若 \( G \in A\{1\} \)，是否有 \( A \in G\{1\} \)? 例如，取
+\[ A=\begin{bmatrix}
+	1 & 0 \\ 1 & 0 \\ 1 & 0
+\end{bmatrix}, \]
+
+设 \( A \) 的一个减号逆为 
+\[ G=\begin{bmatrix}
+	a & b & c \\
+	d & e & f
+\end{bmatrix}, \]
+
+那么 \( AGA=A \) 要求
+\[ AGA=\begin{bmatrix}
+	a+b+c & 0 \\ a+b+c & 0 \\ a+b+c & 0
+\end{bmatrix}=\begin{bmatrix}
+1 & 0 \\ 1 & 0 \\ 1 & 0
+\end{bmatrix}. \]
+
+这只要求 \( a+b+c=1 \). 此时
+\[ GAG=\begin{bmatrix}
+	a & b & c \\
+	a(d+e+f) & b(d+e+f) & c(d+e+f)
+\end{bmatrix} \overset{?}{=} \begin{bmatrix}
+a & b & c \\
+d & e & f
+\end{bmatrix}. \]
+
+上式显然不一定成立，只需要取 \( d=1,e=0,f=0 \) 以及 \( a=1,b=2,c=-2 \) 就有 \( d+e+f=1 \)，但是 \( a \neq d, b \neq e, c \neq f \)，导出 \( GAG \neq G \). 由此可知，定义 \ref{3.3.2} 是一个非常弱的设定，在 \( A\{1\} \) 中我们甚至无法考察 \((A^{-})^{-} \) 这样的操作. 于是，我们引入自反减号逆 (Reflexive Generalized Inverse).
+
+\begin{definition}[自反减号逆] \label{3.3.5}
+	在定义 \ref{3.3.2} 的基础上，若 \( G \in A\{1\} \) 且 \( A \in G\{1\} \)，也就是同时满足: (1) \( AGA=A \); (2) \( GAG=G \). 这时称 \( G \) 为 \( A \) 的自反减号逆，或对称减号逆，记为 \( A^{(1,2)} \) 或者 \( A_r^{-} \). 将所有 \( A \) 的自反减号逆的集合记为 \( A\{1,2\} \).
+\end{definition}
+
+
+接下来，还是研究 \( A\{1,2\} \) 是否非空，以及其中元素的一般表达式. 任取 \( A^{-} \in A\{1\} \)，那么 \( AA^{-}A=A \). 用这个等式代入自身迭代有
+\[ (AA^{-}A)A^{-}(AA^{-}A)=A(A^{-}AA^{-})A=A. \leadsto A^{-}AA^{-} \in A\{1\}. \]
+
+另一方面，
+\[ (A^{-}AA^{-})A(A^{-}AA^{-})=A^{-}(AA^{-}A)(A^{-}AA^{-})=A^{-}A(A^{-}AA^{-})=A^{-}AA^{-}. \]
+
+因此，\( A \in (A^{-}AA^{-})\{1\} \leadsto A^{-}AA^{-} \in A\{1,2\} \). 这就说明了 \( A\{1,2\} \) 的非空性，其实上面的推理可以推广为如下命题.
+
+\begin{proposition}
+	设 \( A \in \F\mn \)，取 \( X,Y \in A\{1\} \)，那么 \( A_r^{-}:=XAY \in A\{1,2\} \). 进而，\( A\{1,2\} \neq  \emptyset \). 
+\end{proposition}
+
+\begin{proof}
+	一方面，先验证 \( XAY \in A\{1\} \). 用定义 \ref{3.3.2}，验证 \( A(XAY)A=(AXA)YA=AYA=A \). 另一方面，\( (XAY)A(XAY)=X(AYA)(XAY)=X(AXA)Y=XAY  \) 说明 \( A \in (XAY)\{1\} \).
+\end{proof}
+
+为了探寻更多关于自反减号逆的理论，我们先证明一些减号逆的基本性质作为铺垫.
+
+\begin{property} \label{3.3.7}
+	设 \( A \in \F\mn \)，若 \( A^{-} \in A\{1\} \)，那么
+	\begin{enumerate}[(1)]
+		\item 当 \( \F=\C \) 时，\( (A^{-})\Her \in A\Her \{1\} \);
+		\item 取 \( \lambda \in \F \)，那么 \( \lambda^{-1} A^{-} \in (\lambda A)\{1\}\);
+		\item \( r(A) \leq r(A^{-}) \);
+		\item \( AA^{-} \) 和 \( A^{-}A \) 都是幂等矩阵，且
+		\[ r(AA^{-})=r(A^{-}A)=r(A). \]
+	\end{enumerate}
+\end{property}
+
+\begin{proof}
+	(1) \( AA^{-}A=A \) 两边同时取共轭转置即 \( A\Her (A^{-})\Her A\Her=A\Her \)，回到定义 \ref{3.3.2}. (2) \( AA^{-}A=A \) 两边同乘 \( \lambda \) 有 \( (\lambda A) (\lambda^{-1} A^{-}) (\lambda A)= \lambda A \). (3) 用命题 \ref{3.1.13}. (4) 只证其一，剩下部分留给读者. \( (AA^{-})^2=AA^{-}AA^{-}=(AA^{-}A)A^{-}=AA^{-} \). 另一方面，由命题 \ref{3.1.13}，\( r(A)=r(AA^{-}A) \leq r(AA^{-}) \leq r(A) \)，那么等号同时成立.
+\end{proof}
+
+对列满秩矩阵 \( A \in \F\mn \) 而言，记 \( A_{\text{L}}^{-1} \) 为其全体左逆. 用性质 \ref{3.3.7} 我们可以发现 \( r(A^{-}A)=r(A)=n \)，于是 \( A^{-}A=E_n \). 那么 \( A\{1\} \subseteq A_{\text{L}}^{-1}  \). 另一方面，设 \( B \) 为 \( A \) 的左逆，显然 \( ABA=AE_n=A \)，那么 \( A_{\text{L}}^{-1} \subseteq  A\{1\} \). 进而
+得到
+
+\begin{corollary} \label{3.3.8}
+	设 \( A \in \F\mn \)，若 \( r(A)=n \)，记  \( A_{\text{L}}^{-1} \) 为其全体左逆，那么 \( A_{\text{L}}^{-1} =  A\{1\} \). 类似地，若 \( r(A)=n \)，记  \( A_{\text{R}}^{-1} \) 为其全体右逆，那么 \( A_{\text{R}}^{-1} =  A\{1\} \).
+\end{corollary}
+
+下面的定理是呼之欲出的.
+
+\begin{theorem}[Bjerhammer] \label{3.3.9}
+	设 \( A \in \F\mn \)，若 \( G \in A\{1\} \)，那么 \( G \in A\{1,2\} \) 的充分必要条件为 \( r(G)=r(A) \).
+\end{theorem}
+
+\begin{proof}
+	必要性. 设 \( r(A)=r \)，以及 \( P \in \gfm, \; Q \in \gfn \) 使 \( PAQ=\diag\{E_r,O\} \). 那么由定理 \ref{3.3.3} 可设
+	\[ G=Q\begin{bmatrix}
+		E_r & G_{12} \\
+		G_{21} & G_{22}
+	\end{bmatrix}P, \]
+	
+	由秩的降阶公式，即定理 \ref{3.2.13}，\( r(G)=E_r+r(G_{22}-G_{21}G_{12})=r \leadsto G_{22}=G_{21}G_{12} \). 下面验证 \( A \in G\{1\} \),
+	\[ GAG=Q\begin{bmatrix}
+		E_r & G_{12} \\
+		G_{21} & G_{21}G_{12}
+	\end{bmatrix}\begin{bmatrix}
+	E_r & O \\
+	O & O
+	\end{bmatrix}\begin{bmatrix}
+	E_r & G_{12} \\
+	G_{21} & G_{21}G_{12}
+	\end{bmatrix}P=G. \]
+	
+	充分性. 用性质 \ref{3.3.7} (3).
+\end{proof}
+
+\begin{corollary}[自反减号逆的构造 I] \label{3.3.10}
+	设 \( A \in \F\mn \)，以及 \( r(A)=r \). 那么存在 \( P \in \gfm, \; Q \in \gfn \) 使得 \( PAQ=\diag\{E_r,O\} \). 任取 \( A_r^{-} \in A\{1,2\} \)，必定可以写为如下形式
+	\[ A_r^{-}=Q\begin{bmatrix}
+		E_r & G_{12} \\
+		G_{21} & G_{21}G_{12}
+	\end{bmatrix}P, \]
+	其中 \( G_{12} \in \F^{r \times (m-r)}, \; G_{21} \in \F^{(n-r) \times r}\) 是任取的.
+\end{corollary}
+
+\begin{proof}
+	参考定理 \ref{3.3.9} 的证明.
+\end{proof}
+
+自反减号逆还可以基于矩阵的满秩分解来构造.
+
+\begin{theorem}[自反减号逆的构造 II]
+	设 \( A \in \F\mn \)，以及 \( r(A)=r \). 给定 \( A \) 的一个满秩分解 \( A=BC \)，如同定理 \ref{3.2.26} 所述. 那么 \( G \in A\{1,2\} \) 的充分必要条件为存在 \( B \) 的一个左逆 \( \hat{B} \) 以及 \( C \) 的一个右逆 \( \hat{C} \)，使得 \( G=\hat{C}\hat{B} \).
+\end{theorem}
+
+\begin{proof}
+	充分性. 由 \( AGA=B(C\hat{C})(\hat{B}B)C=BC=A \)，故 \( G \in A\{1\} \). 由 \( GAG=\hat{C}(\hat{B}B)(C\hat{C})\hat{B}=\hat{C}\hat{B}=G \)，故 \( A \in G\{1\} \). 
+	
+	必要性. 由于 \( AGA=A \)，那么 \( BCGBC=BC \)，两边左乘 \( B \) 的一个左逆，右乘 \( C \) 的一个右逆，得到 \( CGB=E_r \). 这说明 \( CG=:\hat{B} \) 给出 \( B \) 的一个左逆，以及 \( GB=:\hat{C} \) 给出 \( C \) 的一个右逆. 那么 \( G=GAG=(GB)(CG)=\hat{C}\hat{B} \).
+\end{proof}
+
+应用练习 \ref{prac3.12} 还有如下结果，不过这需要求解逆矩阵，计算一般比较繁琐.
+
+\begin{corollary}
+	设 \( A \in \R\mn \)，以及 \( r(A)=r \). 给定 \( A \) 的一个满秩分解 \( A=BC \)，如同定理 \ref{3.2.26} 所述. 那么 \( A_r^{-}:=C\T (CC\T)^{-1}(B\T B)^{-1} B\T \) 给出 \( A \) 的一个自反减号逆.
+\end{corollary}
+
+\subsubsection{线性方程组的公式解}
+
+在引理 \ref{3.3.1} 中，我们探讨了对相容方程组 \( AX=\beta \in \text{range}(A) \) 而言，如果具有形如 \( X=G\beta \) 的解，那么 \( G \in A\{1 \} \). 但这距离 \( AX=\beta \) 的所有解还有一些距离，这个方程是否有不能表示为 \( G\beta \) 形式的解呢? 下面的定理告诉我们：答案是否定的.
+
+
+\begin{theorem}[非齐次线性方程组解的结构 I] \label{3.3.13}
+	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，那么非齐次线性方程组 \( AX=\beta \in \text{range}(A) \) 的解集为 \( X=A\{1\}\beta:=\{A^{-}\beta\mid A^{-} \in A\{1\}\} \). 
+\end{theorem}
+
+
+\begin{proof}
+	一方面，由练习 \ref{prac3.15} 可知 \( A\{1\}\beta \) 中的元素全为 \( AX=\beta \) 的解. 另一方面，欲证任取 \( AX=\beta \) 的一解 \( X_0 \) 都可以写为 \( A\{1\}\beta \) 中元素的形式，下面找 \( A^{-} \) 使得 \( X_0=A^{-}\beta \). 设 \( r(A)=r \) 以及 \( P \in \gfm,\; Q \in \gfn \) 使得 \( PAQ=\diag\{E_r,O\} \leadsto PAX_0=\diag\{E_r,O\}Q^{-1}X_0=P\beta \). 现在取形如定理 \ref{3.3.3} 的减号逆 \( A^{-} \)，并待定 \( G_{12}, G_{21}, G_{22} \). 代入假设 \( X_0=A^{-}\beta \)，
+	\[ A^{-}\beta=Q\begin{bmatrix}
+		E_r & G_{12} \\
+		G_{21} & G_{22}
+	\end{bmatrix}P\beta=Q\begin{bmatrix}
+	E_r & G_{12} \\
+	G_{21} & G_{22}
+	\end{bmatrix}\begin{bmatrix}
+	E_r & O \\
+	O & O
+	\end{bmatrix}Q^{-1}X_0=X_0. \]
+	
+	也就是
+	\[ \begin{bmatrix}
+		E_r & O \\
+		G_{21} & O
+	\end{bmatrix}Q^{-1}X_0=Q^{-1}X_0. \]
+	
+	设 \( Q^{-1}X_0=(Y_1\T,Y_2\T)\T \). 带回上式，即要求 \( Y_2=G_{21}Y_1 \). 注意到
+	\[ \begin{bmatrix}
+		Y_1 \\ O
+	\end{bmatrix}=\begin{bmatrix}
+	E_r & O \\
+    O & O
+	\end{bmatrix}\begin{bmatrix}
+	Y_1 \\ Y_2
+	\end{bmatrix}=\begin{bmatrix}
+	E_r & O \\
+	O & O
+	\end{bmatrix}Q^{-1}X_0=P\beta \neq \bm{0}. \]
+	
+	可以设 \( Y_1=(a_1,\cdots,a_r)\T \in \F^r \) 以及 \( a_i \neq 0 \)，取 \( G_{21} \) 的第 \( i \) 列为 \( a_i^{-1}Y_2 \)，其余列全为 \( \bm{0} \)，那么
+	\[ G_{21}Y_1=G_{21} \left( \sum_{k=1}^{r} a_k\varepsilon_k \right)= \sum_{k=1}^{r} a_k (G_{21}\varepsilon_k)= a_i (G_{21}\varepsilon_i)=a_i( a_i^{-1}Y_2)=Y_2, \]
+	
+	成立. 这就构造出了需要的 \( A^{-} \).
+	
+\end{proof}
+
+
+\begin{theorem}[非齐次线性方程组解的结构 I] \label{3.3.14}
+	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取定 \( A^{-} \in A\{1\} \)，那么齐次线性方程组 \( AX=O \) 的解集为 \( X=(E_n-A^{-}A)Y \)，其中 \( Y \) 取遍 \( \F^n \). 
+\end{theorem}
+
+\begin{proof}
+	先验证给出的解集确实为 \( AX=O \) 的解.
+	\[ A(E_n-A^{-}A)Y=(A-AA^{-}A)Y=OY=O. \]
+	
+	其次，任取 \( AX=O \) 的一解 \( X_0 \)，都有 
+	\[ X_0=X_0-A^{-}O=X_0-A^{-}AX_0=(E_n-A^{-}A)X_0. \]
+\end{proof}
+
+\begin{corollary}[非齐次线性方程组解的结构 II] \label{3.3.15}
+	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取定 \( A^{-} \in A\{1\} \)，那么非齐次线性方程组 \( AX=\beta \in \text{range}(A) \) 的解集为 \( X=A^{-}\beta+(E_n-A^{-}A)Y \)，其中 \( Y \) 取遍 \( \F^n \). 
+\end{corollary}
+
+\begin{proof}
+	首先由定理 \ref{3.3.13} 可知 \( X_0=A^{-}\beta \) 为 \( AX=\beta \) 一解. 注意到 \( A(X-X_0)=O \Leftrightarrow AX=\beta \)，再套用定理 \ref{3.3.14} 即得.
+\end{proof}
+
+推论 \ref{3.3.15} 不仅告诉我们线性方程组的解可以写为 “通解\(+\)特解” 的形式，还明确了解的构造. 
+ 
+\begin{example}
+	解非齐次线性方程组
+	\[ AX=\beta: \begin{bmatrix}
+		1 & 0 & 2 \\
+		0 & 1 & 0 \\
+		1 & 0 & 2 \\
+		1 & 0 & 2
+	\end{bmatrix}X=\begin{bmatrix}
+	 1 \\ 0 \\ 1 \\ 1
+	\end{bmatrix}. \]
+\end{example}
+
+\begin{solution}
+	先求 \( A \) 的一个减号逆. 作初等变换
+	\[ \begin{bNiceMatrix}
+		1 & 0 & 2 & \Vdots & 1 & 0 & 0 & 0 \\
+		0 & 1 & 0 &  & 0 & 1 & 0 & 0 \\
+		1 & 0 & 2 &  & 0 & 0 & 1 & 0 \\
+		1 & 0 & 2 &  & 0 & 0 & 0 & 1 \\
+		\Cdots & & & & & & & \Cdots \\
+		1 & 0 & 0 & & & & &  \\
+		0 & 1 & 0 & & & & &  \\
+		0 & 0 & 1 & & & & &  
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}
+	1 & 0 & 0 & \Vdots & 1 & 0 & 0 & 0 \\
+	0 & 1 & 0 &  & 0 & 1 & 0 & 0 \\
+	0 & 0 & 0 &  & -1 & 0 & 1 & 0 \\
+	0 & 0 & 0 &  & -1 & 0 & 0 & 1 \\
+	\Cdots & & & & & & & \Cdots \\
+	1 & 0 & -2 & & & & &  \\
+	0 & 1 & 0 & & & & &  \\
+	0 & 0 & 1 & & & & &  
+	\end{bNiceMatrix}. \]
+	
+	于是
+	\[ P=\begin{bmatrix}
+	 1 & 0 & 0 & 0 \\
+	 0 & 1 & 0 & 0 \\
+	-1 & 0 & 1 & 0 \\
+	-1 & 0 & 0 & 1 
+	\end{bmatrix}, \; Q= \begin{bmatrix}
+	1 & 0 & -2 \\
+	0 & 1 & 0 \\
+	0 & 0 & 1
+	\end{bmatrix}. \]
+	
+	用定理 \ref{3.3.3} 得到 \( A \) 的一个减号逆
+	\[ A^{-}=\begin{bmatrix}
+		1 & 0 & -2 \\
+		0 & 1 & 0 \\
+		0 & 0 & 1
+	\end{bmatrix}\begin{bmatrix}
+	1 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 0
+	\end{bmatrix}\begin{bmatrix}
+	1 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 \\
+	-1 & 0 & 1 & 0 \\
+	-1 & 0 & 0 & 1 
+	\end{bmatrix}=\begin{bmatrix}
+	1 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 0
+	\end{bmatrix}. \]
+	
+	接下来判定 \( AX=\beta \) 是否有解，用相容性条件，即练习 \ref{prac3.15}.
+	\[ AA^{-}\beta=\begin{bmatrix}
+		1 & 0 & 2 \\
+		0 & 1 & 0 \\
+		1 & 0 & 2 \\
+		1 & 0 & 2
+	\end{bmatrix}\begin{bmatrix}
+	1 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 0
+	\end{bmatrix}\begin{bmatrix}
+	1 \\ 0 \\ 1 \\ 1
+	\end{bmatrix}=\begin{bmatrix}
+	1 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0 \\
+	1 & 0 & 0 & 0 \\
+	1 & 0 & 0 & 0
+	\end{bmatrix}\begin{bmatrix}
+	1 \\ 0 \\ 1 \\ 1
+	\end{bmatrix}=\begin{bmatrix}
+	1 \\ 0 \\ 1 \\ 1
+	\end{bmatrix}=\beta. \]
+	
+	那么可以代入推论 \ref{3.3.15}，取 \( Y=(y_1,y_2,y_3)\T \in \F^3 \)
+	\begin{align*}
+		X=A^{-}\beta+(E_3-A^{-}A)Y&= \begin{bmatrix}
+			1 & 0 & 0 & 0 \\
+			0 & 1 & 0 & 0 \\
+			0 & 0 & 0 & 0
+		\end{bmatrix}\begin{bmatrix}
+			1 \\ 0 \\ 1 \\ 1
+		\end{bmatrix}+\begin{bmatrix}
+		0 & 0 & -2 \\
+		0 & 0 & 0 \\
+		0 & 0 & 1 
+		\end{bmatrix}\begin{bmatrix}
+		y_1 \\ y_2 \\ y_3
+		\end{bmatrix} \\
+		&= \begin{bmatrix}
+			1 \\ 0 \\ 0
+		\end{bmatrix}+y_3\begin{bmatrix}
+		-2 \\ 0 \\ 1
+		\end{bmatrix}, \; y_3 \in \F.
+	\end{align*}
+	
+	读者可以自行用 Guass\(-\)Jordan 消元法来求解上述方程，计算量应该是差别不大的.
+\end{solution}
+
 
 
 \subsection{特殊的相抵关系: 合同与相似}
 
+在 \S \ref{sec3.1} 中我们研究了相抵关系，其中对矩阵 \( A \) 所进行的列初等变换和行初等变换是互不影响的，也就是过渡矩阵 \( P,Q \) 之间没有影响. 在后续学习中，会遇到两种特殊的相抵关系，在初等变换过程中，行和列是同时进行的，如果取 \( P=Q\T \)，称为合同关系；取 \( P=Q^{-1} \)，则称为相似关系. 现在引入这一点会显得有些突兀，在学习了线性变换以及双线性函数下的矩阵与基变换的关系后，这一点才会显得自然.
+
+\begin{definition}[合同和相似]
+	设 \( A, B \in \F\n \)，若存在 \( P \in \gfn \) 使得 \( P^{-1}AP=B \)，那么称 \( A \) 和 \( B \) 在 \( \F \) 上相似，记为 \( A \sim B \). 若存在 \( P \in \gfn \) 使得 \( P\T AP=B \)，那么称 \( A \) 和 \( B \) 在 \( \F \) 上合同.
+\end{definition}
+
+容易验证合同关系和相似关系也是等价关系，也有相应的全系不变量和等价关系下的代表元，现在刻画这一点太困难了，普适性的结论留给高等代数 II. 在本节，我们仅用初等变换和相抵标准形，给出几类特殊矩阵在合同或是相似关系下的最简形式. 
+
+有了合同或者相似关系下的代表元后，处理问题会更加方便，某些相抵关系下困难的题目会迎刃而解. 例如，我们知道求解矩阵 \( A \) 的 \( n \) 次幂往往是困难的，如果我们知道 \( P^{-1}AP:=\Lambda \) 为一个简单形式的矩阵，例如对角矩阵或者由 Jordan 块组成的分块对角矩阵，那么 \( (P^{-1}AP)^n=P^{-1}A(PP^{-1})A\cdots A(PP^{-1})AP=P^{-1}A^nP=\Lambda^n \) 就是容易求解的，进而求出 \( A^n \). 这就将 \( A^n \) 转化为其在相似关系下代表元的 \( n \) 次幂.
+
+再例如，我们研究对称矩阵和反对称矩阵时，普通的相抵变换就破坏了原有矩阵的对称性质，而如果采用合同变换，则是保持这种对称性质的. 由此可见，如果能够研究特殊的相抵关系，虽然目前动机上不是很明确，但是我们已经发现这在处理问题上会带来一定的便利.
+
 \subsubsection{合同与相似初等变换}
 
+我们知道可逆矩阵可以写为若干初等矩阵之积，设 \( P \in \gfn \) 以及 \( n \) 阶初等矩阵 \( L_1,\cdots,L_s \) 使得 \( P=L_1\cdots L_s \). 那么
+\[ P\T AP=L_s\T(L_{s-1}\T \cdots (L_1\T AL_1) \cdots L_{s-1})L_s, \; P^{-1} AP=L_s^{-1}(L_{s-1}^{-1} \cdots (L_1^{-1} AL_1) \cdots L_{s-1})L_s. \]
 
-\subsubsection{实反对称阵}
+称 \( L\T AL \) 为合同初等变换，\( L^{-1}AL \) 为相似初等变换. 类似两个矩阵相抵就能通过若干次初等变换互相得到，如果两个矩阵合同(相似)，那么它们也可以通过若干次合同(相似)初等变换互相得到. 由于初等矩阵有三种，于是合同(相似)初等变换也有三种，分别对应消法变换，倍法变换，互换变换. 
 
+\begin{definition}[合同初等变换]
+	设 \( A \in \F\n \)，称如下三种初等变换为合同初等变换,
+	\begin{enumerate}[(1)]
+		\item \textbf{消法变换} \ \( E(i,j(c))\T A E(i,j(c))= E(j,i(c)) A E(i,j(c)) \)，即将 \( A \) 的第 \( i \) 行的 \( c \) 倍加到第 \( j \) 行，再将 \( A \) 的第 \( i \) 列的 \( c \) 倍加到第 \( j \) 列;
+		\item \textbf{倍法变换} \ 取 \( 0 \neq c \in \F \)，\( E(i(c))\T A E(i(c))= E(i(c)) A E(i(c)) \)，即将 \( A \) 的第 \( i \) 行和第 \( i \) 列都变为原来的 \( c \) 倍;
+		\item \textbf{互换变换} \ \( E(i,j)\T A E(i,j)= E(i,j) A E(i,j) \)，即将 \( A \) 的第 \( i \) 行和第 \( j \) 行互换后，再将 \( A \) 的第 \( i \) 列和第 \( j \) 列互换.
+	\end{enumerate}
+\end{definition}
+
+
+\begin{definition}[相似初等变换]
+	设 \( A \in \F\n \)，称如下三种初等变换为相似初等变换,
+	\begin{enumerate}[(1)]
+		\item \textbf{消法变换} \ \( E(i,j(c))^{-1} A E(i,j(c))= E(i,j(-c)) A E(i,j(c)) \)，即将 \( A \) 的第 \( j \) 行的 \( -c \) 倍加到第 \( i \) 行，再将 \( A \) 的第 \( i \) 列的 \( c \) 倍加到第 \( j \) 列;
+		\item \textbf{倍法变换} \ 取 \( 0 \neq c \in \F \)，\( E(i(c))^{-1} A E(i(c))= E(i(c^{-1})) A E(i(c)) \)，即将 \( A \) 的第 \( i \) 行变为原来的 \( c^{-1} \) 倍，再将 \( A \) 的第 \( i \) 列都变为原来的 \( c \) 倍;
+		\item \textbf{互换变换} \ \( E(i,j)^{-1} A E(i,j)= E(i,j) A E(i,j) \)，即将 \( A \) 的第 \( i \) 行和第 \( j \) 行互换后，再将 \( A \) 的第 \( i \) 列和第 \( j \) 列互换.
+	\end{enumerate}
+\end{definition}
+
+
+除此之外，合同和相似对应的分块初等变换也是类似的. 下面举两个例子说明.
+
+\begin{example}
+	设 \( A \in \text{GL}_n(\R) \)，
+	\[ M= \begin{bmatrix}
+		O & A\T \\
+		A & O
+	\end{bmatrix}, \; N=\begin{bmatrix}
+	E_n & O \\
+	O & -E_n
+	\end{bmatrix} \]
+	
+	说明 \( M \) 与 \( N \) 在 \( \R \) 上合同. 
+\end{example}
+
+\begin{solution}
+	先进行倍法变换，
+	\[ \begin{bmatrix}
+		(A\T)^{-1} & O \\
+		O & E_n
+	\end{bmatrix}\begin{bmatrix}
+	O & A\T \\
+	A & O
+	\end{bmatrix}\begin{bmatrix}
+	(A\T)^{-1} & O \\
+	O & E_n
+	\end{bmatrix}\T= \begin{bmatrix}
+	O & E_n \\
+	E_n & O
+	\end{bmatrix}. \]
+	
+	接下来进行消法变换，
+	\[ \begin{bmatrix}
+		E_n & E_n \\
+		O & E_n
+	\end{bmatrix}\begin{bmatrix}
+	O & E_n \\
+	E_n & O
+	\end{bmatrix}\begin{bmatrix}
+	E_n & O \\
+	E_n & E_n
+	\end{bmatrix}=\begin{bmatrix}
+	2E_n & E_n \\
+	E_n & O
+	\end{bmatrix}. \]
+	
+	接着打洞，
+	\[ \begin{bmatrix}
+		E_n & O \\
+		-2^{-1}E_n & E_n
+	\end{bmatrix}\begin{bmatrix}
+	2E_n & E_n \\
+	E_n & O
+	\end{bmatrix}\begin{bmatrix}
+	E_n & -2^{-1}E_n \\
+	O & E_n
+	\end{bmatrix}=\begin{bmatrix}
+	2E_n & O \\
+	O & -2^{-1}E_n
+	\end{bmatrix}. \]
+	
+	最后进行倍法变换，将系数化为 1，
+	\[ \begin{bmatrix}
+		(\sqrt{2})^{-1} E_n & O \\
+		O & (\sqrt{2})E_n 
+	\end{bmatrix}\begin{bmatrix}
+	2E_n & O \\
+	O & -2^{-1}E_n
+	\end{bmatrix}\begin{bmatrix}
+	(\sqrt{2})^{-1} E_n & O \\
+	O & (\sqrt{2})E_n 
+	\end{bmatrix}=N. \]
+\end{solution}
+
+
+
+
+\begin{example}
+	设分块矩阵中的元素均为 \( n \) 阶方阵，并取 \( P \in \gfn \)，说明
+	\[ \begin{bmatrix}
+		A & O & B & O \\
+		C & D & E & F \\
+		G & O & H & O \\
+		I & J & K & L
+	\end{bmatrix} \sim \begin{bmatrix}
+	P^{-1}AP & P^{-1}B & O & O \\
+	GP & H & O & O \\
+	(C-F)P & E & D & F \\
+	(A+I-L)P & B+K & J & L
+	\end{bmatrix}. \]
+\end{example}
+
+\begin{solution}
+	先进行互换变换，
+	\[ \begin{bmatrix}
+		O & & & \\
+		& & E_n & \\
+		& E_n & & \\
+		& & & O 
+	\end{bmatrix}\begin{bmatrix}
+	A & O & B & O \\
+	C & D & E & F \\
+	G & O & H & O \\
+	I & J & K & L
+	\end{bmatrix}\begin{bmatrix}
+	O & & & \\
+	& & E_n & \\
+	& E_n & & \\
+	& & & O 
+	\end{bmatrix}=\begin{bmatrix}
+	A & B & O & O \\
+	G & H & O & O \\
+	C & E & D & F \\
+	I & K & J & L
+	\end{bmatrix}, \]
+	
+	再进行消法变换，
+	\[ \begin{bmatrix}
+		E_n & & & \\
+		& E_n & & \\
+		& & E_n & \\
+		E_n & & & E_n 
+	\end{bmatrix}\begin{bmatrix}
+	A & B & O & O \\
+	G & H & O & O \\
+	C & E & D & F \\
+	I & K & J & L
+	\end{bmatrix}\begin{bmatrix}
+	E_n & & & -E_n \\
+   & E_n & & \\
+   & & E_n & \\
+	 & & & E_n 
+	\end{bmatrix}=\begin{bmatrix}
+	A & B & O & O \\
+	G & H & O & O \\
+	C-F & E & D & F \\
+	A+I-L & B+K & J & L
+	\end{bmatrix}, \]
+	
+	最后进行倍法变换,
+	\[ \begin{bmatrix}
+		P^{-1} & & & \\
+		& E_n & & \\
+		& & E_n & \\
+		 & & & E_n 
+	\end{bmatrix}\begin{bmatrix}
+	A & B & O & O \\
+	G & H & O & O \\
+	C-F & E & D & F \\
+	A+I-L & B+K & J & L
+	\end{bmatrix}\begin{bmatrix}
+	P & & & \\
+	& E_n & & \\
+	& & E_n & \\
+	& & & E_n 
+	\end{bmatrix}=\begin{bmatrix}
+	P^{-1}AP & P^{-1}B & O & O \\
+	GP & H & O & O \\
+	(C-F)P & E & D & F \\
+	(A+I-L)P & B+K & J & L
+	\end{bmatrix}. \]
+\end{solution}
+
+\begin{example}
+	设 \( A \in \R^{2 \times 2} \)，说明 \( A \) 和 \( A\T \) 在 \( \R \) 上合同.
+\end{example}
+
+\begin{proof}
+	设
+	\[ A=\begin{bmatrix}
+		a & b \\ c & d
+	\end{bmatrix}, \; A\T= \begin{bmatrix}
+	a & c \\ b & d
+	\end{bmatrix}. \]
+	
+	(\textbf{Case I}) \ 若 \( a=d \)，那么只需要进行互换变换，
+	\[ E(1,2) AE(1,2)=\begin{bmatrix}
+		a & c \\ b & a
+	\end{bmatrix}=A\T. \]
+	
+	(\textbf{Case II}) \ 若 \( a \neq d \)，那么其中至少一个非零. 不妨 \( a \neq 0 \). 待定 \( x \in \R \) 并作如下的消法变换，
+	\[ \hat{A}:=E(2,1(x))AE(1,2(x))= \begin{bmatrix}
+		a & b+ax \\
+		c+ax & d+(b+c)x+ax^2
+	\end{bmatrix}, \]
+	
+	取 \( x \) 充分大，使得 \( |ax^2|>|d+(b+c)x| \). 那么 \( d+(b+c)x+ax^2 \) 与 \( a \) 同号. 欲证 \( A \) 和 \( A\T \) 在 \( \R \) 上合同，只需要证明 \( \hat{A} \) 与 \( E(2,1(x))A\T E(1,2(x))=\hat{A}\T \) 在 \( \R  \) 上合同.
+	
+	(\textbf{Case III}) \ 基于 Case II 的讨论，不妨设 \( a,d \) 非零同号. 待定 \( k \in \R \) 并作如下的倍法变换，
+	\[ E(1(k))AE(1(k))=\begin{bmatrix}
+		k^2a & kb \\
+		kc & d
+	\end{bmatrix}, \]
+	
+	取 \( k^2=d/a>0 \leadsto k=\sqrt{d/a} \) 即可，回到 Case I.
+\end{proof}
+
+
+\subsubsection{反对称阵}
+
+下面我们给出注 \ref{3.2.7} 的推广. 尝试用合同变换给出反对称矩阵的合同标准形.
+
+\begin{example} \label{3.4.7}
+	设 \( A \in \F\n \) 为反对称矩阵，说明存在 \( P \in \gfn \) 使得
+	\[ P\T AP= \diag\left\{ \begin{bmatrix}
+		0 & 1 \\
+		-1 & 0
+	\end{bmatrix}, \cdots, \begin{bmatrix}
+	0 & 1 \\
+	-1 & 0
+    \end{bmatrix}, 0,\cdots, 0 \right\}. \]
+
+   进而说明反对称矩阵的秩必定为偶数.
+\end{example}
+
+\begin{solution}
+	用归纳法. \( n=1 \) 时无需讨论自然为零矩阵，\( n=2 \) 时，假设矩阵非零，那么必定形如
+	\[ A=\begin{bmatrix}
+		0 & a \\
+		-a & 0
+	\end{bmatrix}, \; a \neq 0. \]
+	
+	作如下倍法变换，
+	\[ \begin{bmatrix}
+		a^{-1} & 0 \\
+		0 & 1
+	\end{bmatrix}\begin{bmatrix}
+	0 & a \\
+	-a & 0
+	\end{bmatrix}\begin{bmatrix}
+	a^{-1} & 0 \\
+	0 & 1
+	\end{bmatrix}=\begin{bmatrix}
+	0 & 1 \\
+	-1 & 0
+	\end{bmatrix}. \]
+	
+	现在假设结论对小于 \( n \) 阶的矩阵成立，对 \( n \) 阶矩阵的情形，只考虑 \( A \) 不为零矩阵，那么存在 \( a_{ij} \neq 0 \; (i < j) \). 现在将这个元素通过如下的互换变换换到 \( (1,2) \) 元的位置，即
+	\[ \begin{bNiceMatrix}[first-col=0,first-row=0, left-margin=1ex,right-margin=1ex]
+		\CodeBefore
+		 \tikz{
+		 	\draw[fill=red!15,  draw=none, blend mode=multiply] (1-|1) -- (1-|7) -- (2-|7) -- (2-|1) -- cycle;
+		 	\draw[fill=red!15,  draw=none, blend mode=multiply] (6-|1) -- (6-|7) -- (7-|7) -- (7-|1) -- cycle;
+		 	\draw[fill=blue!15, draw=none, blend mode=multiply] (1-|1) -- (1-|2) -- (7-|2) -- (7-|1) -- cycle;
+		 	\draw[fill=blue!15, draw=none, blend mode=multiply] (1-|6) -- (1-|7) -- (7-|7) -- (7-|6) -- cycle;
+		 }
+		\tikz \draw[<->,line width=0.5pt] ($(1-|1)+(-0.3cm,-0.2cm)$) to[bend right=20] ($(7-|1)+(-0.3cm,0.2cm)$); 
+		\tikz \node at ($(1-|1)!.4!(7-|1)+(-1.3cm,0)$) {$E(1,j)$};
+		\tikz \draw[<->,line width=0.5pt] ($(1-|1)+(0.3cm,0.2cm)$) to[bend left=20] ($(1-|7)+(-0.3cm,0.2cm)$); 
+		\tikz \node at ($(1-|7)+(0.4cm,0.5cm)$) {$E(1,j)$};
+		\Body
+		&  &  &  &  &  &  &   \\
+		& 0 & a_{12} & \cdots & a_{1i} & \cdots & a_{1j} & *  \\
+		& a_{21} & 0 & \cdots & a_{2i} & \cdots & a_{2j} & *   \\
+		& \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & * \\
+		& a_{i1} & a_{i2} & \cdots & 0 & \cdots & a_{ij} & * \\
+		& \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & * \\
+		& a_{j1} & a_{j2} & \cdots & a_{ji} & \cdots & 0 & * \\
+		& * & * & * & * & * & * & * 
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}[first-col=0,first-row=0, left-margin=1ex,right-margin=1ex]
+	&  &  &  &  &  &  &   \\
+	& 0 & a_{j2} & \cdots & {\color{blue} a_{ji}} & \cdots & a_{j1} & * \\
+	& a_{2j} & 0 & \cdots & a_{2i} & \cdots & a_{21} & *   \\
+	& \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & * \\
+	& {\color{blue} a_{ij}} & a_{i2} & \cdots & 0 & \cdots & a_{i1} & * \\
+	& \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & * \\
+	& a_{1j} & a_{12} & \cdots & a_{1i} & \cdots & 0 & *  \\
+	& * & * & * & * & * & * & * 
+	\end{bNiceMatrix}. \]
+	
+	\[ \begin{bNiceMatrix}[first-col=0,first-row=0, left-margin=1ex,right-margin=1ex]
+		\CodeBefore
+		\tikz{
+			\draw[fill=green!15,  draw=none, blend mode=multiply] (2-|1) -- (2-|7) -- (3-|7) -- (3-|1) -- cycle;
+			\draw[fill=green!15,  draw=none, blend mode=multiply] (4-|1) -- (4-|7) -- (5-|7) -- (5-|1) -- cycle;
+			\draw[fill=yellow!15, draw=none, blend mode=multiply] (1-|2) -- (1-|3) -- (7-|3) -- (7-|2) -- cycle;
+			\draw[fill=yellow!15, draw=none, blend mode=multiply] (1-|4) -- (1-|5) -- (7-|5) -- (7-|4) -- cycle;
+		}
+		\tikz \draw[<->,line width=0.5pt] ($(2-|1)+(-0.3cm,-0.2cm)$) to[bend right=20] ($(5-|1)+(-0.3cm,0.2cm)$); 
+		\tikz \node at ($(2-|1)!.4!(5-|1)+(-1.1cm,0)$) {$E(2,i)$};
+		\tikz \draw[<->,line width=0.5pt] ($(1-|2)+(0.3cm,0.2cm)$) to[bend left=20] ($(1-|5)+(-0.3cm,0.2cm)$); 
+		\tikz \node at ($(1-|5)+(0.4cm,0.5cm)$) {$E(2,i)$};
+		\Body
+			&  &  &  &  &  &  &   \\
+		& 0 & a_{j2} & \cdots & a_{ji} & \cdots & a_{j1} & * \\
+		& a_{2j} & 0 & \cdots & a_{2i} & \cdots & a_{21} & *   \\
+		& \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & * \\
+		& a_{ij} & a_{i2} & \cdots & 0 & \cdots & a_{i1} & * \\
+		& \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & * \\
+		& a_{1j} & a_{12} & \cdots & a_{1i} & \cdots & 0 & *  \\
+		& * & * & * & * & * & * & * 
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}[first-col=0,first-row=0, left-margin=1ex,right-margin=1ex]
+	\CodeBefore
+	\tikz{
+		\draw[fill=purple!10,  draw=none, blend mode=multiply] (1-|1) -- (1-|3) -- (3-|3) -- (3-|1) -- cycle;
+	}
+	\Body
+			&  &  &  &  &  &  &   \\
+		& 0 & a_{ji} & \cdots & a_{j2} & \cdots & a_{j1} & * \\
+		& a_{ij} & 0 & \cdots & a_{i2} & \cdots & a_{i1} & * \\
+		& \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & * \\
+		& a_{2j} & a_{2i} & \cdots & 0 & \cdots & a_{21} & *   \\
+		& \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & * \\
+		& a_{1j} & a_{1i} & \cdots & a_{12} & \cdots & 0 & *  \\
+		& * & * & * & * & * & * & * 
+	\end{bNiceMatrix}. \]
+	
+	也就是存在可逆矩阵 \( P=E(2,i)E(1,j) \)，使得
+	\[ P\T AP=\begin{bmatrix}
+		S_1 & K \\
+		-K\T & S_2
+	\end{bmatrix}, \]
+	
+	其中 \( S_1 \in \F^{2 \times 2}, \; S_2 \in \F^{(n-2) \times (n-2)} \) 为反对称矩阵，且 \( S_1 \in \text{GL}_2(\F) \). 用合同分块初等变换，将 \( K\T \) 打洞为零，即
+	\[ \begin{bmatrix}
+		E_2 & O \\
+		K\T S_1^{-1} & E_{n-2} 
+	\end{bmatrix}\begin{bmatrix}
+	S_1 & K \\
+	-K\T & S_2
+	\end{bmatrix}\begin{bmatrix}
+	E_2 & -S_1^{-1} K \\
+	O  & E_{n-2} 
+	\end{bmatrix}=\begin{bmatrix}
+	S_1 & O \\
+	O & S_2-K\T S_1 K
+	\end{bmatrix}. \]
+	
+	易证 \( S_2-K\T S_1 K \) 也是反对称的. 由归纳奠基和归纳假设，存在可逆矩阵 \( P_1 \in \text{GL}_2(\F) \) 以及 \( P_2 \in \text{GL}_{n-2}(\F) \)，使得 
+	\[ P_1\T S_1P_1=\begin{bmatrix}
+		0 & 1 \\
+		-1 & 0
+	\end{bmatrix}, \; P_2\T (S_2-K\T S_1 K) P_2=\diag\left\{ \begin{bmatrix}
+	0 & 1 \\
+	-1 & 0
+	\end{bmatrix}, \cdots, \begin{bmatrix}
+	0 & 1 \\
+	-1 & 0
+	\end{bmatrix}, 0,\cdots, 0 \right\}. \] 
+	
+	于是取
+	\[ Q=P\begin{bmatrix}
+		E_2 & -S_1^{-1} K \\
+		O  & E_{n-2} 
+	\end{bmatrix} \diag\{P_1,P_2\}, \]
+	
+	就有 \( Q\T AQ \) 为所求分块对角阵形式.
+\end{solution}
+
+\begin{example}
+	设
+	\[ A=\begin{bmatrix}
+		0 & 2 & -1 & 3 \\
+		-2 & 0 & 4 & -2 \\
+		1 & -4 & 0 & 1 \\
+		-3 & 2 & -1 & 0
+	\end{bmatrix}, \]
+	求可逆矩阵 \( P \in \gfn \)，使得 \( P\T AP \) 为如同例 \ref{3.4.7} 的合同标准形.
+\end{example}
+
+\begin{solution}
+	对分块矩阵 \( (A,E_n) \) 作合同变换，当 \( A \) 变为合同标准形 \( S \) 后，\( E_n \) 就会变为 \( P\T \). 
+	
+	\[ \begin{bNiceMatrix}
+		0 & 2 & -1 & 3 &  \Vdots & 1 & 0 & 0 & 0 \\
+		-2 & 0 & 4 & -2 &  & 0 & 1 & 0 & 0 \\
+		1 & -4 & 0 & 1  &  & 0 & 0 & 1 & 0\\
+		-3 & 2 & -1 & 0 &  & 0 & 0 & 0 & 1 
+	\end{bNiceMatrix} \leadsto \begin{bNiceMatrix}
+	0 & 1 & -1 & 3 &  \Vdots & 1 & 0 & 0 & 0 \\
+	-1 & 0 & 2 & -1 &  & 0 & 1/2 & 0 & 0 \\
+	1 & -2 & 0 & 1  &  & 0 & 0 & 1 & 0\\
+	-3 & 1 & -1 & 0 &  & 0 & 0 & 0 & 1 
+	\end{bNiceMatrix}  \]
+	
+	\[ \leadsto \begin{bNiceMatrix}
+		0 & 1 & 0 & 0 &  \Vdots & 1 & 0 & 0 & 0 \\
+		-1 & 0 & 2 & -1 &  & 0 & 1/2 & 0 & 0 \\
+		0 & -2 & 0 & 6  &  & 0 & 1/2 & 1 & 0\\
+		0 & 1 & -6 & 0 &  & 0 & -3/2 & 0 & 1 
+	\end{bNiceMatrix} \leadsto  \begin{bNiceMatrix}
+	0 & 1 & 0 & 0 &  \Vdots & 1 & 0 & 0 & 0 \\
+	-1 & 0 & 0 & 0 &  & 0 & 1/2 & 0 & 0 \\
+	0 & 0 & 0 & 6  &  & 2 & 1/2 & 1 & 0\\
+	0 & 0 & -6 & 0 &  & -1 & -3/2 & 0 & 1 
+	\end{bNiceMatrix}  \]
+	
+	\[ \leadsto \begin{bNiceMatrix}
+		0 & 1 & 0 & 0 &  \Vdots & 1 & 0 & 0 & 0 \\
+		-1 & 0 & 0 & 0 &  & 0 & 1/2 & 0 & 0 \\
+		0 & 0 & 0 & 1  &  & 1/3 & 1/12 & 1/6 & 0\\
+		0 & 0 & -1 & 0 &  & -1 & -3/2 & 0 & 1 
+	\end{bNiceMatrix}. \]
+	
+	于是取
+	\[ P=\begin{bmatrix}
+	   1 & 0 & 1/3 & -1 \\
+	   0 & 1/2 & 1/12 & -3/2 \\
+	   0 & 0 & 1/6 & 0 \\
+	   0 & 0 & 0 & 1
+	\end{bmatrix}. \]
+	
+\end{solution}
 
 \subsubsection{幂零矩阵}
+
+一般幂零矩阵的相似标准形目前较难讨论，我们先从两个特殊情形入手.
+
+\begin{example}
+	设 \( O \neq A \in \F\n \) 满足 \( A^2=O \). 证明：
+	\begin{enumerate}[(1)]
+		\item \( r(A) \leq n/2 \);
+		\item 存在 \( P \in \gfn \) 使得
+		\[ P^{-1}AP=\begin{bmatrix}
+			O_{r \times r} & E_r & O_{r \times (n-2r)} \\
+			O & O & O
+		\end{bmatrix}; \]
+		\item 存在 \( Q \in \gfn \) 使得
+		\[ Q^{-1}AQ= \diag\{J_2(0),\cdots,J_2(0),0,\cdots,0\}, \]
+		
+		其中 \( J_2(0) \) 的个数为 \( r(A) \).
+	\end{enumerate}
+\end{example}
+
+\begin{proof}
+	(1) 设 \( r(A)=r \). 那么存在 \( P,Q \in \gfn \) 使得
+	\[ A=P\begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}Q \leadsto A^2=O \Leftrightarrow \begin{bmatrix}
+	E_r & O \\
+	O & O
+	\end{bmatrix}QP\begin{bmatrix}
+	E_r & O \\
+	O & O
+	\end{bmatrix}=O.\]
+	
+	对 \( QP \) 按 \( \diag\{E_r,O\} \) 的形式分块，
+	\[ QP=\begin{bmatrix}
+		C_{11} & C_{12} \\
+		C_{21} & C_{22}
+	\end{bmatrix}, \]
+	
+	那么
+	\[ \begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}\begin{bmatrix}
+	C_{11} & C_{12} \\
+	C_{21} & C_{22}
+	\end{bmatrix}\begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}=O \Rightarrow \begin{bmatrix}
+	C_{11} & O \\
+	O & O
+	\end{bmatrix}=O \Rightarrow C_{11}=O. \]
+	
+	而 \( A =P(\diag\{E_r,O\}QP)P^{-1} \Rightarrow A \sim \diag\{E_r,O\}QP \)，于是
+	\[ r(A)=r\left( \begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}\begin{bmatrix}
+	O & C_{12} \\
+	C_{21} & C_{22}
+	\end{bmatrix}\right)=r \left( \begin{bmatrix}
+	O & C_{12} \\
+	O & O
+	\end{bmatrix} \right)=r(C_{12})=r. \]
+	
+	注意 \( C_{12} \in \F^{r \times (n-r)} \)，只好 \( \min\{n-r,r\}=r \Rightarrow n-r \geq r \Rightarrow r \leq n/2 \).
+	
+	
+	(2) 由 (1) 已经有
+	\[ A \sim \begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix} QP= \begin{bmatrix}
+	O & C_{12} \\
+	O & O
+	\end{bmatrix}. \]
+	
+	由于 \( C_{12} \) 行满秩，于是由性质 \ref{3.2.23}，存在 \( L \in \text{GL}_{n-r}(\F) \)，使得 \( C_{12}L=(E_r,O) \). 作如下分块矩阵相似初等变换，
+	\[ \begin{bmatrix}
+		E_r & O \\
+		O & L^{-1}
+	\end{bmatrix}\begin{bmatrix}
+	O & C_{12} \\
+	O & O
+	\end{bmatrix}\begin{bmatrix}
+	E_r & O \\
+	O & L
+	\end{bmatrix}=\begin{bmatrix}
+	O & (E_r,O) \\
+	O & O
+	\end{bmatrix}=\begin{bmatrix}
+	O_{r \times r} & E_r & O_{r \times (n-2r)} \\
+	O & O & O
+	\end{bmatrix}. \]
+	
+	而相似关系是等价关系，具有传递性.
+	\[ A \sim \begin{bmatrix}
+		O & C_{12} \\
+		O & O
+	\end{bmatrix} \sim \begin{bmatrix}
+	O_{r \times r} & E_r & O_{r \times (n-2r)} \\
+	O & O & O
+	\end{bmatrix}. \]
+	
+	还有一种方法是将 \( AX=O \) 解空间的一组基扩为 \( \F^n \) 的一组基，也就是考察商空间 \( \F^n/ \mathrm{Ker}\mathscr{A} \). 我们留到线性映射章节讲述.
+	
+	(3) 将 (2) 中矩阵 \( P \) 按列分块 \( P=(\alpha_1,\cdots,\alpha_n) \). 那么
+	\[ A(\alpha_1,\cdots,\alpha_n)=(\alpha_1,\cdots,\alpha_n) \begin{bmatrix}
+		O_{r \times r} & E_r & O_{r \times (n-2r)} \\
+		O & O & O
+	\end{bmatrix}. \]
+	
+	那么 \( A\alpha_i=\bm{0}, \; A\alpha_{i+r}=\alpha_i \ (1 \leq i \leq r), \; A\alpha_j=\bm{0} \ (2r+1 \leq j \leq n)  \). 取
+	\[  Q=(\alpha_1,\alpha_{r+1},\alpha_2,\alpha_{r+2},\cdots,\alpha_r,\alpha_{2r},\alpha_{2r+1},\cdots,\alpha_{n}) \]
+	
+	即可，由于列向量组线性无关，故可逆性保持. 这就是我们会在相似标准形章节学习到的幂零矩阵的 Jordan 标准形! 通过列向量组的重排，我们清楚地看到出现了向量的循环轨道 \( \alpha_{r+i} \overset{A}{\to} \alpha_i \overset{A}{\to} \bm{0} \ (1 \leq i \leq r), \; \alpha_{j}  \overset{A}{\to} \bm{0} \ (2r+1 \leq j \leq n) \). 这揭示了 \( A \) 的广义特征向量.
+	
+\end{proof}
+
+下面的例子给出了长度为 \( n \) 的循环轨道.
+
+\begin{example}
+	设 \( A \in \F\n \) 满足 \( A^n=O, \; A^{n-1} \neq O \)，证明存在 \( P \in \gfn \) 使得 
+	\[ P^{-1}AP=J_n(0)=\begin{bmatrix}
+		0 & 1 & 0 & \cdots & 0 \\
+		0 & 0 & 1 & \cdots & 0 \\
+		\vdots & \vdots & \ddots & \ddots & \vdots \\
+		0 & 0 & 0 & \cdots & 1 \\
+		0 & 0 & 0 & \cdots & 0
+	\end{bmatrix}. \]
+\end{example}
+
+\begin{proof}
+	取 \( A^{n-1} \) 一个非零的列向量 \( A^{n-1}\varepsilon_i \neq \bm{0} \). 断言 \( \varepsilon_i, A\varepsilon_i,\cdots,A^{n-1}\varepsilon_i \) 线性无关. 下面的手法非常典型. 取 \( \F-\)线性组合
+	\[ c_0\varepsilon_i+c_1A\varepsilon_i+c_2A^2\varepsilon_i+\cdots+c_{n-1}A^{n-1}\varepsilon_i=\bm{0}. \]
+	
+	两边左乘 \( A^{n-1} \)，只剩下 \( c_0(A^{n-1}\varepsilon_i)=\bm{0} \leadsto c_0=0 \). 那么
+	\[ c_1A\varepsilon_i+c_2A^2\varepsilon_i+\cdots+c_{n-1}A^{n-1}\varepsilon_i=\bm{0}. \]
+	
+	两边左乘 \( A^{n-2} \)，只剩下 \( c_1(A^{n-1}\varepsilon_i)=\bm{0} \leadsto c_1=0 \). 以此类推，得到 \( c_2=\cdots=c_{n-1}=0 \). 那么取 \( P=(A^{n-1}\varepsilon_i, A^{n-2}\varepsilon_i,\cdots,\varepsilon_i) \in \gfn \)，自然
+	\[ AP=P\begin{bmatrix}
+		0 & 1 & 0 & \cdots & 0 \\
+		0 & 0 & 1 & \cdots & 0 \\
+		\vdots & \vdots & \ddots & \ddots & \vdots \\
+		0 & 0 & 0 & \cdots & 1 \\
+		0 & 0 & 0 & \cdots & 0
+	\end{bmatrix}. \]
+	
+\end{proof}
 
 
 \subsubsection{幂等矩阵}
 
+\begin{example} \label{3.4.11}
+	设 \( A \in \F\n \) 满足 \( A^2=A \)，证明存在 \( P \in \gfn \) 使得
+	\[ P^{-1}AP=\begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}, \]
+	
+	也即幂等矩阵相似到其相抵标准形. 进一步说明当 \( \F \subseteq \C \) 时有 \( \tr(A) \in \mathbb{N}^* \).
+\end{example}
+
+\begin{proof}
+	(\textbf{法一})\ 设 \( r(A)=r \). 那么存在 \( P,Q \in \gfn \) 使得
+	\[ A=P\begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}Q \leadsto A^2=A \Leftrightarrow \begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}QP\begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}=\begin{bmatrix}
+	E_r & O \\
+	O & O
+	\end{bmatrix}.\]
+	
+	对 \( QP \) 按 \( \diag\{E_r,O\} \) 的形式分块，
+	\[ QP=\begin{bmatrix}
+		C_{11} & C_{12} \\
+		C_{21} & C_{22}
+	\end{bmatrix}, \]
+	
+	那么
+	\[ \begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}\begin{bmatrix}
+		C_{11} & C_{12} \\
+		C_{21} & C_{22}
+	\end{bmatrix}\begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}=O \Rightarrow \begin{bmatrix}
+	C_{11} & O \\
+	O & O
+	\end{bmatrix}=\begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix} \Rightarrow C_{11}=E_r. \]
+	
+	进一步，
+	\[ A=P(\diag\{E_r,O\}QP)P^{-1} \Rightarrow A \sim \begin{bmatrix}
+		E_r & O \\
+		O & O
+	\end{bmatrix}\begin{bmatrix}
+	E_r & C_{12} \\
+	C_{21} & C_{22}
+	\end{bmatrix}=\begin{bmatrix}
+	E_r & C_{12} \\
+	O & O
+     \end{bmatrix}. \]
+
+     作如下的分块矩阵相似初等变换，
+   
+     \[ \begin{bmatrix}
+     	E_r & O \\
+     	-C_{12} & E_{n-r}
+     \end{bmatrix}\begin{bmatrix}
+     E_r & C_{12} \\
+     O & O
+     \end{bmatrix}\begin{bmatrix}
+     E_r & O \\
+     C_{12} & E_{n-r}
+     \end{bmatrix}=\begin{bmatrix}
+     E_r & O \\
+     O & O
+     \end{bmatrix}. \]
+     
+     利用相似关系的传递性，
+     \[ A \sim \begin{bmatrix}
+     	E_r & C_{12} \\
+     	O & O
+     \end{bmatrix} \sim \begin{bmatrix}
+     E_r & O \\
+     O & O
+     \end{bmatrix}. \]
+    
+    那么 \( \tr(A)=\tr(APP^{-1})=\tr(P^{-1}AP)=r=r(A) \in \mathbb{N}^* \).
+    
+    (\textbf{法二})\ 本方法用到线性方程组的基础解系. 由例 \ref{3.1.22} (1) 可知 \( r(A)+r(A-E_n)=n \). 考察线性方程组 \( AX=O \)，那么它的一个基础解系中向量个数为 \( n-r \)，不妨取为 \( \xi_{r+1},\cdots,\xi_{n} \). 再考察线性方程组 \( (A-E_n)X=O \)，那么它的一个基础解系中向量个数为 \( n-(n-r)=r \)，不妨取为 \(\xi_1,\cdots,\xi_r \). 断言 \( \{\xi_i\}_{1 \leq i \leq n} \) 线性无关，取 \( \F-\)线性组合
+    \[ c_1\xi_1+\cdots+c_n\xi_n=\bm{0}. \]
+    
+    左乘 \( A-E_n \) 得到 \( -c_{r+1}\xi_{r+1}-\cdots-c_n\xi_n=\bm{0} \leadsto c_{r+1}=\cdots=c_n=0 \). 进而 \( c_1\xi_1+\cdots+c_n\xi_n=c_1\xi_1+\cdots+c_r\xi_r=\bm{0} \leadsto c_1=\cdots=c_r=0 \). 于是取 \( P=(\xi_1,\cdots,\xi_n) \in \gfn \) 即可.
+\end{proof}
+
+
+\begin{practice} \label{prac3.16}
+    设 \( \F \subseteq \C \) 为数域以及 \( A \in \F\n \) 满足 \( A^2=2A \)，证明存在 \( P \in \gfn \) 使得
+     \[ P^{-1}AP=\begin{bmatrix}
+	2E_r & O \\
+	O & O
+    \end{bmatrix}. \]
+\end{practice}
+
+\begin{proof}
+	照搬例 \ref{3.4.11} 的证明，留作练习.
+\end{proof}
+
+
+\begin{example}
+	设 \( n \geq 2 \) 以及 \( A,B \in \F\n \)，若 \( B^2=B \)，证明: \( r(AB-BA) \leq r(AB+BA) \).
+\end{example}
+
+\begin{proof}
+	(\textbf{法一})\ 注意秩在相似关系下不变. 作相似变换 \( B \mapsto P^{-1}BP=\diag\{E_r,O\}, \; A \mapsto P^{-1}AP \)，那么原问题的条件和结论均不变. 读者可以自行尝试，本题用相抵变换，问题会变得复杂，但是相似变换是很简单的. 于是一开始可以设 \( B \) 为其 Jordan 标准形. 对 \( A \) 分块
+	\[ A=\begin{bmatrix}
+		A_{11} & A_{12} \\
+		A_{21} & A_{22}
+	\end{bmatrix} \leadsto AB-BA=\begin{bmatrix}
+	O & -A_{12} \\
+	A_{21} & O
+	\end{bmatrix}, \; AB+BA=\begin{bmatrix}
+	2A_{11} & A_{12} \\
+	A_{21} & O
+	\end{bmatrix}. \]
+	
+	欲证结论就是命题 \ref{3.1.14}. 
+	
+	\vspace{1ex}
+	
+	(\textbf{法二})\  用秩不等式来处理. 注意 
+	\[ (E-B)(AB+BA)(E-B)=(AB-BAB)(E-B)=O. \]
+	
+	由 Frobenius 不等式，即命题 \ref{3.1.18} 知
+	\[ 0 \geq r[(E-B)(AB+BA)]+r[(AB+BA)(E-B)]-r(AB+BA)= r(AB-BAB)+r(BA-BAB)-r(AB+BA). \]
+	
+	另一方面，由命题 \ref{3.1.20} 知
+	\[ r(AB-BAB)+r(BA-BAB) \geq r[(AB-BAB)-(BA-BAB)]=r(AB-BA). \]
+	
+	即证.
+\end{proof}
+
+
+\begin{example}
+	设 \( f: \F\n \to \F\n \) 满足 \( f(AB)=f(A)f(B) \). 若存在 \( W \in \F\n \) 满足 \( r(W)=1, \; f(W) \neq O, \; f(O)=O \). 证明：存在 \( P \in \gfn \)，对任意 \( 1 \leq i,j \leq n \) 都有 \( P^{-1}f(E_{ij})P=E_{ij} \).
+\end{example}
+
+\begin{proof}
+	(\textbf{Step I})\ 断言对 \( A \simeq B \)，有 \( f(A) \simeq f(B) \). 存在 \( P,Q \in \gfn \) 使得 \( PAQ=B \leadsto f(P)f(A)f(Q)=f(B) \leadsto r[f(A)] \geq r[f(B)] \). 另一方面，用 \( A=P^{-1}BQ^{-1} \) 可得 \( r[f(A)] \leq r[f(B)] \). 从而 \( r[f(A)] = r[f(B)] \). 这说明 \( r[f(E_{ij})] = r[f(W)] \neq 0 \).
+	
+    (\textbf{Step II})\ 设 \( \Omega:=\{A \in \F\n \mid r(A)=1 \} \). 由 Step I 的结论可知 \( f(\Omega) \) 中的每个元素有相同的秩，设为 \( r \). 注意到 \( f(E_{ii})=f(E_{ii}^2)=[f(E_{ii})]^2 \)，由例 \ref{3.4.11} 知存在 \( P_i \in \gfn \) 使得
+    \[ f(E_{ii})P_i=P_i\begin{bmatrix}
+    	E_r & O \\
+    	O & O
+    \end{bmatrix}. \]
+    
+    那么取 \( P_i \) 的前 \( r \) 个线性无关的列向量 \( \alpha_{i1},\cdots,\alpha_{ir} \)，它们都满足 \( f(E_{ii})\alpha_{ij}=\alpha_{ij} \). 断言 \( \{\alpha_{ij} \}_{1 \leq i \leq n, 1 \leq j \leq r} \) 是线性无关向量组. 考虑 \( \F-\)线性组合
+    \[ \sum_{i,j}^{} c_{ij}\alpha_{ij}=\bm{0}. \]
+    
+    由于 \( i_1 \neq i_2 \) 时有 \( f(E_{i_1,i_1})f(E_{i_2,i_2})=f(E_{i_1,i_1}E_{i_2,i_2})=f(O)=O \). 那么选定 \( 1 \leq k \leq n \)，在上述 \( \F-\)线性组合左端同乘 \( f(E_{kk}) \) 得到
+    \[ f(E_{kk}) \left( \sum_{i,j}^{} c_{ij}\alpha_{ij} \right)= f(E_{kk}) \left( \sum_{i,j}^{} c_{ij}f(E_{ii})\alpha_{ij} \right)= f(E_{kk}) \left( \sum_{j}^{} c_{kj}\alpha_{kj} \right)=\sum_{j}^{} c_{kj}\alpha_{kj}=\bm{0}. \]
+    
+    利用上述选取的线性无关性得到 \( c_{kj} \equiv 0 \). 但是 \( \F^n \) 至多有 \( n \) 个线性无关向量，只能 \( nr \leq n \leadsto r \leq 1 \). 由 \( r>0 \)，故 \( r(\Omega)=r=1 \).
+    
+    (\textbf{Step III})\ 将 \( \alpha_{11},\alpha_{22},\cdots,\alpha_{nn} \) 直接简单记为 \( \alpha_1,\cdots,\alpha_n \). 取 \( Q=(\alpha_1,\cdots,\alpha_n) \). 利用 \( f(E_{ii})\alpha_i=\alpha_i, \; f(E_{ii})\alpha_j=f(E_{ii})f(E_{jj})\alpha_j=\bm{0} \ (i \neq j) \)，那么
+    \[ f(E_{ii})Q=QE_{ii}. \]
+    
+    现在考察 \( f(E_{ij}) \) 在基 \( Q \) 下的像. 利用 \( Q \) 的列向量组为 \( \F^n \) 的一组基，故可设
+    \[ f(E_{ij})\alpha_k= \sum_{t=1}^{n} l_{tk} \alpha_t, \; 1 \leq k \leq n, l_{tk} \in \F. \]
+    
+    设 \( M=(l_{tk}) \in \F\n \)，那么上述假设就说明 \( f(E_{ij})Q=QM \). 断言 \( M=l_{ij}E_{ij} \). 对 \( k \neq j \)，我们知道
+    \[ f(E_{ij})\alpha_k=f(E_{ij})f(E_{kk})\alpha_k=\bm{0}=\sum_{t=1}^{n} l_{tk} \alpha_t \leadsto l_{tk} \equiv 0. \]
+    
+    对 \( k=j \)，对 \( \F-\)线性组合左乘 \( f(E_{pp}) \ (p \neq i) \)，就得到
+    \[ f(E_{pp})f(E_{ij})\alpha_j=f(E_{pp}) \left( \sum_{t=1}^{n} l_{tj} \alpha_t \right)=l_{pj} \alpha_p=\bm{0} \leadsto l_{pj} \equiv 0. \]
+    
+    故
+    \[ f(E_{ij})\alpha_j= l_{ij} \alpha_i. \]
+    
+    断言成立. 再有 \( f(E_{ij}) \neq 0 \Rightarrow l_{ij} \neq 0 \).
+    
+    (\textbf{Step IV}) \ 定义 \( l_{ii}=1 \ (1 \leq i \leq n) \). 注意到 \( f(E_{ij})f(E_{jk})=f(E_{ik}) \)，在选取 \( Q \) 为过渡矩阵的相似下对应到 
+    \[ (l_{ij} E_{ij})(l_{jk} E_{jk})= l_{ik} E_{ik} \leadsto l_{ij}l_{jk}=l_{ik}. \]
+    
+    现在取 \( \beta_i= (l_{ni})^{-1} \alpha_i \)，那么
+    \[ f(E_{ij}) \beta_j= (l_{nj})^{-1} f(E_{ij}) \alpha_j = (l_{nj})^{-1} l_{ij} \alpha_i= (l_{ni})^{-1} \alpha_i= \beta_i. \]
+    
+    于是取 \( P=(\beta_1,\cdots,\beta_n) \)，就有 
+    \[ f(E_{ij})P=PE_{ij}. \]
+\end{proof}
+
 
 \subsubsection{对合矩阵}
+
+\begin{example} \label{3.4.14}
+	设 \( \F \subseteq \C \) 为数域. 若 \( A \in \F\n \) 满足 \( A^2=E_n \)，证明存在 \( P \in \gfn \) 使得
+	\[ P^{-1}(A+E_n)P=\begin{bmatrix}
+		2E_r & O \\
+		O & O
+	\end{bmatrix}, \; P^{-1}(E_n-A)P=\begin{bmatrix}
+	O & O \\
+	O & 2E_{n-r}
+	\end{bmatrix}. \]
+\end{example}
+
+\begin{proof}
+    由 \( (A+E_n)^2=A^2+2A+E_n=2(A+E_n) \). 由练习 \ref{prac3.16} 可知存在 \( P \in \gfn  \) 使得
+    \[ P^{-1}(A+E_n)P=\begin{bmatrix}
+    	2E_r & O \\
+    	O & O
+    \end{bmatrix}. \]
+    
+    那么
+    \[ P^{-1}(E_n-A)P=2E_n-P^{-1}(A+E_n)P=\begin{bmatrix}
+    	O & O \\
+    	O & 2E_{n-r}
+    \end{bmatrix}. \]
+\end{proof}
+
+\begin{corollary}
+	设 \( \F \subseteq \C \) 为数域. 若  \( A \in \F\n \) 满足 \( A^2=E_n \)，证明存在 \( P \in \gfn \) 使得
+	\[ P^{-1}AP=\begin{bmatrix}
+		E_r & O \\
+		O & -E_{n-r}
+	\end{bmatrix}. \]
+	
+	其中 \( r=r(A+E_n) \). 进一步说明 \( n-\tr(A) \in 2\mathbb{Z} \).
+\end{corollary}
+
+\begin{proof}
+	可以直接从例 \ref{3.4.14} 得到，还有一种方法是用例 \ref{3.4.11} 的法二和例 \ref{3.1.22} (2). 由于相似不改变迹，那么
+	\[ n-\tr(A)=n- (r-n+r)=2(n-r) \in 2\mathbb{Z}. \]
+\end{proof}
 
 
 \end{document}

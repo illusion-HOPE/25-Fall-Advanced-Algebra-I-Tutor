@@ -799,7 +799,7 @@
 \end{example}
 
 \begin{example}
-	\ref{1.1} 节中的讨论所涉及的 \( \mathbb{R} \) 都可以换成一般的域 \( \F \). 本节之后所有的讨论如没有特别说明，都基于一般的域进行. 当然，教材内都基于一般的数域，很多时候没有什么区别.
+	\ref{1.1} 节中的讨论所涉及的 \( \mathbb{R} \) 都可以换成一般的域 \( \F \). 在本节中，我们主要刻画一般的域. 在本节之后所有的讨论都回到数域上进行. 大部分结论都可以搬到一般域上，但是要小心域的特征，是否需要度量等细节.
 \end{example}
 
 \begin{proposition}\label{1.2.6}
@@ -1052,7 +1052,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 \[ z_i=\sum_{k=1}^{m} b_{ik}y_k= \sum_{k=1}^{m} b_{ik} \left( \sum_{j=1}^{n} a_{kj} x_j \right)= \sum_{j=1}^{n} \sum_{k=1}^{m} b_{ik}a_{kj} x_j = \sum_{j=1}^{n} \left( \sum_{k=1}^{m} b_{ik}a_{kj}\right) x_j. \]
 
 \begin{definition}[矩阵的乘法]	\label{1.3.1}
-	设 矩阵 \( A=(a_{ij}) \) 为数域 \( \F \) 上的 \( m \times n \) 矩阵且 \( B=(b_{ij}) \) 为数域 \( \F \) 上的 \( t\times m \) 矩阵. 定义矩阵 \( B \) 和矩阵 \( A \) 的乘积为矩阵 \( BA=:C=(c_{ij}) \)，其中 \( C \) 为数域 \( \F \) 上的 \( t \times n \) 阶矩阵，且
+	设矩阵 \( A=(a_{ij}) \) 为数域 \( \F \) 上的 \( m \times n \) 矩阵且 \( B=(b_{ij}) \) 为数域 \( \F \) 上的 \( t\times m \) 矩阵. 定义矩阵 \( B \) 和矩阵 \( A \) 的乘积为矩阵 \( BA=:C=(c_{ij}) \)，其中 \( C \) 为数域 \( \F \) 上的 \( t \times n \) 阶矩阵，且
 	\[ c_{ij}=\sum_{k=1}^{m} b_{ik}a_{kj}. \] 
 
 \end{definition}
@@ -1515,7 +1515,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 \end{proof}
 
 \begin{definition}[对称和反对称]
-	若 \( A \in \F^{n \times n} \) 满足 \( A\T=A \)，那么称 \( A \) 为 \( \F \) 上的对称矩阵; 若 \( A\T=-A \)，则称 \( A \) 为 \( \F \) 上的反对称矩阵.
+	设 \( \F \) 为数域，若 \( A \in \F^{n \times n} \) 满足 \( A\T=A \)，那么称 \( A \) 为 \( \F \) 上的对称矩阵; 若 \( A\T=-A \)，则称 \( A \) 为 \( \F \) 上的反对称矩阵.
 \end{definition}
 
 \begin{remark}
@@ -1523,7 +1523,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 \end{remark}
 
 \begin{proposition}	\label{1.3.26}
-	设 \( A \in \F^{n \times n} \)，那么 \( A \) 可以\textbf{唯一}表示为一个对称矩阵和一个反对称矩阵的和.
+	设 \( \F \) 为数域，给定 \( A \in \F^{n \times n} \)，那么 \( A \) 可以\textbf{唯一}表示为一个对称矩阵和一个反对称矩阵的和.
 
 \end{proposition}
 
@@ -1539,7 +1539,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 下面这个命题我们会在高等代数 II 课程的尾声再次使用到，用来刻画双线性函数由其在取定一组基下的度量矩阵唯一确定. 到时候我们会引用本命题. 不过现在谈起这一点似乎有点为时过早，笔者希望在前面多铺垫一些内容. 本段可以忽略.
 
 \begin{proposition}	\label{1.3.27}
-	设 \( A \in \F\n \)，证明 \( A=O \) 的充要条件为对任意的列向量 \( X \in \F^n\) 都有 \( X\T AX=0 \).
+	设 \( \F \) 为数域，给定 \( A \in \F\n \)，证明 \( A=O \) 的充要条件为对任意的列向量 \( X \in \F^n\) 都有 \( X\T AX=0 \).
 
 \end{proposition} 
 
@@ -1563,7 +1563,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 事实上，在后续双线性函数的讨论中，我们也仅考虑 \( \tz \F \neq 2 \). 下面将命题 \ref{1.3.27} 推广到反对称矩阵上.
 
 \begin{proposition}
-	设 \( A \in \F\n \)，证明 \( A \) 是反对称矩阵的充要条件为对任意 \( X \in \F^n \) 都有 \( X\T A X= 0 \).
+	设 \( \F \) 为数域，给定 \( A \in \F\n \)，证明 \( A \) 是反对称矩阵的充要条件为对任意 \( X \in \F^n \) 都有 \( X\T A X= 0 \).
 \end{proposition}
 
 \begin{proof}
