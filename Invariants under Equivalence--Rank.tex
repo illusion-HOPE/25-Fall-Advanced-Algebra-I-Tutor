@@ -231,7 +231,7 @@
 
 \subsection{相抵关系及其全系不变量} \label{sec3.1}
 
-\subsubsection{相抵标准型}
+\subsubsection{相抵标准形}
 
 假设我们现在已经得到了矩阵 \( A \in \F\nm \) 的简化行阶梯形矩阵，现在用列互换变换将主元调整至 \( 1 \sim r(A)=:r \) 列，也就得到如下的分块矩阵
 \[ \begin{bmatrix}
@@ -425,6 +425,23 @@ O & O
 	 对消法变换，将第 \( i \) 行乘以常数 \( c \) 加到第 \( j \) 行. 如果 \( A \) 的 \( r \) 阶非零子式同时包含第 \( i,j \) 行或不包含第 \( j \) 行，其值不变. 若只包含第 \( j \) 行. 用 \( M_r \neq 0  \) 表示这个非零子式，\( L_r \) 表示 \( M_r \) 中包含的 \( A \) 第 \( j \) 行用第 \( i \) 行元素替代，\( N_r \) 表示 \( M_r \) 中包含的 \( A \) 第 \( j \) 行是实行消法变换后的. 若 \( L_r=0 \)，那么由行列式性质知 \( N_r=cL_r+M_r=M_r \neq 0 \).若 \( L_r \neq 0 \)，那么 \( A \) 中原本就包含一个值为 \( \pm L_r \) 的子式，它没有参与消法变换，自然也是 \( B \) 中的一个 \( r \) 阶非零子式.
 \end{proof}
 
+\begin{practice}
+	若 \( \varphi: \mathbb{F}^{n \times n} \to \mathbb{F} \)，满足
+	\begin{itemize}
+		\item 若 \( A=(a_{ij}) \) 为上三角的，那么 \( \varphi(A)=a_{11}\cdots a_{nn} \);
+		\item 对任意 \( A,B \in \mathbb{F}^{n \times n} \) 有 \( \varphi(AB)=\varphi(A) \varphi(B) \).
+	\end{itemize}
+	
+	证明：\( \varphi(A)=\det A \).
+\end{practice}
+
+\begin{proof}
+	对初等矩阵而言，\( \varphi[E(i,j(c))]=1=\det E(i,j(c)), \; \varphi[E(i(c))]=c=\det E(i(c)) \). 而互换矩阵又可以写为倍法矩阵和消法矩阵的乘积
+	\[ E(i,j)= E(j(-1))E(i,j(1))E(j,i(-1))E(i,j(1)), \]
+	
+	那么 \( \varphi(E(i,j))=-1=\det E(i,j) \). 由于可逆矩阵可以写为若干初等矩阵的乘积，自然对 \( P \in \gfn \) 都有 \( \varphi(P)=\det P \). 另一方面，对不可逆方阵 \( A \)，存在 \( P,Q \in \gfn \)，使得 \( A=P\diag\{E_r,O\}Q \)，那么 \( \varphi(A)=0=\det A \).  
+\end{proof}
+
 \begin{defprop}[秩的等价定义 II] \label{3.1.9}
 	设 \( A \in \F\nm \)，若 \( A \) 存在一个 \( r \) 阶子式非零，且若其存在 \( (r+1) \) 阶子式，那么 \( A \) 的所有  \( (r+1) \) 阶子式全为零，则称矩阵 \( A \) 的秩 (Rank) 为 \( r(A):=r \).
 \end{defprop}
@@ -479,7 +496,7 @@ O & O
 
 为了具体求出使得一个矩阵 \( A \in \F\nm \) 相抵到其相抵标准形的过渡矩阵 \( P,Q \)，不一定要繁琐地记录每一步所用的初等变换和初等矩阵，下面给出了一种方便的算法.
 
-\begin{practice} \label{prac3.1}
+\begin{practice} \label{prac3.2}
 	设 \( A \in \F\nm \) 以及 \( r(A)=r\)，那么对如下分块矩阵的前 \( n \) 行和前 \( m \) 列进行初等变换可以得到
 	\[ \begin{bmatrix}
 		A & E_n \\
@@ -499,7 +516,7 @@ O & O
 	只需要注意对 \( A \) 作初等变换涉及大矩阵的行列范围即可.
 \end{proof}
 
-\begin{practice} \label{prac3.2}
+\begin{practice} \label{prac3.3}
 	尝试求出过渡矩阵 \( P \in \text{GL}_3(\F) ,Q \in \text{GL}_4(\F) \)，将下列矩阵相抵到其相抵标准形:
 	\[ A=\begin{bmatrix}
 		2 & 0 & -1 & 3 \\
@@ -509,7 +526,7 @@ O & O
 \end{practice}
 
 \begin{solution}
-	用练习 \ref{prac3.1}，作分块矩阵
+	用练习 \ref{prac3.2}，作分块矩阵
 	\[ \begin{bNiceMatrix}[right-margin=2pt]
 		2 & 0 & -1 & 3 & \Vdots & 1 & 0 & 0 \\
 		1 & 2 & -2 & 4 &  & 0 & 1 & 0 \\
@@ -1660,7 +1677,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	证明和上述没什么区别.
 \end{proof}
 
-\begin{practice} \label{prac3.8}
+\begin{practice} \label{prac3.9}
 	设 \( A,B,D \in \F\n, \; C \in \gfn \)，考察分块矩阵
 	\[ M:=\begin{bmatrix}
 		A & B \\ C & D
@@ -1688,7 +1705,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 \end{proof}
 
 \begin{practice}
-	去掉练习 \ref{prac3.8} 中 \( C \) 可逆的条件，并设 \( \F \) 为无限域，再次完成练习 \ref{prac3.8}.
+	去掉练习 \ref{prac3.9} 中 \( C \) 可逆的条件，并设 \( \F \) 为无限域，再次完成练习 \ref{prac3.9}.
 \end{practice}
 
 \begin{proof}
@@ -1996,7 +2013,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	由题设可知存在 \( X_0 \in \F^m \) 满足 \( AX_0=\beta \)，两边同乘 \( B \) 得到 \( E_mX_0=X_0=B\beta \). 其次任取 \( X \in \F^m \) 满足 \( AX=\beta \)，那么 \( A(X-X_0)=O \)，由性质 \ref{3.2.22} 知道 \( X=X_0 \). 
 \end{proof}
 
-下面给出求左逆和右逆的算法. 设 \( A \in \F\nm \)，且 \( r(A)=m \)，那么 \( A \) 列满秩且存在左逆. 模仿练习 \ref{prac3.1}，作初等变换
+下面给出求左逆和右逆的算法. 设 \( A \in \F\nm \)，且 \( r(A)=m \)，那么 \( A \) 列满秩且存在左逆. 模仿练习 \ref{prac3.2}，作初等变换
 \[ (A,E_n) \leadsto \left[ \begin{pmatrix}
 	E_m \\ O
 \end{pmatrix}, P \right]. \]
@@ -2024,7 +2041,7 @@ E_m \\ O
 
 给出 \( A \) 的一个左逆. 特别地，取 \( \F=\R ( \text{or} \; \C) \)，还有如下命题，不过需要求解逆矩阵，在计算量上和上面的方法没有很大区别，但是表达式是很简洁的.
 
-\begin{practice} \label{prac3.12}
+\begin{practice} \label{prac3.13}
 	设 \( A \in \R\nm \)，那么 \( r(A)=m \) 当且仅当 \( A\T A \) 可逆，且 \( (A\T A)^{-1} A\T \) 给出 \( A \) 的一个左逆. 相应地， \( r(A)=m \) 当且仅当 \( AA\T  \) 可逆，且 \( A\T(AA\T)^{-1}  \) 给出 \( A \) 的一个右逆.
 \end{practice} 
 
@@ -2041,11 +2058,11 @@ E_m \\ O
 \end{practice} 
 
 \begin{proof}
-	模仿练习 \ref{prac3.12}. 注意复数 \( z \in \C \) 的模满足 \( 0 \leq |z|^2=z\overline{z}=\overline{z}z  \)，等号成立当且仅当 \( z=0 \).
+	模仿练习 \ref{prac3.13}. 注意复数 \( z \in \C \) 的模满足 \( 0 \leq |z|^2=z\overline{z}=\overline{z}z  \)，等号成立当且仅当 \( z=0 \).
 \end{proof}
 
 \begin{practice}
-	在练习 \ref{prac3.2} 的基础上，求 \( A \) 的一个右逆.
+	在练习 \ref{prac3.3} 的基础上，求 \( A \) 的一个右逆.
 \end{practice}
 
 \begin{solution}
@@ -2061,7 +2078,7 @@ E_m \\ O
 	O 
 	\end{pmatrix}=E_n. \]
 	
-	这就找出 \( A \) 的右逆表达式. 在练习 \ref{prac3.2} 中已经计算出
+	这就找出 \( A \) 的右逆表达式. 在练习 \ref{prac3.3} 中已经计算出
 	\[ P=\begin{bmatrix}
 		1/2 & 0 & 0 \\
 		-1/4 & 1/2 & 0 \\
@@ -2097,7 +2114,7 @@ E_m \\ O
 	0    &  0    & 0
 	\end{bmatrix}. \]
 	
-	读者可以自行尝试用练习 \ref{prac3.12}.
+	读者可以自行尝试用练习 \ref{prac3.13}.
 \end{solution}
 
 
@@ -2388,7 +2405,7 @@ O & O
 
 有了减号逆后，我们可以改写引理 \ref{3.3.1}.
 
-\begin{practice}[相容性条件] \label{prac3.15}
+\begin{practice}[相容性条件] \label{prac3.16}
 	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取 \( A^{-} \in A\{1\} \). 那么非齐次线性方程组 \( AX=\beta \) 有解的充分必要条件为 \( AA^{-}\beta=\beta \).
 \end{practice}
 
@@ -2523,7 +2540,7 @@ d & e & f
 	必要性. 由于 \( AGA=A \)，那么 \( BCGBC=BC \)，两边左乘 \( B \) 的一个左逆，右乘 \( C \) 的一个右逆，得到 \( CGB=E_r \). 这说明 \( CG=:\hat{B} \) 给出 \( B \) 的一个左逆，以及 \( GB=:\hat{C} \) 给出 \( C \) 的一个右逆. 那么 \( G=GAG=(GB)(CG)=\hat{C}\hat{B} \).
 \end{proof}
 
-应用练习 \ref{prac3.12} 还有如下结果，不过这需要求解逆矩阵，计算一般比较繁琐.
+应用练习 \ref{prac3.13} 还有如下结果，不过这需要求解逆矩阵，计算一般比较繁琐.
 
 \begin{corollary}
 	设 \( A \in \R\mn \)，以及 \( r(A)=r \). 给定 \( A \) 的一个满秩分解 \( A=BC \)，如同定理 \ref{3.2.26} 所述. 那么 \( A_r^{-}:=C\T (CC\T)^{-1}(B\T B)^{-1} B\T \) 给出 \( A \) 的一个自反减号逆.
@@ -2534,13 +2551,13 @@ d & e & f
 在引理 \ref{3.3.1} 中，我们探讨了对相容方程组 \( AX=\beta \in \text{range}(A) \) 而言，如果具有形如 \( X=G\beta \) 的解，那么 \( G \in A\{1 \} \). 但这距离 \( AX=\beta \) 的所有解还有一些距离，这个方程是否有不能表示为 \( G\beta \) 形式的解呢? 下面的定理告诉我们：答案是否定的.
 
 
-\begin{theorem}[非齐次线性方程组解的结构 I] \label{3.3.13}
+\begin{theorem}[非齐次线性方程组的公式解 I] \label{3.3.13}
 	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，那么非齐次线性方程组 \( AX=\beta \in \text{range}(A) \) 的解集为 \( X=A\{1\}\beta:=\{A^{-}\beta\mid A^{-} \in A\{1\}\} \). 
 \end{theorem}
 
 
 \begin{proof}
-	一方面，由练习 \ref{prac3.15} 可知 \( A\{1\}\beta \) 中的元素全为 \( AX=\beta \) 的解. 另一方面，欲证任取 \( AX=\beta \) 的一解 \( X_0 \) 都可以写为 \( A\{1\}\beta \) 中元素的形式，下面找 \( A^{-} \) 使得 \( X_0=A^{-}\beta \). 设 \( r(A)=r \) 以及 \( P \in \gfm,\; Q \in \gfn \) 使得 \( PAQ=\diag\{E_r,O\} \leadsto PAX_0=\diag\{E_r,O\}Q^{-1}X_0=P\beta \). 现在取形如定理 \ref{3.3.3} 的减号逆 \( A^{-} \)，并待定 \( G_{12}, G_{21}, G_{22} \). 代入假设 \( X_0=A^{-}\beta \)，
+	一方面，由练习 \ref{prac3.16} 可知 \( A\{1\}\beta \) 中的元素全为 \( AX=\beta \) 的解. 另一方面，欲证任取 \( AX=\beta \) 的一解 \( X_0 \) 都可以写为 \( A\{1\}\beta \) 中元素的形式，下面找 \( A^{-} \) 使得 \( X_0=A^{-}\beta \). 设 \( r(A)=r \) 以及 \( P \in \gfm,\; Q \in \gfn \) 使得 \( PAQ=\diag\{E_r,O\} \leadsto PAX_0=\diag\{E_r,O\}Q^{-1}X_0=P\beta \). 现在取形如定理 \ref{3.3.3} 的减号逆 \( A^{-} \)，并待定 \( G_{12}, G_{21}, G_{22} \). 代入假设 \( X_0=A^{-}\beta \)，
 	\[ A^{-}\beta=Q\begin{bmatrix}
 		E_r & G_{12} \\
 		G_{21} & G_{22}
@@ -2579,7 +2596,7 @@ d & e & f
 \end{proof}
 
 
-\begin{theorem}[非齐次线性方程组解的结构 I] \label{3.3.14}
+\begin{theorem}[齐次线性方程组的公式解] \label{3.3.14}
 	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取定 \( A^{-} \in A\{1\} \)，那么齐次线性方程组 \( AX=O \) 的解集为 \( X=(E_n-A^{-}A)Y \)，其中 \( Y \) 取遍 \( \F^n \). 
 \end{theorem}
 
@@ -2591,7 +2608,7 @@ d & e & f
 	\[ X_0=X_0-A^{-}O=X_0-A^{-}AX_0=(E_n-A^{-}A)X_0. \]
 \end{proof}
 
-\begin{corollary}[非齐次线性方程组解的结构 II] \label{3.3.15}
+\begin{corollary}[非齐次线性方程组的公式解 II] \label{3.3.15}
 	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取定 \( A^{-} \in A\{1\} \)，那么非齐次线性方程组 \( AX=\beta \in \text{range}(A) \) 的解集为 \( X=A^{-}\beta+(E_n-A^{-}A)Y \)，其中 \( Y \) 取遍 \( \F^n \). 
 \end{corollary}
 
@@ -2667,7 +2684,7 @@ d & e & f
 	0 & 0 & 0 & 0
 	\end{bmatrix}. \]
 	
-	接下来判定 \( AX=\beta \) 是否有解，用相容性条件，即练习 \ref{prac3.15}.
+	接下来判定 \( AX=\beta \) 是否有解，用相容性条件，即练习 \ref{prac3.16}.
 	\[ AA^{-}\beta=\begin{bmatrix}
 		1 & 0 & 2 \\
 		0 & 1 & 0 \\
@@ -3412,7 +3429,7 @@ d & e & f
 \end{proof}
 
 
-\begin{practice} \label{prac3.16}
+\begin{practice} \label{prac3.17}
     设 \( \F \subseteq \C \) 为数域以及 \( A \in \F\n \) 满足 \( A^2=2A \)，证明存在 \( P \in \gfn \) 使得
      \[ P^{-1}AP=\begin{bmatrix}
 	2E_r & O \\
@@ -3522,7 +3539,7 @@ d & e & f
 \end{example}
 
 \begin{proof}
-    由 \( (A+E_n)^2=A^2+2A+E_n=2(A+E_n) \). 由练习 \ref{prac3.16} 可知存在 \( P \in \gfn  \) 使得
+    由 \( (A+E_n)^2=A^2+2A+E_n=2(A+E_n) \). 由练习 \ref{prac3.17} 可知存在 \( P \in \gfn  \) 使得
     \[ P^{-1}(A+E_n)P=\begin{bmatrix}
     	2E_r & O \\
     	O & O
