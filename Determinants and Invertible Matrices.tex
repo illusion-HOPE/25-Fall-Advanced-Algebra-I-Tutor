@@ -322,7 +322,7 @@
 	
 	\vspace{1ex}
 	
-	(\textbf{法二}) \ 不妨设 \( m>n \). 若结论不然，断言线性方程组 \( AX=O \) 只有零解. 首先 \( X=O \) 显然为解. 其次，对任意满足方程的 \( X_1 \in \F^m \) 使得 \( AX_1=O \leadsto X_1=BAX_1=BO=O \). 设 \( PA\T=K \)，其中 \( P \) 为若干 \( m \) 阶矩阵的乘积，对 \( A\T \) 施行初等行变换，使其变为简化行阶梯形矩阵 \( K \). 那么非零行数目 \( r(A\T) \leq \min\{n,m\}=n<m \). 故 \( PA\T=K \) 的第 \( m \) 行必定为零行. 即 \( \varepsilon_m^T K= O_{1 \times n}= \varepsilon_m^T PA\T \). 两边同时取转置，有 \( A(P\T\varepsilon_m)=O_{n \times 1} \). 故只能 \( P\T\varepsilon_m=O \). 利用性质 \ref{2.1.2} (3)，初等矩阵都为可逆矩阵，故若干初等矩阵的积也为可逆矩阵，那么由性质 \ref{2.1.2} (4) 可知 \( P\T \) 可逆，对  \( P\T\varepsilon_m=O \) 两边同乘 \( P\T \) 的逆得到 \( \varepsilon_m=O \) 矛盾.
+	(\textbf{法二}) \ 不妨设 \( m>n \). 若结论不然，断言线性方程组 \( AX=\bm{0} \) 只有零解. 首先 \( X=\bm{0} \) 显然为解. 其次，对任意满足方程的 \( X_1 \in \F^m \) 使得 \( AX_1=O \leadsto X_1=BAX_1=BO=O \). 设 \( PA\T=K \)，其中 \( P \) 为若干 \( m \) 阶矩阵的乘积，对 \( A\T \) 施行初等行变换，使其变为简化行阶梯形矩阵 \( K \). 那么非零行数目 \( r(A\T) \leq \min\{n,m\}=n<m \). 故 \( PA\T=K \) 的第 \( m \) 行必定为零行. 即 \( \varepsilon_m^T K= O_{1 \times n}= \varepsilon_m^T PA\T \). 两边同时取转置，有 \( A(P\T\varepsilon_m)=O_{n \times 1} \). 故只能 \( P\T\varepsilon_m=O \). 利用性质 \ref{2.1.2} (3)，初等矩阵都为可逆矩阵，故若干初等矩阵的积也为可逆矩阵，那么由性质 \ref{2.1.2} (4) 可知 \( P\T \) 可逆，对  \( P\T\varepsilon_m=O \) 两边同乘 \( P\T \) 的逆得到 \( \varepsilon_m=O \) 矛盾.
 \end{proof}
 
 为了进一步研究可逆矩阵的判定条件，我们先对可逆矩阵有一个初步刻画.
@@ -330,7 +330,7 @@
 \begin{proposition}[可逆的必要条件]\label{2.1.12}
 	设 \( A \in \gfn \)，即定义 \ref{2.1.1}，存在矩阵 \( B \in \F\n \)，使得 \( BA=AB=E_n \)，其中 \( B \) 当然也是可逆的. 那么
 	\begin{enumerate}[(1)]
-		\item 线性方程组 \( AX=O \) 仅有零解;
+		\item 线性方程组 \( AX=\bm{0} \) 仅有零解;
 		\item \( A \) 的简化行阶梯形矩阵为 \( E_n \) 或者简化行阶梯形矩阵的非零行数目 \( r(A)=n \);
 		\item \( A \) 可以只经过初等行变换或者初等列变换变为 \( E_n \);
 		\item \( A \) 可以表示为初等矩阵的乘积.
@@ -339,8 +339,8 @@
 \end{proposition}
 
 \begin{proof}
-	(1) 首先 \( X=O \) 显然为解. 其次，对每个满足线性方程组 \( AX=O \) 的解都有 \( X=A^{-1}AX=A^{-1}O=O \);
-	(2) 否则，设 \( A \) 的简化行阶梯矩阵为 \( K=PA \)，其中 \( P \) 为若干初等矩阵之积，为可逆矩阵. 设 \( K \) 的非零行数目 \( r(A)<n \). 即 \( \varepsilon_n\T K=O= \varepsilon_n\T PA \)，那么 \( A\T(P\T \varepsilon_n)=O \). 然而由性质 \ref{2.1.2} (4) \( P\T \) 可逆，这意味着 \( P\T \varepsilon_n \neq O \). 那么 \( A\T X=O \) 存在非零解，但 \( A\T \) 可逆，矛盾. (1)(2) 事实上完全是命题 \ref{2.1.11} 法二过程的照搬.
+	(1) 首先 \( X=\bm{0} \) 显然为解. 其次，对每个满足线性方程组 \( AX=\bm{0} \) 的解都有 \( X=A^{-1}AX=A^{-1}O=O \);
+	(2) 否则，设 \( A \) 的简化行阶梯矩阵为 \( K=PA \)，其中 \( P \) 为若干初等矩阵之积，为可逆矩阵. 设 \( K \) 的非零行数目 \( r(A)<n \). 即 \( \varepsilon_n\T K=O= \varepsilon_n\T PA \)，那么 \( A\T(P\T \varepsilon_n)=O \). 然而由性质 \ref{2.1.2} (4) \( P\T \) 可逆，这意味着 \( P\T \varepsilon_n \neq O \). 那么 \( A\T X=\bm{0} \) 存在非零解，但 \( A\T \) 可逆，矛盾. (1)(2) 事实上完全是命题 \ref{2.1.11} 法二过程的照搬.
 	
 	\vspace{1ex}
 	
@@ -616,9 +616,9 @@ a_{31} & a_{32} & a_{33}
      	\end{bmatrix}+\sum_{k=i+1}^{n}a_{k2}(-1)^{(k-1)+1}M\begin{bmatrix}
      	i & k \\ 1 & 2
      	\end{bmatrix} \right) \\
-     	&= \sum_{1 \leq k<i \leq n}^{} (-1)^{i+k} a_{i1}a_{k2} \begin{bmatrix}
+     	&= \sum_{1 \leq k<i \leq n}^{} (-1)^{i+k} a_{i1}a_{k2} M\begin{bmatrix}
      		i & k \\ 1 & 2
-     	\end{bmatrix}+ \sum_{1 \leq i<k \leq n}^{}  (-1)^{i+k+1} a_{i1}a_{k2} \begin{bmatrix}
+     	\end{bmatrix}+ \sum_{1 \leq i<k \leq n}^{}  (-1)^{i+k+1} a_{i1}a_{k2} M\begin{bmatrix}
      	i & k \\ 1 & 2
      	\end{bmatrix} \\
      	&= \sum_{k=1}^{n} (-1)^{k+2}a_{k2} \left( \sum_{i=k+1}^{n} (-1)^{i-1+1}a_{i1}M\begin{bmatrix}
@@ -864,7 +864,7 @@ a_{31} & a_{32} & a_{33}
 		\item \( A \in \gfn \)，即定义 \ref{2.1.1}，存在矩阵 \( B \in \F\n \)，使得 \( BA=AB=E_n \);
 		\item \( \det A \neq 0 \);
 		\item 存在矩阵 \( B \in \F\n \)，使得 \( AB=E_n \) 或者 \( BA=E_n \);
-		\item 线性方程组 \( AX=O \) 仅有零解;
+		\item 线性方程组 \( AX=\bm{0} \) 仅有零解;
 		\item \( A \) 的简化行阶梯形矩阵为 \( E_n \) 或者简化行阶梯形矩阵的非零行数目 \( r(A)=n \);
 		\item \( A \) 可以只经过初等行变换或者初等列变换变为 \( E_n \);
 		\item \( A \) 可以表示为初等矩阵的乘积.
@@ -887,7 +887,7 @@ a_{31} & a_{32} & a_{33}
 	\begin{enumerate}[(1)]
 		\item \( A \) 不可逆;
 		\item \( \det A = 0 \);
-		\item 线性方程组 \( AX=O \) 有无穷多解;
+		\item 线性方程组 \( AX=\bm{0} \) 有无穷多解;
 		\item 存在非零矩阵 \( B \in \F\n \) 使得 \( AB=O \);
 		\item \( A \) 的简化行阶梯形矩阵的非零行数目 \( r(A)<n \).
 	\end{enumerate}
@@ -895,7 +895,7 @@ a_{31} & a_{32} & a_{33}
 \end{proposition}
 
 \begin{proof}
-	(3) 就是指 \( AX=O \) 存在非零解，那么对一个解 \( X_0 \)，自然所有 \( cX_0 \ (c \in \F) \) 就都是解了. \( (3) \Rightarrow (4) \)，取一个非零解 \( X_0 \)，构造 \( B=(X_0,\bm{0},\cdots,\bm{0}) \) 即可. \( (4) \Rightarrow (3) \): 设 \( B=(B_1,\cdots,B_n) \)，那么必定存在一个 \( B_i \neq \bm{0} \). 由于分块矩阵的乘法定义，那么 \( AB_i=O \). 其余充要性直接由命题 \ref{2.2.13} 得到.
+	(3) 就是指 \( AX=\bm{0} \) 存在非零解，那么对一个解 \( X_0 \)，自然所有 \( cX_0 \ (c \in \F) \) 就都是解了. \( (3) \Rightarrow (4) \)，取一个非零解 \( X_0 \)，构造 \( B=(X_0,\bm{0},\cdots,\bm{0}) \) 即可. \( (4) \Rightarrow (3) \): 设 \( B=(B_1,\cdots,B_n) \)，那么必定存在一个 \( B_i \neq \bm{0} \). 由于分块矩阵的乘法定义，那么 \( AB_i=O \). 其余充要性直接由命题 \ref{2.2.13} 得到.
 \end{proof}
 
 从性质 \ref{2.1.2} 以及命题 \ref{2.2.13} 的证明我们知道，如果 \( A \) 可逆，逆元必定唯一 \( A^{-1}=(\det A)^{-1} A^* \). 那么 \( AX=\beta \) 的解就完全归结到计算一些行列式，得到 \( A^* \) 和 \( \det A \)，最后计算 \( X=A^{-1}\beta \) 即可. 这就是下面的 Cramer 法则，回答了我们开头提出的如何求线性方程组公式解的问题.
@@ -912,7 +912,7 @@ a_{31} & a_{32} & a_{33}
 \end{theorem}
 
 \begin{proof}
-	充分性，首先明显 \( X=(\det A)^{-1}(A^*\beta) \) 是一个解. 若存在 \( X_1 \neq X_2 \)，使得 \( AX_1=AX_2=\beta \leadsto X_1-X_2 \neq \bm{0} \) 为 \( AX=O \) 的非零解，由命题 \ref{2.2.13} (4) 推出矛盾. 
+	充分性，首先明显 \( X=(\det A)^{-1}(A^*\beta) \) 是一个解. 若存在 \( X_1 \neq X_2 \)，使得 \( AX_1=AX_2=\beta \leadsto X_1-X_2 \neq \bm{0} \) 为 \( AX=\bm{0} \) 的非零解，由命题 \ref{2.2.13} (4) 推出矛盾. 
 	
 	必要性，用反证法，若 \( A \) 不可逆，设 \( A \) 的简化行阶梯矩阵为 \( K=PA \)，其中 \( P \) 可逆，为若干初等矩阵之积. 设 \( P\beta=(b_1,\cdots,b_n)\T \)，且非零行数目 \( r(A)=m<n \). 那么适当取 \( b_{m+1}=1 \)，其余元素为零，此时 \( KX=(b_1,\cdots,b_n)\T \) 无解. 取 \( \beta=P^{-1}(b_1,\cdots,b_n)\T \)，说明此时 \( AX=\beta \) 未必有解. 另一方面，即使有解，由命题 \ref{2.2.14} (3) 知道存在 \( X_0 \neq 0 \)，使得 \( AX_0=O \). 对满足方程的任意解 \( X_1 \)，\( X=X_1+cX_0 \ (c \in \F) \) 都是解，解不唯一. 故必要性成立.
 	
@@ -1007,12 +1007,12 @@ a_{31} & a_{32} & a_{33}
 
 \begin{solution} 
 	(\textbf{法一}) \ 利用第 \( 2 \sim n \) 列把第一列全打成零，也就是如下的初等列变换
-	\[ \begin{bmatrix}
+	\[ \begin{vmatrix}
 		a_0 & b_1 & \cdots & b_n \\
 		c_1 & a_1 &  & \\
 		\vdots &  & \ddots & \\
 		c_n &       &        & a_n
-	\end{bmatrix} \leadsto \begin{vmatrix}
+	\end{vmatrix} \leadsto \begin{vmatrix}
 	a_0-\frac{c_1b_1}{a_1} & b_1 & \cdots & b_n \\
 	0 & a_1 &  & \\
 	\vdots &  & \ddots & \\
@@ -1622,8 +1622,8 @@ x_3 & y_3 & z_3
 \begin{definition}[线性关系]
 	设 \( \alpha_1,\cdots,\alpha_s \in \F^n \)，那么
 	\begin{enumerate}[(1)]
-		\item 称 \( \alpha_1,\cdots,\alpha_s \) 线性相关若存在不全为零的 \( c_1,\cdots,c_s \in \F \) 使得 \( c_1\alpha_1+\cdots+c_s\alpha_s= \bm{0} \);
-		\item 称 \( \alpha_1,\cdots,\alpha_s \) 线性无关若对任意 \( c_1,\cdots,c_s \in \F \) 使得 \( c_1\alpha_1+\cdots+c_s\alpha_s= \bm{0} \) 都有 \( c_1=\cdots=c_s=0 \).
+		\item 称 \( \alpha_1,\cdots,\alpha_s \) 线性相关，若存在不全为零的 \( c_1,\cdots,c_s \in \F \) 使得 \( c_1\alpha_1+\cdots+c_s\alpha_s= \bm{0} \);
+		\item 称 \( \alpha_1,\cdots,\alpha_s \) 线性无关，若对任意 \( c_1,\cdots,c_s \in \F \) 使得 \( c_1\alpha_1+\cdots+c_s\alpha_s= \bm{0} \) 都有 \( c_1=\cdots=c_s=0 \).
 		\item 再给 \( \beta \in \F^n \)，若存在 \( c_1,\cdots,c_s \in \F \) 使得 \( \beta= c_1\alpha_1+\cdots+c_s\alpha_s \) 成立，称 \( \beta \) 可由 \( \alpha_1,\cdots,\alpha_s \) 线性表出.
 	\end{enumerate} 
 \end{definition}
@@ -1743,7 +1743,7 @@ x_3 & y_3 & z_3
 \end{proposition}
 
 \begin{proof}
-	用命题 \ref{2.2.13}，\( A \) 可逆当且仅当 \( AX=O \) 仅有零解，换言之，即 \( x_1\alpha+x_2\alpha_2+\cdots+x_n\alpha_n=\bm{0} \) 蕴含 \( x_1=\cdots=x_n=0 \)，也即 \( \alpha_1,\cdots,\alpha_n \) 线性无关. 
+	用命题 \ref{2.2.13}，\( A \) 可逆当且仅当 \( AX=\bm{0} \) 仅有零解，换言之，即 \( x_1\alpha+x_2\alpha_2+\cdots+x_n\alpha_n=\bm{0} \) 蕴含 \( x_1=\cdots=x_n=0 \)，也即 \( \alpha_1,\cdots,\alpha_n \) 线性无关. 
 \end{proof}
 
 \begin{theorem} \label{2.3.19}
@@ -2339,10 +2339,10 @@ x_3 & y_3 & z_3
 
 如果将 \( D \) 和 \( D^* \) 想象为有向体积，那么行列式无非就是 \( \varphi_{A} \) 带来的体积伸缩量，从 \( D(v_1,\cdots,v_n) \) 到 \( D(Av_1,\cdots,Av_n) \). 这一点将在多元重积分的换元公式中自然而然的出现，因为对满足逆映射定理的可微向量值函数，局部存在可逆线性映射 \( Jf: X \mapsto JX \)，其中 \( J \) 为 \( f \) 的 Jacobi 矩阵. 那么局部体积的改变量的绝对值就是 \( |\det J| \)，作为一个比例系数存在.
 
-当 \( A \) 可逆时，由于 \( AX=O \) 仅有零解，那么 \( c_1Av_1+\cdots+c_nAv_n= \bm{0}= A(c_1v_1+\cdots+c_nv_n) \Rightarrow c_1v_1+\cdots+c_nv_n=\bm{0} \). 那么 \( \varphi_{A} \) 保持线性关系. 如果取 \( v_1,\cdots,v_n \) 为一组基，那么体积必定不为零，且 \( Av_1,\cdots,Av_n \) 也为一组基，体积也不为零，体积伸缩量 \( \det A \) 当然也不为零，符合我们在命题 \ref{2.2.13} 中的刻画. 
+当 \( A \) 可逆时，由于 \( AX=\bm{0} \) 仅有零解，那么 \( c_1Av_1+\cdots+c_nAv_n= \bm{0}= A(c_1v_1+\cdots+c_nv_n) \Rightarrow c_1v_1+\cdots+c_nv_n=\bm{0} \). 那么 \( \varphi_{A} \) 保持线性关系. 如果取 \( v_1,\cdots,v_n \) 为一组基，那么体积必定不为零，且 \( Av_1,\cdots,Av_n \) 也为一组基，体积也不为零，体积伸缩量 \( \det A \) 当然也不为零，符合我们在命题 \ref{2.2.13} 中的刻画. 
 
 
-另一方面，若 \( A \) 不可逆，那么 \( AX=O \) 存在非零解，不妨记为 \( X=\beta \neq \bm{0} \)，如果 \( v_1,\cdots,v_n \) 为一组基，那么存在唯一的 \( c_1,\cdots,c_n \in \F \) 使得 \( \beta=c_1v_1+\cdots+c_nv_n \)，且由于 \( \beta \neq \bm{0} \)，故 \( c_1,\cdots,c_n \) 当然不会全为零，此时用 \( A \) 左乘，就有
+另一方面，若 \( A \) 不可逆，那么 \( AX=\bm{0} \) 存在非零解，不妨记为 \( X=\beta \neq \bm{0} \)，如果 \( v_1,\cdots,v_n \) 为一组基，那么存在唯一的 \( c_1,\cdots,c_n \in \F \) 使得 \( \beta=c_1v_1+\cdots+c_nv_n \)，且由于 \( \beta \neq \bm{0} \)，故 \( c_1,\cdots,c_n \) 当然不会全为零，此时用 \( A \) 左乘，就有
 \[ c_1(Av_1)+\cdots+c_n(Av_n)=A\beta=\bm{0}. \]
 
 也就说明 \( Av_1,\cdots,Av_n \) 线性相关，那么有向体积自然为零. 说明 \( \varphi_{A} \) 带来的伸缩量就是直接打到零了，即 \( \det A=0 \)，完美符合命题 \ref{2.2.14}. 这只是一种初步验证，我们接下来给出定义 \ref{2.3.34} 的具体表达式.

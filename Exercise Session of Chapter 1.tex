@@ -1285,9 +1285,9 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 \begin{proof}
 	(1) (2) (3) 在讲义 2 的小节 \S 2.5.3 中已经详细证明过. 作为补充，我们给出 (4) 的摄动法证明以及 (2) (3) 的其他证明.
 	
-	(2) 只需要证明 \( \det A^*=0 \) 当 \( A \) 不可逆时. 当 \( A=O \) 时，显然 \( A^*=O \). 若 \( A \neq O \)，那么 \( A^*A=(\det A)E_n=O \)，即 \( A^*X=O \) 存在非零解(取 \( A \) 非零的一列即为一解)，于是 \( \det A^*=0 \).
+	(2) 只需要证明当 \( A \) 不可逆时有 \( \det A^*=0 \). 当 \( A=O \) 时，显然 \( A^*=O \). 若 \( A \neq O \)，那么 \( A^*A=(\det A)E_n=O \)，即 \( A^*X=\bm{0} \) 存在非零解(取 \( A \) 非零的一列即为一解)，于是 \( \det A^*=0 \).
 	
-	(3) 只需要证明 \( (A^*)^*=O \) 当 \( A \) 不可逆时，此时设 \( r(A)=r<n \). 那么存在 \( P,Q \in \gfn \) 使得 \( A=P\diag\{E_r,O\}Q \leadsto A^*=Q^* \diag\{E_r,O\}^* P^* \). 当 \( r=n-1 \) 时，容易验证 \( A_{ij} \) 总存在一列全为零，故 \( A_{ij}=0 \ (i \neq j) \). 进一步有
+	(3) 只需要证明当 \( A \) 不可逆时有 \( (A^*)^*=O \). 此时设 \( r(A)=r<n \). 那么存在 \( P,Q \in \gfn \) 使得 \( A=P\diag\{E_r,O\}Q \leadsto A^*=Q^* \diag\{E_r,O\}^* P^* \). 设 \( \diag\{E_r,O\}^*=(L_{ji}) \). 当 \( r=n-1 \) 时，容易验证 \( L_{ij} \) 总存在一列全为零，故 \( L_{ij}=0 \ (i \neq j) \). 进一步有
 	\[ \begin{bmatrix}
 		E_{n-1} & \bm{0} \\
 		\bm{0} & 0
@@ -1296,13 +1296,15 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 	    \bm{0} & 1  
 	\end{bmatrix}. \]
 	
-	 由于 \( Q^*,P^* \in \gfn \)，那么 \( r(A^*)=1<n \). 当 \( r<n-1 \) 时，
+	由于 \( Q^*,P^* \in \gfn \)，那么 \( r(A^*)=1<n \). 当 \( r<n-1 \) 时，
 	\[ \begin{bmatrix}
 		E_r & O \\
 		O & O
 	\end{bmatrix}^*=O. \]
 	
-	那么 \( A^*=O \). (4) 当 \( A,B \in \gfn \) 时，
+	那么 \( A^*=O \leadsto (A^*)^*=O \). 对 \( r(A)=n-1 \) 的情形，由于 \( r(A^*)=1<n-1 \)，于是 \( (A^*)^*=O \). 
+	
+	(4) 当 \( A,B \in \gfn \) 时，
 	\[ \begin{bmatrix}
 		A & O \\
 		O & B
@@ -1493,10 +1495,10 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 \end{example}
 
 \begin{proof}
-	(1) 考虑齐次线性方程组 \( (kA+E_m)X=O \)，设其有非零解 \( X_0 \neq \bm{0} \)，那么 \( X_0\T (kA+E_m) X_0= k (X_0\T A X_0)+ X_0\T X_0=0 \). 注意到 \( A \) 实反对称，那么 
+	(1) 考虑齐次线性方程组 \( (kA+E_m)X=\bm{0} \)，设其有非零解 \( X_0 \neq \bm{0} \)，那么 \( X_0\T (kA+E_m) X_0= k (X_0\T A X_0)+ X_0\T X_0=0 \). 注意到 \( A \) 实反对称，那么 
 	\[ (X_0\T A X_0)\T= -X_0\T A X_0 \leadsto 2(X_0\T A X_0)=0 \leadsto X_0\T A X_0=0.\]
 	
-	设 \( X_0=(x_1,\cdots,x_n)\T \in \R^n \)，那么 \( X_0\T X_0=0 \leadsto x_1^2+\cdots+x_n^2=0 \leadsto x_1=\cdots=x_n=0 \). 那么齐次线性方程组 \( (kA+E_m)X=O \) 只能有零解，推出 \( kA+E_m \) 必定可逆. 注意到 \( f(k) \neq 0 \) 对任意 \( k \in \R \) 都成立，断言 \( f(k) \) 在 \( \R \) 上恒正或者恒负，否则由 \( \R \) 上连续函数的零点定理推出矛盾，又 \( f(0)=1>0 \)，于是 \( f(k) \) 恒正.
+	设 \( X_0=(x_1,\cdots,x_n)\T \in \R^n \)，那么 \( X_0\T X_0=0 \leadsto x_1^2+\cdots+x_n^2=0 \leadsto x_1=\cdots=x_n=0 \). 那么齐次线性方程组 \( (kA+E_m)X=\bm{0} \) 只能有零解，推出 \( kA+E_m \) 必定可逆. 注意到 \( f(k) \neq 0 \) 对任意 \( k \in \R \) 都成立，断言 \( f(k) \) 在 \( \R \) 上恒正或者恒负，否则由 \( \R \) 上连续函数的零点定理推出矛盾，又 \( f(0)=1>0 \)，于是 \( f(k) \) 恒正.
 	
 	(2) 构造如下的分块矩阵
 	\[ M=\begin{bmatrix}
@@ -1525,7 +1527,7 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 	
 	\vspace{1ex}
 	
-	(\textbf{法二})\ 用类似 (1) 的方法. 考虑 \( MX=O \) 的非零解 \( X_0=(X_1\T,X_2\T)\T \). 那么
+	(\textbf{法二})\ 用类似 (1) 的方法. 考虑 \( MX=\bm{0} \) 的非零解 \( X_0=(X_1\T,X_2\T)\T \). 那么
 	\[ MX_0= \begin{bmatrix}
 		(A+E_m)X_1+BX_2 \\
 		B\T X_1+(C-E_n)X_2
@@ -1732,6 +1734,14 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 \end{proof}
 
 \begin{practice}
+	设 \( A \in \F\nm, B \in \F\mn \)，若 \( r(AB)=n \)，证明 \( r(BA)=n \).
+\end{practice}
+
+\begin{proof}
+	由秩不等式知 \( \min\{n,m\} \geq r(A), r(B) \geq r(AB)=n \)，于是 \( m \geq n, \; r(A)=r(B)=n \). 那么 \( B \) 列满秩，于是 \( r(BA)=r(A)=n \).
+\end{proof}
+
+\begin{practice}
 	设 \( A \in \R\n \)，尝试用秩的子式定义以及 Cauchy\(-\)Binet 公式证明：\( r(AA\T)=r(A\T A)=r(A) \).
 \end{practice}
 
@@ -1769,6 +1779,8 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 	i_1 & i_2 & \cdots & i_r
 	\end{bmatrix}^2 >0. \]
 \end{proof}
+
+
 
 \subsubsection{矩阵分解}
 
@@ -1849,21 +1861,10 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 \end{theorem}
 
 \begin{theorem}[线性方程组解的结构]	\label{4.3.2}
-	设 \( A \in \F\mn, \; \beta \in \F^m \)，给定非齐次线性方程组 \( AX=\beta \)，且 \( r(A)=r(\overline{A})=r \). 那么存在 \( n-r(A)=:k \) 个自由未知量 \( c_1,\cdots,c_{k} \in \F \) 以及{\color{blue} 线性无关的} \( n \) 维列向量 \( \gamma,\eta_1,\cdots,\eta_k \in \F^n \)，使得方程 (\ref{linequ.}) 解的全体可以表示为
+	设 \( A \in \F\mn, \; \beta \in \F^m \)，给定非齐次线性方程组 \( AX=\beta \)，且 \( r(A)=r(\overline{A})=r \). 那么存在 \( n-r(A)=:k \) 个自由未知量 \( c_1,\cdots,c_{k} \in \F \) 以及{\color{blue} 线性无关的} \( n \) 维列向量 \( \gamma,\eta_1,\cdots,\eta_k \in \F^n \)，使得方程 \( AX=\beta \) 解的全体可以表示为
 	\[ X=\gamma+c_1\eta_1+\cdots+c_k\eta_k. \] 
 	
-	其中要求 \( \gamma \) 为方程 (\ref{linequ.}) 的一个特解，而 \( \eta_1,\cdots,\eta_k \) 为方程
-	\begin{equation}
-		\left\{\begin{array}{l}
-			a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=0, \\
-			a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=0, \\
-			\qquad \vdots \\
-			a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n=0.
-		\end{array}\right.
-		\label{linequ.2}
-	\end{equation}
-	
-	的若干不同解.
+	其中要求 \( \gamma \) 为方程 \( AX=\beta \) 的一个特解，而 \( \eta_1,\cdots,\eta_k \) 为方程 \( AX=\bm{0} \) 的若干不同解.
 \end{theorem}
 
 \begin{proof}
@@ -1883,7 +1884,7 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 	\end{bmatrix}, \; \cdots, \; \eta_k=\begin{bmatrix}
 		p_{1,n} \\ p_{2,n} \\ \vdots \\ p_{r,n} \\ 0 \\ \vdots \\ 1
 	\end{bmatrix}  \; c_{m}=x_{r+m} \ ( 1 \leq m \leq k). \]
-	取 \( c_1=\cdots=c_k=0 \) 时，容易验证 \( \gamma \) 就为方程 (\ref{linequ.}) 的一个特解. 考察方程 (\ref{linequ.2})，将 \( \overline{A} \) 的最后一列全换为零，那么 \( \overline{K} \) 的前 \( n \) 列保持不变，最后一列依旧全为零. 同解方程组就变为
+	取 \( c_1=\cdots=c_k=0 \) 时，容易验证 \( \gamma \) 就为方程 (\ref{linequ.}) 的一个特解. 考察方程 \( AX=\bm{0} \)，将 \( \overline{A} \) 的最后一列全换为零，那么 \( \overline{K} \) 的前 \( n \) 列保持不变，最后一列依旧全为零. 同解方程组就变为
 	\[ \left\{ \begin{array}{l}
 		x_1= -p_{1,r+1}x_{r+1}-\cdots-p_{1,n}x_n, \\
 		x_2= -p_{2,r+1}x_{r+1}-\cdots-p_{2,n}x_n, \\
@@ -1891,7 +1892,7 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 		x_r= -p_{r,r+1}x_{r+1}-\cdots-p_{r,n}x_n. 
 	\end{array}\right. \leadsto X=c_1\eta_1+\cdots+c_k\eta_k. \]
 	
-	遍历 \( 1 \leq i \leq k \)，依次取 \( c_i=1, c_j=0 \ (j \neq i) \) 即可证明 \( \eta_1,\cdots,\eta_k \) 为方程 (\ref{linequ.2}) 的若干不同解.
+	遍历 \( 1 \leq i \leq k \)，依次取 \( c_i=1, c_j=0 \ (j \neq i) \) 即可证明 \( \eta_1,\cdots,\eta_k \) 为方程 \( AX=\bm{0} \) 的若干不同解.
 	
 	{\color{blue} 最后证明 \( \gamma,\eta_1,\cdots,\eta_k \) 线性无关. 考虑 \( \F-\)线性组合
 	\[ c_0\gamma+c_1\eta_1+\cdots+c_k\eta_k=\bm{0}. \]
@@ -1911,7 +1912,7 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 	设 \( A \in \F\mn, B \in \F^{m \times k} \)，取未知矩阵 \( X \in \F^{n \times k} \)，那么矩阵方程 \( AX=B \) 有唯一解的充分必要条件为 \( r(A,B)=r(A)=n \).
 \end{proposition}
 
-在下一章中，我们会更侧重从向量组的观点来看待线性方程组. 设 \( A=(\alpha_1,\cdots,\alpha_n) \)，那么 \( AX=\beta \) 事实上描述了 \( \beta \) 可以被 \( A \) 的列向量组线性表出. 那么想要 \( AX=\beta \) 有唯一解，就是 \( AX=O \) 必须仅有零解，这就蕴含了 \( c_1\alpha_1+\cdots+c_n\alpha_n=\bm{0} \) 必然推出 \( c_1=\cdots=c_n=0 \)，也就是 \( A \) 的列向量组线性无关，从命题 \ref{4.3.4} 中我们看到，这还等价于 \( A \) 列满秩.
+在下一章中，我们会更侧重从向量组的观点来看待线性方程组. 设 \( A=(\alpha_1,\cdots,\alpha_n) \)，那么 \( AX=\beta \) 事实上描述了 \( \beta \) 可以被 \( A \) 的列向量组线性表出. 那么想要 \( AX=\beta \) 有唯一解，就是 \( AX=\bm{0} \) 必须仅有零解，这就蕴含了 \( c_1\alpha_1+\cdots+c_n\alpha_n=\bm{0} \) 必然推出 \( c_1=\cdots=c_n=0 \)，也就是 \( A \) 的列向量组线性无关，从命题 \ref{4.3.4} 中我们看到，这还等价于 \( A \) 列满秩.
 
 如果从我们本章矩阵的观点来看，\( A \) 的列向量组线性无关说明对 \( A \) 进行列初等变换得到简化列阶梯形，不可能出现零行，否则 \( A \) 的某一列可以被其他列打为零向量就说明 \( A \) 的某一列可以被其他列线性表出，这与 \( A \) 的列向量组线性无关矛盾，于是 \( A \) 的简化列阶梯形的非零列数为 \( n \)，即 \( A \) 列满秩.
 
@@ -1935,7 +1936,7 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 
 
 \begin{theorem}[齐次线性方程组的公式解] 
-	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取定 \( A^{-} \in A\{1\} \)，那么齐次线性方程组 \( AX=O \) 的解集为 \( X=(E_n-A^{-}A)Y \)，其中 \( Y \) 取遍 \( \F^n \). 
+	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取定 \( A^{-} \in A\{1\} \)，那么齐次线性方程组 \( AX=\bm{0} \) 的解集为 \( X=(E_n-A^{-}A)Y \)，其中 \( Y \) 取遍 \( \F^n \). 
 \end{theorem}
 
 \begin{theorem}[非齐次线性方程组的公式解 I]
@@ -1947,7 +1948,7 @@ Vandermonde 行列式常常以各种变形的形式出现，要灵活运用行�
 \end{corollary}
 
 
-推论 \ref{4.3.8} 和定理 \ref{4.3.2} 十分类似，都说明了非齐次线性方程组的解可以写为 “非齐次特解\(+\)齐次通解” 的形式. 但它们又分别从两个不同的角度描述. 推论 \ref{4.3.8} 用简洁的矩阵表达给出了容易求解的公式，而定理 \ref{4.3.2} 从向量组的观点描述，只给出了 \( \gamma,\eta_1,\cdots,\eta_k \) 的存在性和线性无关性，实际操作上还是要回到增广矩阵的初等行变换. 但定理 \ref{4.3.2} 的理论意义是很重要的，它刻画了 \( AX=O \) 的解集构成了一个线性空间，并且这个线性空间的一组基为 \( \eta_1,\cdots,\eta_k \)，描述清楚了解的结构.
+推论 \ref{4.3.8} 和定理 \ref{4.3.2} 十分类似，都说明了非齐次线性方程组的解可以写为 “非齐次特解\(+\)齐次通解” 的形式. 但它们又分别从两个不同的角度描述. 推论 \ref{4.3.8} 用简洁的矩阵表达给出了容易求解的公式，而定理 \ref{4.3.2} 从向量组的观点描述，只给出了 \( \gamma,\eta_1,\cdots,\eta_k \) 的存在性和线性无关性，实际操作上还是要回到增广矩阵的初等行变换. 但定理 \ref{4.3.2} 的理论意义是很重要的，它刻画了 \( AX=\bm{0} \) 的解集构成了一个线性空间，并且这个线性空间的一组基为 \( \eta_1,\cdots,\eta_k \)，描述清楚了解的结构.
 
 \subsubsection{Guass\(-\)Jordan 算法的改进：PLU 算法}
 

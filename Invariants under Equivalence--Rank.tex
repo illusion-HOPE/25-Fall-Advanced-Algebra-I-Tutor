@@ -1229,7 +1229,7 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 		&< |a_{ii}|-|a_{i1}|+ (|a_{11}|-|a_{1i}|)\cdot \frac{|a_{i1}|}{|a_{11}|}= |a_{ii}|- \left| \frac{a_{i1}a_{1i}}{a_{11}} \right|.
 	\end{align*}
 	
-	(\textbf{法二})\ 若 \( A \) 不可逆，那么 \( AX=O \) 有非零解 \( X=(x_1,\cdots,x_n)\T \). 记 \( |x_i|=\max\{ |x_1|,\cdots,|x_n|\}>0 \). 那么
+	(\textbf{法二})\ 若 \( A \) 不可逆，那么 \( AX=\bm{0} \) 有非零解 \( X=(x_1,\cdots,x_n)\T \). 记 \( |x_i|=\max\{ |x_1|,\cdots,|x_n|\}>0 \). 那么
 	\[ \sum_{j=1}^{n} a_{ij}x_j= \sum_{j \neq i}^{} a_{ij}x_j+ a_{ii}x_i=0. \]
 	
 	但
@@ -1320,6 +1320,8 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
    
    反之，若 \( r(A,B)=r(A) \)，证明是类似的. 本题最优的证明将会由向量组的极大线性无关组给出.
 \end{proof}
+
+
 \begin{example} \label{3.1.29}
 	设 \(  A \in \F\mn, \; B \in \F^{n \times k} \). 
 	\begin{enumerate}[(1)]
@@ -1953,7 +1955,8 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 		\item \( A \) 存在左逆;
 		\item \( A \) 列满秩，即 \( r(A)=m \);
 		\item \( A \) 可以仅通过行初等变换变为其相抵标准形，即存在 \( P \in \gfn \)，使得 \( PA=(E_m,O)\T \);
-		\item \( AX=O \) 仅有零解.
+		\item \( AX=\bm{0} \) 仅有零解;
+		\item 对任意矩阵 \( B \in \F^{m \times s} \)，都有 \(  r(AB)=r(B) \).
 	\end{enumerate}
 \end{property}
 
@@ -1962,13 +1965,19 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	 \begin{center}
 	 	\fbox{
 	 		\(\xymatrix@R=4ex@C=3ex{
-	 	(1)\ar"2,2" &  & (3)\ar"1,1"\ar"2,4" & \\
-	 	 & (2)\ar"1,3" & & (4) \ar"2,2"\\
+	 	(1)\ar"2,2"\ar"2,1" & & (3)\ar"1,1"\ar"2,3" & \\
+	 	(5)\ar"2,2"& (2)\ar"1,3" & (4) \ar"2,2"\\
 	 } \) }
 	 \end{center}
 	 
 	
-	 (1) \( \Rightarrow \) (2). 用命题 \ref{3.1.13}，存在 \( B \in \F\mn \)，使得 \( BA=E_m \leadsto r(A) \geq r(BA)=m \). 但 \( r(A) \leq \min\{m,n\} \leq m \). (2) \( \Rightarrow \) (3). 存在 \( P \in \gfn, \; Q \in \gfm \) 使得 \( PAQ=(E_m,O)\T \). 那么 
+	 (1) \( \Rightarrow \) (2). 用命题 \ref{3.1.13}，存在 \( B \in \F\mn \)，使得 \( BA=E_m \leadsto r(A) \geq r(BA)=m \). 但 \( r(A) \leq \min\{m,n\} \leq m \). 
+	 
+	 (1) \( \Rightarrow \) (5). 设 \( A \) 的左逆为 \( \hat{A} \)，于是 \( B=\hat{A}AB \leadsto r(B)=r(\hat{A}AB) \geq r(AB) \). 另一方面，\( r(AB) \leq r(B) \) 是显然的.
+	 
+	 (5) \( \Rightarrow \) (2). 设 \( r(A)=r \)，注意到条件在相抵变换 \( A \mapsto PAQ=\diag\{E_r,O\}, \; B \mapsto Q^{-1}B \) 下不变，且 \( B \) 的任意性保持. 于是不妨一开始就设 \( A \) 为其相抵标准形. 若 \( r<m \)，取 \( B \) 的每一列都为 \( \varepsilon_{r+1} \)，那么 \( AB=O \)，但 \( r(B)=1>0 \)，矛盾.
+	 
+	 (2) \( \Rightarrow \) (3). 存在 \( P \in \gfn, \; Q \in \gfm \) 使得 \( PAQ=(E_m,O)\T \). 那么 
 	 \[ PA= \begin{bmatrix}
 	 	E_m \\ O
 	 \end{bmatrix}Q^{-1}=\begin{bmatrix}
@@ -1988,7 +1997,9 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 	 E_m \\ O
 	 \end{bmatrix}.  \]
 	 
-	 (4) \( \Rightarrow \) (2). 设 \( r(A)=r \). 存在 \( U \in \gfn, \; V \in \gfm \) 使得 \( A=U\diag\{E_r,O\}V:=U\Lambda V \). 说明 \( AX=O \) 和 \( \Lambda VX=O \) 同解. 我们断言 \( \Lambda VX=O \) 只有零解等价于 \( \Lambda X=O \) 只有零解. 若存在 \( \bm{0} \neq X_0 \) 使得 \( \Lambda VX_0=O \)，那么 \( VX_0 \neq \bm{0} \) 给出 \( \Lambda X=O \) 的一个非零解，反之是类似的. 而对 \( \Lambda X=O \)，设 \( X=(x_1,\cdots,x_n)\T \)，显然只能得出 \( x_1=\cdots=x_r=0 \)，余下的 \( x_{r+1},\cdots,x_m \) 为自由未知量，未必非零. 为使得 \( \Lambda X=O \) 仅有零解，必须让自由未知量个数为零，即 \( r=m \). 
+	 (3) \( \Rightarrow \) (4). 利用行初等变换不改变方程的解即得. 
+	 
+	 (4) \( \Rightarrow \) (2). 设 \( r(A)=r \). 存在 \( U \in \gfn, \; V \in \gfm \) 使得 \( A=U\diag\{E_r,O\}V:=U\Lambda V \). 说明 \( AX=\bm{0} \) 和 \( \Lambda VX=\bm{0} \) 同解. 我们断言 \( \Lambda VX=\bm{0} \) 只有零解等价于 \( \Lambda X=\bm{0} \) 只有零解. 若存在 \( \bm{0} \neq X_0 \) 使得 \( \Lambda VX_0=O \)，那么 \( VX_0 \neq \bm{0} \) 给出 \( \Lambda X=\bm{0} \) 的一个非零解，反之是类似的. 而对 \( \Lambda X=\bm{0} \)，设 \( X=(x_1,\cdots,x_n)\T \)，显然只能得出 \( x_1=\cdots=x_r=0 \)，余下的 \( x_{r+1},\cdots,x_m \) 为自由未知量，未必非零. 为使得 \( \Lambda X=\bm{0} \) 仅有零解，必须让自由未知量个数为零，即 \( r=m \). 
 	 
 	 (3) \( \Rightarrow \) (1). 注意到  \( (E_m,K)PA=E_m \)，那么 \( (E_m,K)P \) 即为所求左逆，这里 \( K \in \F^{m \times (n-m)} \) 为任意矩阵，这也说明 \( A \) 的左逆未必唯一.
 \end{proof}
@@ -2001,7 +2012,8 @@ E_r & O & O & O \\ O & E_s & O & O \\ O & O & C_{12} & O \\ O & O & O & O
 		\item \( A \) 存在右逆;
 		\item \( A \) 行满秩，即 \( r(A)=n \);
 		\item \( A \) 可以仅通过列初等变换变为其相抵标准形，即存在 \( Q \in \gfn \)，使得 \( AQ=(E_n,O) \);
-		\item \( XA=O \) 仅有零解.
+		\item \( XA=O \) 仅有零解;
+		\item 对任意 \( B \in \F^{s \times n} \)，都有 \( r(BA)=r(B) \).
 	\end{enumerate}
 \end{property}
 
@@ -2042,19 +2054,19 @@ E_m \\ O
 给出 \( A \) 的一个左逆. 特别地，取 \( \F=\R ( \text{or} \; \C) \)，还有如下命题，不过需要求解逆矩阵，在计算量上和上面的方法没有很大区别，但是表达式是很简洁的.
 
 \begin{practice} \label{prac3.13}
-	设 \( A \in \R\nm \)，那么 \( r(A)=m \) 当且仅当 \( A\T A \) 可逆，且 \( (A\T A)^{-1} A\T \) 给出 \( A \) 的一个左逆. 相应地， \( r(A)=m \) 当且仅当 \( AA\T  \) 可逆，且 \( A\T(AA\T)^{-1}  \) 给出 \( A \) 的一个右逆.
+	设 \( A \in \R\nm \)，那么 \( r(A)=m \) 当且仅当 \( A\T A \) 可逆，且 \( (A\T A)^{-1} A\T \) 给出 \( A \) 的一个左逆. 相应地， \( r(A)=n \) 当且仅当 \( AA\T  \) 可逆，且 \( A\T(AA\T)^{-1}  \) 给出 \( A \) 的一个右逆.
 \end{practice} 
 
 \begin{proof}
 	只证 \( r(A)=m \) 的结论. 
 	
-	若 \( r(A)=m \)，考虑线性方程组 \( A^TAX=O \)，欲证其只有零解. 若存在非零解 \( X_0 \in \R^m \)，那么 \( X_0\T A\T AX_0= (AX_0)\T (AX_0)=|AX_0|^2=0 \). {\color{red} 由于 \( AX_0 \in \R^n \)，每个分量均为实数，}那么只能 \( AX_0=O \). 但 \( r(A)=m \) 说明 \( AX=O \) 只有零解，矛盾. 由 \( (A^TA)^{-1}(A^TA)=E_m \)，说明 \( (A\T A)^{-1} A\T \) 给出 \( A \) 的一个左逆. 
+	若 \( r(A)=m \)，考虑线性方程组 \( A^TAX=\bm{0} \)，欲证其只有零解. 若存在非零解 \( X_0 \in \R^m \)，那么 \( X_0\T A\T AX_0= (AX_0)\T (AX_0)=|AX_0|^2=0 \). {\color{red} 由于 \( AX_0 \in \R^n \)，每个分量均为实数，}那么只能 \( AX_0=O \). 但 \( r(A)=m \) 说明 \( AX=\bm{0} \) 只有零解，矛盾. 由 \( (A^TA)^{-1}(A^TA)=E_m \)，说明 \( (A\T A)^{-1} A\T \) 给出 \( A \) 的一个左逆. 
 	
-	若 \( A\T A \) 可逆，那么 \( A\T AX=O \) 仅有零解. 又 \( AX=O \) 的解全为 \( A\T AX=O \) 的解，故 \( AX=O \) 也仅有零解，由性质 \ref{3.2.22} (4) 可知 \( r(A)=m \).
+	若 \( A\T A \) 可逆，那么 \( A\T AX=\bm{0} \) 仅有零解. 又 \( AX=\bm{0} \) 的解全为 \( A\T AX=\bm{0} \) 的解，故 \( AX=\bm{0} \) 也仅有零解，由性质 \ref{3.2.22} (4) 可知 \( r(A)=m \).
 \end{proof}
 
 \begin{practice} 
-	设 \( A \in \C\nm \)，那么 \( r(A)=m \) 当且仅当 \( A\Her A \) 可逆，且 \( (A\Her A)^{-1} A\Her \) 给出 \( A \) 的一个左逆. 相应地， \( r(A)=m \) 当且仅当 \( AA\Her  \) 可逆，且 \( A\Her(AA\Her)^{-1}  \) 给出 \( A \) 的一个右逆.
+	设 \( A \in \C\nm \)，那么 \( r(A)=m \) 当且仅当 \( A\Her A \) 可逆，且 \( (A\Her A)^{-1} A\Her \) 给出 \( A \) 的一个左逆. 相应地， \( r(A)=n \) 当且仅当 \( AA\Her  \) 可逆，且 \( A\Her(AA\Her)^{-1}  \) 给出 \( A \) 的一个右逆.
 \end{practice} 
 
 \begin{proof}
@@ -2114,7 +2126,7 @@ E_m \\ O
 	0    &  0    & 0
 	\end{bmatrix}. \]
 	
-	读者可以自行尝试用练习 \ref{prac3.13}.
+	读者可以自行尝试用练习 \ref{prac3.13} 求解一个右逆.
 \end{solution}
 
 
@@ -2597,14 +2609,14 @@ d & e & f
 
 
 \begin{theorem}[齐次线性方程组的公式解] \label{3.3.14}
-	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取定 \( A^{-} \in A\{1\} \)，那么齐次线性方程组 \( AX=O \) 的解集为 \( X=(E_n-A^{-}A)Y \)，其中 \( Y \) 取遍 \( \F^n \). 
+	设 \( A \in \F\mn \) 以及 \( \beta \in \F^m \)，取定 \( A^{-} \in A\{1\} \)，那么齐次线性方程组 \( AX=\bm{0} \) 的解集为 \( X=(E_n-A^{-}A)Y \)，其中 \( Y \) 取遍 \( \F^n \). 
 \end{theorem}
 
 \begin{proof}
-	先验证给出的解集确实为 \( AX=O \) 的解.
+	先验证给出的解集确实为 \( AX=\bm{0} \) 的解.
 	\[ A(E_n-A^{-}A)Y=(A-AA^{-}A)Y=OY=O. \]
 	
-	其次，任取 \( AX=O \) 的一解 \( X_0 \)，都有 
+	其次，任取 \( AX=\bm{0} \) 的一解 \( X_0 \)，都有 
 	\[ X_0=X_0-A^{-}O=X_0-A^{-}AX_0=(E_n-A^{-}A)X_0. \]
 \end{proof}
 
@@ -3284,7 +3296,7 @@ d & e & f
 	O & O & O
 	\end{bmatrix}. \]
 	
-	还有一种方法是将 \( AX=O \) 解空间的一组基扩为 \( \F^n \) 的一组基，也就是考察商空间 \( \F^n/ \mathrm{Ker}\mathscr{A} \). 我们留到线性映射章节讲述.
+	还有一种方法是将 \( AX=\bm{0} \) 解空间的一组基扩为 \( \F^n \) 的一组基，也就是考察商空间 \( \F^n/ \mathrm{Ker}\mathscr{A} \). 我们留到线性映射章节讲述.
 	
 	(3) 将 (2) 中矩阵 \( P \) 按列分块 \( P=(\alpha_1,\cdots,\alpha_n) \). 那么
 	\[ A(\alpha_1,\cdots,\alpha_n)=(\alpha_1,\cdots,\alpha_n) \begin{bmatrix}
@@ -3422,7 +3434,7 @@ d & e & f
     
     那么 \( \tr(A)=\tr(APP^{-1})=\tr(P^{-1}AP)=r=r(A) \in \mathbb{N}^* \).
     
-    (\textbf{法二})\ 本方法用到线性方程组的基础解系. 由例 \ref{3.1.22} (1) 可知 \( r(A)+r(A-E_n)=n \). 考察线性方程组 \( AX=O \)，那么它的一个基础解系中向量个数为 \( n-r \)，不妨取为 \( \xi_{r+1},\cdots,\xi_{n} \). 再考察线性方程组 \( (A-E_n)X=O \)，那么它的一个基础解系中向量个数为 \( n-(n-r)=r \)，不妨取为 \(\xi_1,\cdots,\xi_r \). 断言 \( \{\xi_i\}_{1 \leq i \leq n} \) 线性无关，取 \( \F-\)线性组合
+    (\textbf{法二})\ 本方法用到线性方程组的基础解系. 由例 \ref{3.1.22} (1) 可知 \( r(A)+r(A-E_n)=n \). 考察线性方程组 \( AX=\bm{0} \)，那么它的一个基础解系中向量个数为 \( n-r \)，不妨取为 \( \xi_{r+1},\cdots,\xi_{n} \). 再考察线性方程组 \( (A-E_n)X=\bm{0} \)，那么它的一个基础解系中向量个数为 \( n-(n-r)=r \)，不妨取为 \(\xi_1,\cdots,\xi_r \). 断言 \( \{\xi_i\}_{1 \leq i \leq n} \) 线性无关，取 \( \F-\)线性组合
     \[ c_1\xi_1+\cdots+c_n\xi_n=\bm{0}. \]
     
     左乘 \( A-E_n \) 得到 \( -c_{r+1}\xi_{r+1}-\cdots-c_n\xi_n=\bm{0} \leadsto c_{r+1}=\cdots=c_n=0 \). 进而 \( c_1\xi_1+\cdots+c_n\xi_n=c_1\xi_1+\cdots+c_r\xi_r=\bm{0} \leadsto c_1=\cdots=c_r=0 \). 于是取 \( P=(\xi_1,\cdots,\xi_n) \in \gfn \) 即可.

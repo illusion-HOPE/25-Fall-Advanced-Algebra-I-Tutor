@@ -631,8 +631,8 @@
 	1 & 0 & 0  & \cdots & * \\
 	0 & 1 & 0   & \cdots & * \\
 	0 & 0 & \ddots & \ddots & \vdots \\
-	0 &  \cdots & 1  & 0 & * \\
 	0 & 0  & \cdots & 1 & * \\
+	 &  &  &  &   \\
 	 &  &  &  &   
 	\end{bmatrix}.  \]
 	
@@ -700,7 +700,7 @@
 \end{theorem}
 
 \begin{proof}
-	由定理 \ref{1.1.8} 的 Guass-Jordan 消元法，\( \overline{A} \) 可以通过行初等变换变为简化行阶梯形矩阵 \( \overline{K} \). 记 \( \overline{K} \) 前 \( n \) 列的 \( (i,j) \) 元为 \( p_{ij} \)，最后一列的第 \( i \) 行元为 \( q_i \). 为了方便记，不妨设 \( \overline{K} \) 主元所在列为 \( 1 \sim r \) 列. 那么同解方程组为
+	由定理 \ref{1.1.8} 的 Guass-Jordan 消元法，\( \overline{A} \) 可以通过行初等变换变为简化行阶梯形矩阵 \( \overline{K} \). 记 \( \overline{K} \) 前 \( n \) 列的 \( (i,j) \) 元为 \( p_{ij} \)，最后一列的第 \( i \) 行元为 \( q_i \). 适当调换未知量的顺序，这不改变最后的解，只是元素的排列顺序不同，不妨设 \( \overline{K} \) 主元所在列为 \( 1 \sim r \) 列. 那么同解方程组为
 	\[ \left\{ \begin{array}{l}
 		x_1= q_1-p_{1,r+1}x_{r+1}-\cdots-p_{1,n}x_n, \\
 		x_2= q_2-p_{2,r+1}x_{r+1}-\cdots-p_{2,n}x_n, \\
@@ -799,7 +799,7 @@
 \end{example}
 
 \begin{example}
-	\ref{1.1} 节中的讨论所涉及的 \( \mathbb{R} \) 都可以换成一般的域 \( \F \). 在本节中，我们主要刻画一般的域. 在本节之后所有的讨论都回到数域上进行. 大部分结论都可以搬到一般域上，但是要小心域的特征，是否需要度量等细节.
+	\S \ref{1.1} 节中的讨论所涉及的 \( \mathbb{R} \) 都可以换成一般的域 \( \F \). 在本节中，我们主要刻画一般的域. 在本节之后所有的讨论都回到数域上进行. 大部分结论都可以搬到一般域上，但是要小心域的特征，是否需要度量等细节.
 \end{example}
 
 \begin{proposition}\label{1.2.6}
@@ -872,15 +872,25 @@
 \end{example}
 
 \begin{proposition}	\label{1.2.12}
-	设 \( p \) 为素数，那么显然 \( \sqrt{p} \notin \mathbb{Q} \). 记 \( \mathbb{Q}(\sqrt{p}) \) 为包含 \( \sqrt{p} \) 的最小数域，那么 \( \mathbb{Q}(\sqrt{p})=\mathbb{Q}[\sqrt{p}]=\{ a+b\sqrt{p} \mid a,b \in \mathbb{Q} \} \).
+	设 \( p \geq 2 \) 为素数.
+	\begin{enumerate}[(1)]
+		\item 利用初等数论知识 (主要是素数的性质和 \( \mathbb{Z} \) 上的标准分解) 说明 \( \sqrt{p} \notin \mathbb{Q} \);
+		\item 记 \( \mathbb{Q}[\sqrt{p}]:=\{ a+b\sqrt{p} \mid a,b \in \mathbb{Q} \} \). 若用 \( \mathbb{Q}(\sqrt{p}) \) 表示包含 \( \sqrt{p} \) 的最小数域，证明： \( \mathbb{Q}(\sqrt{p})=\mathbb{Q}[\sqrt{p}] \).
+	\end{enumerate}
 
 \end{proposition}
 
 \begin{proof}
-	首先 \( \mathbb{Q} \subseteq \mathbb{Q}(\sqrt{p}) \) 以及 \( \sqrt{p} \in \mathbb{Q}(\sqrt{p}) \)，结合这两点可以得到 \( \mathbb{Q}[\sqrt{p}] \subseteq \mathbb{Q}(\sqrt{p}) \). 再证明 \( \mathbb{Q}[\sqrt{p}] \) 确实为一个域即可. 容易验证这已经是一个环. (注. 这其实和上面的多项式环不同，它是环成立是因为赋值映射 \( \varphi: \mathbb{Q}[x] \to \mathbb{R}, \; f \mapsto f(\sqrt{p}) \) 为一个环同态，其像 \( \mathbb{Q}[\sqrt{p}]=\mathrm{Im}\varphi \) 为 \( \mathbb{R} \) 的子环. 你当然也可以直接定义验证.)
+	(1) 反证. 若 \( \sqrt{p}=a/b \in \mathbb{Q} \). 那么存在 \( m,n \in \mathbb{Z} \) 且 \( \gcd(m,n)=1 \) 使得 \( \sqrt{p}=m/n \) 于是 \(  m^2=n^2p \leadsto p\mid m^2\). 这说明 \( p \) 必定为 \( m \) 标准分解的一个素因子，也就有 \( p \mid m \). 设 \( m=m_1p \) 带入 \( m^2=n^2p \) 有 \( m_1^2p=n^2 \)，同理得到 \( p \mid n \). 这说明 \( p \mid \gcd(m,n)=1 \) 矛盾.
 	
-	 只需再证明其中的任意非零元都有 \( c+d\sqrt{p} \) 形式的逆元存在. 任取 \( a+b\sqrt{p} \neq 0 \)，若 \(  b=0 \)，那么 \( a^{-1} \in \mathbb{Q} \) 即为逆元. 考虑 \( b \neq 0 \)，断言 \( a-b\sqrt{p} \neq 0 \).
-     否则 \( \sqrt{p}=a/b \in \mathbb{Q} \). 那么存在 \( m,n \in \mathbb{Z} \) 且 \( \gcd(m,n)=1 \) 使得 \( \sqrt{p}=m/n \leadsto m^2=n^2p \leadsto p\mid m^2\). 这说明 \( p \) 必定为 \( m \) 标准分解的一个素因子，也就有 \( p \mid m \). 设 \( m=m_1p \) 带入 \( m^2=n^2p \) 有 \( m_1^2p=n^2 \)，同理得到 \( p \mid n \). 这说明 \( p \mid \gcd(m,n)=1 \) 矛盾. 如果你不具备初等数论的知识，那你只需要承认 \( \sqrt{p} \) 为无理数，也可以得到这个断言. 我们在高等代数 II 还会从多项式的根和可约性的角度证明这一点.
+	如果你不具备初等数论的知识，那你只需要承认 \( \sqrt{p} \) 为无理数，也可以得到这个断言. 我们在高等代数 II 还会从多项式的根和可约性的角度证明 \( \sqrt{p} \notin \mathbb{Q} \).
+	
+	(2) 首先由于 \( \mathbb{Q}(\sqrt{p}) \) 表示包含 \( \sqrt{p} \) 的最小数域，那么成立 \( \mathbb{Q} \subseteq \mathbb{Q}(\sqrt{p}) \) 以及 \( \sqrt{p} \in \mathbb{Q}(\sqrt{p}) \). 由于 \( \mathbb{Q}(\sqrt{p}) \) 对加法和乘法封闭，故 \( \mathbb{Q}[\sqrt{p}] \subseteq \mathbb{Q}(\sqrt{p}) \). 如果我们能证明 \( \mathbb{Q}[\sqrt{p}] \) 为一个域，它当然包含 \( \sqrt{p} \)，于是根据 \( \mathbb{Q}(\sqrt{p}) \) 的最小性有 \( \mathbb{Q}(\sqrt{p}) \subseteq \mathbb{Q}[\sqrt{p}] \). 于是 \( \mathbb{Q}(\sqrt{p})= \mathbb{Q}[\sqrt{p}] \).
+	
+	容易验证  \( \mathbb{Q}[\sqrt{p}] \) 已经是一个环. 由定义 \ref{1.2.2} 和定义 \ref{1.2.8}，我们只需再证明其中的任意非零元都有 \( c+d\sqrt{p} \) 形式的逆元存在即可. 任取 \( a+b\sqrt{p} \neq 0 \)，若 \(  b=0 \)，那么 \( a^{-1} \in \mathbb{Q} \) 即为逆元. 考虑 \( b \neq 0 \)，断言 \( a-b\sqrt{p} \neq 0 \).
+	否则 \( \sqrt{p}=a/b \in \mathbb{Q} \)，矛盾.
+	
+	(注. \( \mathbb{Q}[\sqrt{p}] \) 是环成立除了直接用定义验证，还可以通过赋值映射 \( \varphi: \mathbb{Q}[x] \to \mathbb{R}, \; f \mapsto f(\sqrt{p}) \) 为一个环同态，其像 \( \mathbb{Q}[\sqrt{p}]=\mathrm{Im}\varphi \) 为 \( \mathbb{R} \) 的子环. 这是一种抽象代数的方法.)
 	
 	(\textbf{法一})\ 直接计算
 	\[ \frac{1}{a+b\sqrt{p}}=\frac{a-b\sqrt{p}}{(a+b\sqrt{p})(a-b\sqrt{p})}= \frac{a-b\sqrt{p}}{a^2-b^2p} \in \mathbb{Q}[\sqrt{p}]. \]
@@ -946,8 +956,8 @@
 
 \begin{definition}
 	设 \( R \) 为环 (未必含幺和交换) ，对任意 \( n \in \mathbb{N} \) 以及 \( r \in \mathbb{R} \)，引入写法
-	\[ n \times r=nr:=\underbrace{r+r+\cdots+r}_{n \text{项}}, \; n \geq 1, \]
-	\[ 0 \cdot r =0, \; (-n) \cdots r=(-n)r:=-(n \cdot r). \]
+	\[ n \cdot r=nr:=\underbrace{r+r+\cdots+r}_{n \text{项}}, \; n \geq 1, \]
+	\[ 0 \cdot r =0r=0, \; (-n) \cdot r=(-n)r:=-(n \cdot r). \]
 	
 	再任取 \( r' \in \mathbb{R}, \; m \in \mathbb{N} \)，那么
 	\begin{enumerate}[(1)]
@@ -1160,7 +1170,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 
 
 \begin{example}[矩阵乘法的映射观点]	\label{1.3.6}
-	设 \( A \) 为 \( m \times n \) 矩阵，\( B \) 为 \( n \times t \) 矩阵，定义 \( \varphi: \F^n \to \F^m, \; X \mapsto AX, \; \psi: \F\T \to \F^n, \; Y \mapsto BY \). 那么存在唯一的映射 \( \T Au: \F\T \to \F^m \) 使得下图交换
+	设 \( A \) 为 \( m \times n \) 矩阵，\( B \) 为 \( n \times t \) 矩阵，定义 \( \varphi: \F^n \to \F^m, \; X \mapsto AX, \; \psi: \F\T \to \F^n, \; Y \mapsto BY \). 那么存在唯一的映射 \( \tau: \F\T \to \F^m \) 使得下图交换
 	\[ \xymatrix@R=7ex@C=6ex{
 		 & \F^n\ar"2,3"_{\varphi} & \\
 		\F^t\ar"1,2"_{\psi}\ar"2,3"_{\exists ! \tau } &  & \F^m\\
@@ -1539,7 +1549,7 @@ z_t= b_{t1}y_1+b_{t2}y_2+\cdots+b_{tm}y_m.
 下面这个命题我们会在高等代数 II 课程的尾声再次使用到，用来刻画双线性函数由其在取定一组基下的度量矩阵唯一确定. 到时候我们会引用本命题. 不过现在谈起这一点似乎有点为时过早，笔者希望在前面多铺垫一些内容. 本段可以忽略.
 
 \begin{proposition}	\label{1.3.27}
-	设 \( \F \) 为数域，给定 \( A \in \F\n \)，证明 \( A=O \) 的充要条件为对任意的列向量 \( X \in \F^n\) 都有 \( X\T AX=0 \).
+	设 \( \F \) 为数域，给定对称矩阵 \( A \in \F\n \)，证明 \( A=O \) 的充要条件为对任意的列向量 \( X \in \F^n\) 都有 \( X\T AX=0 \).
 
 \end{proposition} 
 
